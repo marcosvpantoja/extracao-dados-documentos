@@ -6,12 +6,12 @@ Sistema que lê **notas fiscais (NF-e), boletos, faturas de serviço e documento
 
 ## Objetivo
 
-O usuário escaneia um QR code na tela do computador, **fotografa o documento com o celular** e, sem dizer o que ele é, recebe os dados de volta no computador. O sistema:
+O usuário **importa um arquivo no computador** ou escaneia um QR code e **fotografa o documento com o celular**. Sem dizer o que ele é, recebe os dados na tela do computador, e o documento não fica salvo em lugar nenhum. O sistema:
 
 1. Detecta o tipo: NF-e, boleto, fatura de serviço, CNH ou RG.
 2. Lê o conteúdo (texto nativo ou OCR).
 3. Extrai os campos daquele tipo.
-4. Mostra os dados na tela **em tempo real**, com indicação de confiança por campo.
+4. Mostra os dados na tela, com indicação de confiança por campo.
 
 ## Como este repositório está organizado
 
@@ -26,13 +26,13 @@ O usuário escaneia um QR code na tela do computador, **fotografa o documento co
 | # | Etapa | Status |
 |---|---|---|
 | 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | ✅ Concluída |
-| 1 | Documentos de exemplo e campos-alvo (NF-e, boleto, CNH, RG) | 🟡 Em andamento |
+| 1 | Documentos de exemplo, campos-alvo e validação do problema | 🟡 Em andamento |
 | 2 | Arquitetura e escolha de stack | ⚪ Pendente |
-| 3 | Captura pelo celular via QR code (cross-device) | ⚪ Pendente |
+| 3 | Entrada: importação e captura pelo celular via QR code | ⚪ Pendente |
 | 4 | Leitura: texto nativo + OCR | ⚪ Pendente |
 | 5 | Classificação automática do tipo de documento | ⚪ Pendente |
 | 6 | Extração de campos estruturados | ⚪ Pendente |
-| 7 | Validação, confiança e revisão humana | ⚪ Pendente |
+| 7 | Validação, confiança e verificação de resíduo zero | ⚪ Pendente |
 | 8 | Tela de resultado | ⚪ Pendente |
 | 9 | Avaliação (métricas de acurácia) | ⚪ Pendente |
 | 10 | Deploy e monitoramento | ⚪ Pendente |

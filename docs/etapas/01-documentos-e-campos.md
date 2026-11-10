@@ -25,13 +25,15 @@ Por isso o projeto usa dois conjuntos que nunca se misturam:
 
 Documentos fictícios, com dados inventados e formato válido, que podem ser publicados.
 
-| Tipo | Formato | Canal de entrada |
+Qualquer tipo pode entrar pelos dois canais ([ADR 0003](../decisoes/0003-escopo-do-mvp.md)), então o conjunto cobre as duas formas:
+
+| Tipo | Arquivo para importação | Foto para cross-device |
 |---|---|---|
-| Fatura de serviço | PDF | Upload no computador |
-| NF-e | DANFE em PDF | Upload no computador |
-| Boleto | PDF | Upload no computador |
-| CNH | Impressão fotografada em condições variadas (luz, ângulo, reflexo) | Câmera do celular (cross-device) |
-| RG antigo e CIN | Impressão fotografada em condições variadas | Câmera do celular (cross-device) |
+| CNH | CNH-e em PDF | Impressão fotografada em condições variadas (luz, ângulo, reflexo) |
+| RG antigo e CIN | PDF escaneado | Impressão fotografada em condições variadas |
+| Fatura de serviço | PDF | Impressão fotografada |
+| NF-e | DANFE em PDF | Impressão fotografada |
+| Boleto | PDF | Impressão fotografada |
 
 As fotos ficam salvas e são sempre as mesmas. Isso permite rodar duas versões do sistema sobre a mesma entrada e saber se uma mudança melhorou ou piorou a extração.
 
@@ -230,7 +232,8 @@ Alguns campos têm regra matemática ou formato fixo. O sistema consegue detecta
 - [ ] Documentos fictícios de NF-e, boleto, CNH, RG antigo e CIN em `data/exemplos/`, com gabaritos
 - [ ] Fotos dos documentos fictícios impressos, em condições variadas
 - [ ] Formato do registro de avaliação definido
-- [ ] Lista final de campos por tipo
+- [x] Lista final de campos por tipo
+- [ ] Validação das hipóteses de problema e mercado (H1, H5) com pesquisa pública
 - [ ] Funções de validação (CPF, CNPJ, chave NF-e, linha digitável) especificadas
 
 ## Próxima etapa

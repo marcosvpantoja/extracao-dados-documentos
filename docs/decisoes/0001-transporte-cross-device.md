@@ -1,7 +1,7 @@
 # 0001 — Transporte cross-device: servidor de repasse com criptografia ponta a ponta e rede local como guardrail
 
 **Data:** 10/11/2026
-**Status:** Aceita
+**Status:** Aceita (modo rede local adiado para depois do MVP pelo [ADR 0003](0003-escopo-do-mvp.md))
 
 ## Contexto
 
@@ -17,7 +17,7 @@ RG e CNH são capturados pela câmera do celular e os dados aparecem no computad
 4. O servidor apenas repassa os bytes criptografados ao computador, em memória, sem gravar nada. Ele não tem a chave, então não consegue ler o conteúdo.
 5. O computador descriptografa e processa.
 
-**Guardrail: modo rede local.** Celular e computador no mesmo Wi-Fi, sem internet: o computador atua como servidor e o QR code aponta para o endereço dele na rede. Usado:
+**Guardrail (fora do MVP): modo rede local.** Celular e computador no mesmo Wi-Fi, sem internet: o computador atua como servidor e o QR code aponta para o endereço dele na rede. Usado:
 - quando não há internet ou o servidor de repasse está indisponível;
 - nos testes com documentos reais, eliminando qualquer trânsito externo.
 
