@@ -24,4 +24,7 @@ O que muda, o que fica mais fácil e o que fica mais difícil.
 
 ## Índice
 
-_Nenhuma decisão registrada ainda._
+| ADR | Decisão | Status |
+|---|---|---|
+| [0001](0001-transporte-cross-device.md) | Transporte cross-device: repasse com criptografia ponta a ponta + rede local como guardrail | Aceita |
+| [0002](0002-motor-de-leitura-e-extracao.md) | Motor de leitura e extração: local, com comparação contra nuvem só em documentos fictícios | Aceita |
