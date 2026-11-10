@@ -103,14 +103,14 @@ Além de identidade, CPF e comprovante de residência, entram CTPS, contracheque
 
 O Projuris ADV lista cadastro via foto da CNH, geração de procuração e coleta de documentos ([Projuris](https://projuris.com.br/adv)); o EasyJur anuncia automação da entrada de dados na captação ([EasyJur](https://easyjur.com/easyjur-os-para-administradores-juridicos/)). Emissão automática de procurações e contratos de honorários a partir do cadastro é tratada como requisito de escolha de sistema ([EasyJur](https://easyjur.com/blog/como-escolher-um-sistema-de-gestao-para-um-escritorio-de-advocacia)).
 
-**Implicação:** existe concorrência direta no cadastro por foto. O diferencial possível está em: **vários tipos sem escolher o tipo**, **captura pelo próprio cliente à distância**, **precisão verificável** (validações matemáticas e revisão humana) e **privacidade por arquitetura**. A geração de documentos a partir dos dados extraídos é uma oportunidade de produto.
+**Implicação:** o cadastro por foto já existe em suítes jurídicas, o que valida a necessidade. Este projeto **não se posiciona como concorrente**: é um estudo de caso e de pesquisa. As suítes servem de **referência de mercado** para comparar escolhas de produto: amplitude de documentos sem escolher o tipo, captura pelo próprio cliente à distância, precisão verificável e privacidade por arquitetura. A geração de documentos a partir dos dados extraídos é registrada como oportunidade.
 
 ### Tensões identificadas
 
 | Tensão | Descrição | Encaminhamento |
 |---|---|---|
 | **Guarda de documentos** | O escritório **precisa** dos documentos para instruir a petição; "nada salvo" não pode significar que o escritório fica sem os arquivos | Redefinir a promessa: **o sistema não retém nada**; os arquivos e os dados são entregues ao escritório, que guarda no próprio ambiente, sob sua responsabilidade de controlador (LGPD) |
-| **Concorrência** | Cadastro por foto já existe em suítes jurídicas | Diferenciação por amplitude de documentos, captura remota, precisão verificável e privacidade |
+| **Referências de mercado** | Cadastro por foto já existe em suítes jurídicas | O projeto é estudo de caso, não concorrente; as suítes são usadas como referência de comparação |
 | **Mudança de persona** | Terceira versão de persona | Registrada como evolução por evidência; a anterior tinha frequência insuficiente |
 
 ## Situação das hipóteses (atualizada)
@@ -131,5 +131,5 @@ O Projuris ADV lista cadastro via foto da CNH, geração de procuração e colet
 ## Próximos passos
 
 - Entrevistas com 3 a 5 profissionais de escritórios de advocacia de consumidor (roteiro em [Personas](../persona.md#perguntas-para-as-entrevistas)).
-- Benchmark detalhado de Projuris ADV e EasyJur no fluxo de cadastro.
+- Análise de referência do fluxo de cadastro em suítes jurídicas (Projuris ADV, EasyJur), como comparação de escolhas de produto.
 - Decisão de reposicionamento (persona e proposta de valor) com base nas entrevistas.
