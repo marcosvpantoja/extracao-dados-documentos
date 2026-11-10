@@ -2,7 +2,7 @@
 
 Sistema que lê **notas fiscais (NF-e), boletos, faturas de serviço e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo de caso de Product Management.
 
-> **Status:** 🟡 Etapa 1 — Documentos de exemplo e campos-alvo
+> **Status:** 🟡 Etapa 3 — Validação do problema
 
 ## Objetivo
 
@@ -24,21 +24,29 @@ O usuário **importa um arquivo no computador** ou escaneia um QR code e **fotog
 | [`scripts/`](scripts/) | Gerador de documentos fictícios e rotina de limpeza e verificação |
 | [`tests/`](tests/) | Testes automatizados |
 
+## Documentos principais
+
+- [Documento de requisitos (PRD)](docs/requisitos.md)
+- [Fluxogramas do sistema](docs/arquitetura/fluxogramas.md)
+- [Registro de decisões (ADRs)](docs/decisoes/README.md)
+
 ## Roteiro
 
-| # | Etapa | Status |
-|---|---|---|
-| 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | ✅ Concluída |
-| 1 | Documentos de exemplo, campos-alvo e validação do problema | 🟡 Em andamento |
-| 2 | Arquitetura e escolha de stack | ⚪ Pendente |
-| 3 | Entrada: importação e captura pelo celular via QR code | ⚪ Pendente |
-| 4 | Leitura: texto nativo + OCR | ⚪ Pendente |
-| 5 | Classificação automática do tipo de documento | ⚪ Pendente |
-| 6 | Extração de campos estruturados | ⚪ Pendente |
-| 7 | Validação, confiança e verificação de resíduo zero | ⚪ Pendente |
-| 8 | Tela de revisão (confirmar / recusar) | ⚪ Pendente |
-| 9 | Avaliação (métricas de acurácia) | ⚪ Pendente |
-| 10 | Deploy e monitoramento | ⚪ Pendente |
+| # | Etapa | Entregável principal | Status |
+|---|---|---|---|
+| 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | Problema, persona, hipóteses | ✅ Concluída |
+| 1 | [Documentos de exemplo e campos-alvo](docs/etapas/01-documentos-e-campos.md) | Conjunto fictício, gabaritos, validadores | 🟡 Fotos dos impressos pendentes |
+| 2 | [Arquitetura e requisitos](docs/etapas/02-arquitetura-e-requisitos.md) | PRD, fluxogramas, ADRs 0004–0006 | ✅ Concluída |
+| 3 | Validação do problema e benchmark de concorrentes | Evidências para H1 e H5, mapa de concorrentes | ⚪ Pendente |
+| 4 | Métricas: linha de base e metas | Metas de acurácia e tempo | ⚪ Pendente |
+| 5 | Backlog priorizado e roadmap | Backlog com RICE, marcos | ⚪ Pendente |
+| 6 | Prova de conceito técnica | Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
+| 7 | Entrada: importação e cross-device | RF-01 a RF-07 | ⚪ Pendente |
+| 8 | Pipeline: OCR, classificação, extração, validação | RF-08 a RF-15 | ⚪ Pendente |
+| 9 | Tela de revisão | RF-16 a RF-21 | ⚪ Pendente |
+| 10 | Testes de privacidade (resíduo zero) | RNF-01 a RNF-04 automatizados | ⚪ Pendente |
+| 11 | Avaliação com testers | Relatório de acurácia com amostra | ⚪ Pendente |
+| 12 | Retrospectiva e próximos passos | Lições aprendidas, roadmap pós-MVP | ⚪ Pendente |
 
 O roteiro é vivo: etapas podem ser divididas, fundidas ou reordenadas conforme o projeto avança, e cada mudança fica registrada no diário.
 

@@ -255,9 +255,8 @@ Alguns campos têm regra matemática ou formato fixo. O sistema consegue detecta
 - [ ] Fotos dos documentos fictícios impressos (`*-impressao.pdf`), em condições variadas
 - [ ] Formato do registro de avaliação definido
 - [x] Lista final de campos por tipo
-- [ ] Validação das hipóteses de problema e mercado (H1, H5) com pesquisa pública
 - [x] Funções de validação (CPF, CNPJ, chave NF-e, linha digitável, código de barras, MRZ) em `src/extracao/validacoes.py`, testadas contra os gabaritos
 
 ## Próxima etapa
 
-Etapa 2 — Arquitetura e escolha de stack: definir como funcionam o pareamento por QR code, o desempenho do processamento local e o motor de leitura e extração, com os trade-offs registrados em ADRs.
+[Etapa 2 — Arquitetura e requisitos](02-arquitetura-e-requisitos.md).
