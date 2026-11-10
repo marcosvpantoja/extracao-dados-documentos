@@ -29,3 +29,4 @@ O que muda, o que fica mais fácil e o que fica mais difícil.
 | [0001](0001-transporte-cross-device.md) | Transporte cross-device: repasse com criptografia ponta a ponta + rede local como guardrail | Aceita (rede local adiada) |
 | [0002](0002-motor-de-leitura-e-extracao.md) | Motor de leitura e extração: local, com comparação contra nuvem só em documentos fictícios | Aceita |
 | [0003](0003-escopo-do-mvp.md) | Escopo do MVP: tese central, seis tipos, dois canais, sem rede local e sem streaming | Aceita |
+| [0004](0004-revisao-humana-e-ciclo-de-aprendizado.md) | Revisão humana: confirmar/recusar por campo; aprendizado só com fictícios, medição com reais | Aceita |

@@ -11,7 +11,7 @@ O usuário **importa um arquivo no computador** ou escaneia um QR code e **fotog
 1. Detecta o tipo: NF-e, boleto, fatura de serviço, CNH ou RG.
 2. Lê o conteúdo (texto nativo ou OCR).
 3. Extrai os campos daquele tipo.
-4. Mostra os dados na tela, com indicação de confiança por campo.
+4. Mostra os dados na tela, com indicação de confiança por campo, para o usuário confirmar ou recusar cada um.
 
 ## Como este repositório está organizado
 
@@ -36,7 +36,7 @@ O usuário **importa um arquivo no computador** ou escaneia um QR code e **fotog
 | 5 | Classificação automática do tipo de documento | ⚪ Pendente |
 | 6 | Extração de campos estruturados | ⚪ Pendente |
 | 7 | Validação, confiança e verificação de resíduo zero | ⚪ Pendente |
-| 8 | Tela de resultado | ⚪ Pendente |
+| 8 | Tela de revisão (confirmar / recusar) | ⚪ Pendente |
 | 9 | Avaliação (métricas de acurácia) | ⚪ Pendente |
 | 10 | Deploy e monitoramento | ⚪ Pendente |
 

@@ -22,6 +22,7 @@ Requisitos centrais:
 5. **Extensível:** a arquitetura deve permitir incluir novos tipos de documento sem reescrever o sistema.
 6. **Rápido o suficiente:** o resultado completo aparece na tela do computador sem fila, dentro de uma meta de tempo definida na etapa de métricas.
 7. **Sem resíduo:** nenhum documento ou dado extraído fica salvo no celular, no computador ou no servidor ([ADR 0001](../decisoes/0001-transporte-cross-device.md)).
+8. **Revisão humana:** uma tela mostra os dados extraídos para o usuário confirmar ou recusar cada campo; as respostas medem a acurácia e alimentam a melhoria do sistema ([ADR 0004](../decisoes/0004-revisao-humana-e-ciclo-de-aprendizado.md)).
 
 Decisão complementar:
 - **RG:** suportar **ambos**, o RG antigo (modelos estaduais) e a nova Carteira de Identidade Nacional (CIN).
