@@ -42,7 +42,10 @@ Depois do cadastro, o fluxo mensal continua com documentos misturados chegando p
 
 Hoje alguém abre cada arquivo, descobre o que é e digita os dados à mão.
 
-## Persona 🧪
+## Persona 🧪 (versão 1)
+
+> **Substituída** pela [persona 2.0](../persona.md), construída com a pesquisa da [Etapa 3](03-validacao-do-problema.md) e com foco em agilidade no cadastro de cliente. Mantida aqui como registro da evolução.
+
 
 **Ana, assistente contábil**
 - Faz o cadastro de clientes novos e o lançamento mensal de documentos.
@@ -51,7 +54,10 @@ Hoje alguém abre cada arquivo, descobre o que é e digita os dados à mão.
 - **Dor principal:** tempo gasto em triagem e digitação, e retrabalho causado por erro de digitação.
 - **O que ela precisa:** fotografar ou soltar o arquivo, ver os dados prontos e confiar neles sem conferir campo por campo, e garantir ao cliente que o documento dele não ficou guardado em lugar nenhum.
 
-## Problema em uma frase 🧪
+## Problema em uma frase 🧪 (versão 1)
+
+> **Revisado** no [PRD](../requisitos.md#2-problema) após a Etapa 3.
+
 
 > Escritórios que lidam com notas fiscais, boletos e documentos pessoais misturados perdem tempo identificando cada arquivo e digitando seus dados à mão, num processo lento e propenso a erro.
 

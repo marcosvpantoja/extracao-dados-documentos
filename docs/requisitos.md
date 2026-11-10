@@ -1,7 +1,7 @@
 # Documento de Requisitos do Produto (PRD)
 
 **Produto:** Extração de Dados de Documentos
-**Versão do documento:** 1.0 · 10/11/2026
+**Versão do documento:** 1.1 · 10/11/2026 (foco em cadastro de cliente após a [Etapa 3](etapas/03-validacao-do-problema.md))
 **Status:** Aprovado para o MVP
 
 ## 1. Resumo
@@ -10,17 +10,20 @@ Sistema que recebe documentos por **importação de arquivo** no computador ou p
 
 ## 2. Problema
 
-Escritórios que lidam com documentos fiscais, financeiros e pessoais misturados perdem tempo identificando cada arquivo e digitando seus dados à mão, num processo lento e propenso a erro. No cadastro de clientes, documentos pessoais muitas vezes só existem em papel, e o cliente precisa confiar que suas informações não ficarão guardadas.
+No cadastro de um cliente novo, escritórios contábeis pequenos precisam coletar e transcrever os documentos de cada sócio (RG ou CNH e comprovante de residência). Esses documentos chegam por WhatsApp e e-mail, em qualidade variável, são digitados à mão e deixam cópias espalhadas em conversas e pastas. Enquanto o fiscal já é automatizado (XML da NF-e pela SEFAZ, boletos pelo DDA), o cadastro continua manual, e as plataformas de verificação de identidade existentes são voltadas a empresas maiores e armazenam documentos.
 
-Detalhamento em [Etapa 0](etapas/00-concepcao.md).
+Evidências e lacunas em [Etapa 3](etapas/03-validacao-do-problema.md).
 
-## 3. Persona
+## 3. Personas
 
-**Ana, assistente contábil** em escritório de pequeno porte. Cadastra clientes novos e lança documentos mensalmente. Recebe arquivos de tipos variados sem padrão de nome. Precisa de dados corretos sem conferir campo por campo e de uma garantia, que possa repassar ao cliente, de que nada fica armazenado.
+- **Ana, assistente contábil** (primária): responsável pelo cadastro de clientes; quer concluir o cadastro de cada sócio numa única interação, sem digitar e sem guardar cópias.
+- **Carlos, sócio do cliente** (secundária): fotografa os próprios documentos, inclusive à distância; quer entregar rápido, sem instalar nada e sem que o documento circule.
+
+Detalhamento, fontes e anti-persona em [Personas](persona.md).
 
 ## 4. Tese do MVP
 
-> É possível capturar documentos pelo celular ou importá-los no computador e receber os dados extraídos com acerto alto, sem que o documento fique salvo em nenhum dispositivo ou servidor, nem seja visto por terceiros.
+> É possível concluir o cadastro dos dados de um sócio numa única interação, capturando os documentos pelo celular (presencialmente ou à distância) ou importando arquivos, com acerto alto e sem que nenhum documento fique salvo em dispositivo ou servidor.
 
 ## 5. Escopo
 
@@ -40,7 +43,9 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | HU-03 | Como Ana, quero ver os dados extraídos ao lado da imagem do documento, para conferir rapidamente | M |
 | HU-04 | Como Ana, quero confirmar ou recusar cada campo, para garantir que só dados corretos sigam adiante | M |
 | HU-05 | Como Ana, quero saber quais campos têm baixa confiança, para conferir só esses | M |
-| HU-06 | Como cliente da Ana, quero ter certeza de que meu documento não fica guardado, para confiar no escritório | M |
+| HU-06 | Como Carlos, quero ter certeza de que meu documento não fica guardado, para confiar no escritório | M |
+| HU-13 | Como Carlos, quero escanear o QR code de Ana numa chamada de vídeo e fotografar meus documentos com meu celular, para fazer o cadastro sem ir ao escritório | S |
+| HU-14 | Como Carlos, quero entender o que fazer na página de captura sem ajuda, para concluir sozinho | M |
 | HU-07 | Como Ana, quero ser orientada pelo celular sobre enquadramento e luz, para a foto sair legível na primeira tentativa | S |
 | HU-08 | Como Ana, quero copiar os dados confirmados, para colá-los no sistema contábil | S |
 | HU-09 | Como responsável pelo produto, quero ver a acurácia por campo e por tipo, para priorizar melhorias | S |
@@ -118,6 +123,8 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | Acurácia de classificação | % de documentos com tipo detectado corretamente | A definir na linha de base |
 | Acurácia por campo | % de campos confirmados na revisão, por tipo | A definir na linha de base |
 | Tempo até o resultado | Da captura ou importação até os campos na tela | A definir na linha de base |
+| Tempo de cadastro por sócio | Do início da sessão até todos os campos do sócio confirmados | A definir na linha de base |
+| Recapturas por documento | Quantas vezes um documento precisou ser fotografado de novo | A definir na linha de base |
 | Resíduo zero | % de sessões em que a verificação não encontra dados persistidos | 100% |
 | Taxa de "não reconhecido" correto | % de documentos fora do escopo marcados como "não reconhecido" | A definir na linha de base |
 
@@ -141,6 +148,7 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 
 ## 12. Documentos relacionados
 
+- [Personas](persona.md)
 - [Fluxogramas do sistema](arquitetura/fluxogramas.md)
 - [Registro de decisões (ADRs)](decisoes/README.md)
 - [Etapa 0 — Concepção](etapas/00-concepcao.md) · [Etapa 1 — Documentos e campos](etapas/01-documentos-e-campos.md)

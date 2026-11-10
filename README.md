@@ -1,6 +1,6 @@
 # Extração de Dados de Documentos
 
-Sistema que lê **notas fiscais (NF-e), boletos, faturas de serviço e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo de caso de Product Management.
+Sistema que lê **notas fiscais (NF-e), boletos, faturas de serviço e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo de caso que exercita os papéis de **PM, Arquitetura, PO, Desenvolvimento, Front-end, UX e QA**, com foco em **agilidade no cadastro de clientes**.
 
 > **Status:** 🟡 Etapa 3 — Validação do problema
 
@@ -29,28 +29,29 @@ O usuário **importa um arquivo no computador** ou escaneia um QR code e **fotog
 - [Documento de requisitos (PRD)](docs/requisitos.md)
 - [Fluxogramas do sistema](docs/arquitetura/fluxogramas.md)
 - [Registro de decisões (ADRs)](docs/decisoes/README.md)
-- [Competências de PM demonstradas](docs/competencias-pm.md)
+- [Personas](docs/persona.md)
+- [Competências demonstradas por papel](docs/competencias.md)
 
 ## Roteiro
 
-Cada etapa produz um artefato ligado a uma competência de Product Management ([mapa de competências](docs/competencias-pm.md)).
+Cada etapa produz artefatos ligados a um ou mais papéis ([mapa de competências](docs/competencias.md)).
 
 | # | Etapa | Entregável principal | Status |
 |---|---|---|---|
 | 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | Problema, persona, hipóteses | ✅ Concluída |
 | 1 | [Documentos de exemplo e campos-alvo](docs/etapas/01-documentos-e-campos.md) | Conjunto fictício, gabaritos, validadores | 🟡 Fotos dos impressos pendentes |
 | 2 | [Arquitetura e requisitos](docs/etapas/02-arquitetura-e-requisitos.md) | PRD, fluxogramas, ADRs 0004–0006 | ✅ Concluída |
-| 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências, reposicionamento, entrevistas | 🟡 Entrevistas pendentes |
-| 4 | Estratégia e mapeamento de oportunidades | Visão, Opportunity Solution Tree, PR/FAQ | ⚪ Pendente |
+| 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências, [personas](docs/persona.md), entrevistas | 🟡 Entrevistas pendentes |
+| 4 | Estratégia e mapeamento de oportunidades | Visão, Opportunity Solution Tree, PR/FAQ, mapa de jornada | ⚪ Pendente |
 | 5 | Métricas | North Star, árvore de métricas, OKRs, linha de base | ⚪ Pendente |
-| 6 | Priorização e roadmap | Backlog com RICE, roadmap Agora / Próximo / Depois | ⚪ Pendente |
-| 7 | Business case | Custos, modelo de receita hipotético, mercado, go-to-market | ⚪ Pendente |
-| 8 | Prova de conceito técnica | Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
-| 9 | Entrada: importação e cross-device | RF-01 a RF-07 | ⚪ Pendente |
+| 6 | Priorização e roadmap | Backlog com RICE, histórias INVEST, DoR/DoD, roadmap | ⚪ Pendente |
+| 7 | Business case | Custos, receita hipotética, mercado, go-to-market, stakeholders | ⚪ Pendente |
+| 8 | Arquitetura detalhada e prova de conceito | Diagrama C4; Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
+| 9 | Entrada: importação e cross-device | Wireframes e microcopy da captura; RF-01 a RF-07 | ⚪ Pendente |
 | 10 | Pipeline: OCR, classificação, extração, validação | RF-08 a RF-15 | ⚪ Pendente |
-| 11 | Tela de revisão | RF-16 a RF-21 | ⚪ Pendente |
-| 12 | Testes de privacidade (resíduo zero) | RNF-01 a RNF-04 automatizados | ⚪ Pendente |
-| 13 | Avaliação com testers | Relatório de acurácia com amostra | ⚪ Pendente |
+| 11 | Tela de revisão | Wireframes; RF-16 a RF-21; acessibilidade | ⚪ Pendente |
+| 12 | Qualidade | Plano de testes; privacidade (RNF-01 a 04); ponta a ponta | ⚪ Pendente |
+| 13 | Avaliação com usuários | Teste de usabilidade; relatório de acurácia com amostra | ⚪ Pendente |
 | 14 | Lançamento e retrospectiva | Plano de lançamento, resultados, lições aprendidas | ⚪ Pendente |
 
 O roteiro é vivo: etapas podem ser divididas, fundidas ou reordenadas conforme o projeto avança, e cada mudança fica registrada no diário.
