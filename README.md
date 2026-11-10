@@ -6,7 +6,7 @@ Sistema que lê **notas fiscais (NF-e), boletos e documentos pessoais (CNH e RG)
 
 ## Objetivo
 
-O usuário envia um documento (PDF ou foto) **sem dizer o que ele é**. O sistema:
+O usuário escaneia um QR code na tela do computador, **fotografa o documento com o celular** e, sem dizer o que ele é, recebe os dados de volta no computador. O sistema:
 
 1. Detecta o tipo: NF-e, boleto, CNH ou RG.
 2. Lê o conteúdo (texto nativo ou OCR).
@@ -28,7 +28,7 @@ O usuário envia um documento (PDF ou foto) **sem dizer o que ele é**. O sistem
 | 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | 🟡 Em andamento |
 | 1 | Documentos de exemplo e campos-alvo (NF-e, boleto, CNH, RG) | ⚪ Pendente |
 | 2 | Arquitetura e escolha de stack | ⚪ Pendente |
-| 3 | Ingestão e pré-processamento (PDF/imagem) | ⚪ Pendente |
+| 3 | Captura pelo celular via QR code (cross-device) | ⚪ Pendente |
 | 4 | Leitura: texto nativo + OCR | ⚪ Pendente |
 | 5 | Classificação automática do tipo de documento | ⚪ Pendente |
 | 6 | Extração de campos estruturados | ⚪ Pendente |
