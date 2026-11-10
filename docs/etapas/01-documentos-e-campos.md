@@ -94,6 +94,7 @@ Exemplo de registro:
 | Nenhum dado é salvo em base de dados online | Documentos e dados extraídos existem só durante a sessão; os registros de avaliação ficam em arquivo local |
 | Documentos reais nunca vão para o repositório | `data/privado/` ignorado pelo git, e PDFs e imagens bloqueados fora de `data/exemplos/` |
 | Prints na documentação usam só documentos fictícios | Revisão antes de cada commit |
+| Nome do arquivo não pode entregar a resposta | Arquivos reais são renomeados para nomes neutros na importação (ex.: `nfe-01.pdf`). O nome padrão de download de uma NF-e é a própria chave de acesso, o que vazaria um campo avaliado e dados do emitente |
 | Nenhum documento real permanece após um teste | `scripts/limpar-e-verificar.sh`, executado ao fim de cada sessão (ver abaixo) |
 | Trânsito por serviços externos (APIs de OCR ou IA) | Não salvar não é o mesmo que não transmitir. Se a leitura usar um serviço na nuvem, a imagem trafega por ele. Decisão registrada em ADR na Etapa 2, considerando LGPD e política de retenção do provedor |
 
