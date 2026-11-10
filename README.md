@@ -11,7 +11,7 @@ O usuário escaneia um QR code na tela do computador, **fotografa o documento co
 1. Detecta o tipo: NF-e, boleto, CNH ou RG.
 2. Lê o conteúdo (texto nativo ou OCR).
 3. Extrai os campos daquele tipo.
-4. Mostra os dados na tela, com indicação de confiança por campo.
+4. Mostra os dados na tela **em tempo real**, com indicação de confiança por campo.
 
 ## Como este repositório está organizado
 
