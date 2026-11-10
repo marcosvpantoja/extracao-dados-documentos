@@ -89,7 +89,20 @@ Exemplo de registro:
 | Nenhum dado é salvo em base de dados online | Documentos e dados extraídos existem só durante a sessão; os registros de avaliação ficam em arquivo local |
 | Documentos reais nunca vão para o repositório | `data/privado/` ignorado pelo git, e PDFs e imagens bloqueados fora de `data/exemplos/` |
 | Prints na documentação usam só documentos fictícios | Revisão antes de cada commit |
+| Nenhum documento real permanece após um teste | `scripts/limpar-e-verificar.sh`, executado ao fim de cada sessão (ver abaixo) |
 | Trânsito por serviços externos (APIs de OCR ou IA) | Não salvar não é o mesmo que não transmitir. Se a leitura usar um serviço na nuvem, a imagem trafega por ele. Decisão registrada em ADR na Etapa 2, considerando LGPD e política de retenção do provedor |
+
+### Limpeza e verificação após cada teste
+
+Documentos reais importados para teste entram apenas em `data/privado/entrada/`. Ao fim de cada sessão, `scripts/limpar-e-verificar.sh`:
+
+1. Apaga todos os arquivos de `data/privado/entrada/`.
+2. Procura PDFs e imagens em qualquer outro lugar do projeto, identificando pelo conteúdo do arquivo e não só pela extensão.
+3. Lista arquivos não rastreados ou ignorados que não sejam código ou documentação.
+4. Verifica se algum PDF ou imagem fora de `data/exemplos/` e `docs/` já entrou no histórico do git.
+5. Confere se os registros de avaliação contêm padrões de dado pessoal (CPF, imagem em base64).
+
+A sessão só é considerada encerrada quando o script retorna **✅ CONFIRMADO**. Os documentos reais também não são abertos nem consultados durante o desenvolvimento, o que evita o vazamento de dados descrito acima.
 
 ## Campos-alvo
 
