@@ -1,0 +1,39 @@
+{
+  "arquivo": "nfe/nfe-ficticio-01.pdf",
+  "tipo": "NFE",
+  "ficticio": true,
+  "campos": {
+    "numero": "000434717",
+    "serie": "001",
+    "chave_acesso": "13260929989158000118550010004347171918294748",
+    "data_emissao": "2026-09-17",
+    "emitente_razao_social": "PAPELARIA MODELO DE TESTE ME",
+    "emitente_cnpj": "29.989.158/0001-18",
+    "emitente_municipio": "MANAUS, AM",
+    "destinatario_nome": "ALIMENTOS DEMONSTRACAO LTDA",
+    "destinatario_documento": "47.215.559/0001-00",
+    "destinatario_municipio": "BELEM, PA",
+    "natureza_operacao": "VENDA DE MERCADORIA",
+    "valor_total": "5223.60",
+    "itens": [
+      {
+        "descricao": "PAPEL A4 75G CX 10 RESMAS",
+        "quantidade": 4,
+        "valor_unitario": "289.90",
+        "valor_total": "1159.60"
+      },
+      {
+        "descricao": "CADEIRA ESCRITORIO GIRATORIA",
+        "quantidade": 6,
+        "valor_unitario": "649.00",
+        "valor_total": "3894.00"
+      },
+      {
+        "descricao": "CANETA ESFEROGRAFICA AZUL CX 50",
+        "quantidade": 4,
+        "valor_unitario": "42.50",
+        "valor_total": "170.00"
+      }
+    ]
+  }
+}

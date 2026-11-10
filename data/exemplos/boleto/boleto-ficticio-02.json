@@ -1,0 +1,16 @@
+{
+  "arquivo": "boleto/boleto-ficticio-02.pdf",
+  "tipo": "BOLETO",
+  "ficticio": true,
+  "campos": {
+    "linha_digitavel": "03399.41171 68154.172768 03009.484779 1 16310000177327",
+    "codigo_barras": "03391163100001773279411768154172760300948477",
+    "banco": "033 - SANTANDER",
+    "beneficiario_nome": "PAPELARIA MODELO DE TESTE ME",
+    "beneficiario_documento": "11.235.226/0001-98",
+    "pagador_nome": "MATEUS ROBERTO ROCHA FERREIRA",
+    "pagador_documento": "043.803.399-04",
+    "valor": "1773.27",
+    "vencimento": "2026-11-15"
+  }
+}

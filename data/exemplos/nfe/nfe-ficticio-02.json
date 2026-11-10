@@ -1,0 +1,33 @@
+{
+  "arquivo": "nfe/nfe-ficticio-02.pdf",
+  "tipo": "NFE",
+  "ficticio": true,
+  "campos": {
+    "numero": "000983164",
+    "serie": "001",
+    "chave_acesso": "35260731559350000116550010009831641016198698",
+    "data_emissao": "2026-07-06",
+    "emitente_razao_social": "ALIMENTOS DEMONSTRACAO LTDA",
+    "emitente_cnpj": "31.559.350/0001-16",
+    "emitente_municipio": "CAMPINAS, SP",
+    "destinatario_nome": "DISTRIBUIDORA AURORA FICTICIA LTDA",
+    "destinatario_documento": "96.979.872/0001-12",
+    "destinatario_municipio": "CUIABA, MT",
+    "natureza_operacao": "VENDA DE MERCADORIA ADQUIRIDA DE TERCEIROS",
+    "valor_total": "4763.70",
+    "itens": [
+      {
+        "descricao": "CADEIRA ESCRITORIO GIRATORIA",
+        "quantidade": 6,
+        "valor_unitario": "649.00",
+        "valor_total": "3894.00"
+      },
+      {
+        "descricao": "PAPEL A4 75G CX 10 RESMAS",
+        "quantidade": 3,
+        "valor_unitario": "289.90",
+        "valor_total": "869.70"
+      }
+    ]
+  }
+}

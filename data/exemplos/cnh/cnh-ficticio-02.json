@@ -1,0 +1,22 @@
+{
+  "arquivo": "cnh/cnh-ficticio-02.pdf",
+  "tipo": "CNH",
+  "ficticio": true,
+  "campos": {
+    "nome": "RAFAEL PAULO FERREIRA RIBEIRO",
+    "data_nascimento": "1987-11-26",
+    "local_nascimento": "CURITIBA, PR",
+    "filiacao_pai": "MATEUS LUIZ OLIVEIRA RIBEIRO",
+    "filiacao_mae": "LARISSA CRISTINA OLIVEIRA FERREIRA",
+    "documento_identidade": "36450000 SSP PR",
+    "cpf": "883.987.044-03",
+    "numero_registro": "50117258294",
+    "categoria": "B",
+    "primeira_habilitacao": "2016-01-19",
+    "data_emissao": "2025-02-07",
+    "validade": "2035-02-07",
+    "nacionalidade": "BRASILEIRO(A)",
+    "local_emissao": "GOIANIA, GO",
+    "observacoes": ""
+  }
+}

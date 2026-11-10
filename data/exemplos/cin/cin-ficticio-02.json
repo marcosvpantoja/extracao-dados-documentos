@@ -1,0 +1,20 @@
+{
+  "arquivo": "cin/cin-ficticio-02.pdf",
+  "tipo": "CIN",
+  "ficticio": true,
+  "campos": {
+    "nome": "DIEGO HENRIQUE CARDOSO FERREIRA",
+    "sexo": "M",
+    "nacionalidade": "BRA",
+    "data_nascimento": "1996-05-13",
+    "naturalidade": "BELO HORIZONTE, MG",
+    "filiacao_pai": "TIAGO PAULO PEREIRA FERREIRA",
+    "filiacao_mae": "LARISSA VITORIA TEIXEIRA SANTOS",
+    "cpf": "638.119.892-35",
+    "registro_geral": "63811989235",
+    "orgao_expedidor": "SSP/MG",
+    "local_emissao": "BELO HORIZONTE, MG",
+    "data_emissao": "2026-01-20",
+    "validade": "2036-01-20"
+  }
+}

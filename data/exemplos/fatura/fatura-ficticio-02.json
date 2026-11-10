@@ -1,0 +1,18 @@
+{
+  "arquivo": "fatura/fatura-ficticio-02.pdf",
+  "tipo": "FATURA",
+  "ficticio": true,
+  "campos": {
+    "emissora": "CONECTA FIBRA EXEMPLO S.A.",
+    "cnpj_emissora": "92.294.271/0001-15",
+    "cliente": "Otavio Luiz Vieira Cardoso",
+    "numero_cliente": "1090696",
+    "numero_fatura": "124222519141",
+    "referencia": "Fevereiro/2026",
+    "vencimento": "2026-03-15",
+    "valor_total": "131.96",
+    "endereco": "Rua Exemplo das Flores, 1879 - Centro - Goiania / GO - CEP: 86.697-591",
+    "situacao": "EM ABERTO",
+    "linha_digitavel": "00198.37053 23733.914354 23195.487857 9 13860000013196"
+  }
+}

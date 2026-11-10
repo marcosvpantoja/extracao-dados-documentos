@@ -1,0 +1,19 @@
+{
+  "arquivo": "rg-antigo/rg-antigo-ficticio-02.pdf",
+  "tipo": "RG",
+  "ficticio": true,
+  "campos": {
+    "nome": "PRISCILA MARIA LIMA RIBEIRO",
+    "filiacao_pai": "RAFAEL ROBERTO TEIXEIRA RIBEIRO",
+    "filiacao_mae": "SABRINA VITORIA RIBEIRO CARDOSO",
+    "data_nascimento": "1979-11-26",
+    "naturalidade": "SALVADOR, BA",
+    "orgao_expedidor": "PC/SP",
+    "estado_emissor": "SP",
+    "registro_geral": "43209360",
+    "via": "1VIA",
+    "data_expedicao": "2005-04-04",
+    "cpf": "964.421.373-41",
+    "registro_civil": "350400 99 05 5869 8 45285 235 3600843 54"
+  }
+}

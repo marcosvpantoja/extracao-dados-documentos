@@ -1,0 +1,20 @@
+{
+  "arquivo": "cin/cin-ficticio-01.pdf",
+  "tipo": "CIN",
+  "ficticio": true,
+  "campos": {
+    "nome": "OTAVIO PAULO LIMA FERREIRA",
+    "sexo": "M",
+    "nacionalidade": "BRA",
+    "data_nascimento": "1991-08-12",
+    "naturalidade": "BELO HORIZONTE, MG",
+    "filiacao_pai": "FABIO ROBERTO PEREIRA FERREIRA",
+    "filiacao_mae": "NATALIA APARECIDA RIBEIRO GOMES",
+    "cpf": "742.668.311-70",
+    "registro_geral": "74266831170",
+    "orgao_expedidor": "SSP/MG",
+    "local_emissao": "BELO HORIZONTE, MG",
+    "data_emissao": "2024-03-10",
+    "validade": "2034-03-10"
+  }
+}

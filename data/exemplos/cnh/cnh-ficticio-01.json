@@ -1,0 +1,22 @@
+{
+  "arquivo": "cnh/cnh-ficticio-01.pdf",
+  "tipo": "CNH",
+  "ficticio": true,
+  "campos": {
+    "nome": "NATALIA APARECIDA BARBOSA RIBEIRO",
+    "data_nascimento": "1966-10-30",
+    "local_nascimento": "SALVADOR, BA",
+    "filiacao_pai": "DIEGO PAULO MOREIRA RIBEIRO",
+    "filiacao_mae": "CARLA VITORIA PEREIRA RIBEIRO",
+    "documento_identidade": "73782011 SSP BA",
+    "cpf": "644.836.782-99",
+    "numero_registro": "63723669838",
+    "categoria": "D",
+    "primeira_habilitacao": "2000-05-05",
+    "data_emissao": "2024-03-28",
+    "validade": "2029-03-28",
+    "nacionalidade": "BRASILEIRO(A)",
+    "local_emissao": "GOIANIA, GO",
+    "observacoes": "EAR"
+  }
+}

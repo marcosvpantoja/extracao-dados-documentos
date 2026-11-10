@@ -19,7 +19,10 @@ O usuário **importa um arquivo no computador** ou escaneia um QR code e **fotog
 |---|---|
 | [`docs/etapas/`](docs/etapas/) | Diário do projeto: uma nota por etapa, na ordem em que aconteceu |
 | [`docs/decisoes/`](docs/decisoes/) | Registro de decisões técnicas (ADRs): o que foi escolhido, alternativas e porquê |
-| `src/` | Código-fonte (a partir da etapa de implementação) |
+| [`data/exemplos/`](data/exemplos/) | Documentos fictícios e gabaritos (conjunto de desenvolvimento) |
+| [`src/extracao/`](src/extracao/) | Código-fonte do sistema |
+| [`scripts/`](scripts/) | Gerador de documentos fictícios e rotina de limpeza e verificação |
+| [`tests/`](tests/) | Testes automatizados |
 
 ## Roteiro
 

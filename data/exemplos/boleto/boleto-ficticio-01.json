@@ -1,0 +1,16 @@
+{
+  "arquivo": "boleto/boleto-ficticio-01.pdf",
+  "tipo": "BOLETO",
+  "ficticio": true,
+  "campos": {
+    "linha_digitavel": "23792.38583 41439.260997 18024.383327 5 17520000300689",
+    "codigo_barras": "23795175200003006892385841439260991802438332",
+    "banco": "237 - BRADESCO",
+    "beneficiario_nome": "ALIMENTOS DEMONSTRACAO LTDA",
+    "beneficiario_documento": "00.134.664/0001-43",
+    "pagador_nome": "RAFAEL LUIZ RIBEIRO DUARTE",
+    "pagador_documento": "171.056.705-84",
+    "valor": "3006.89",
+    "vencimento": "2027-03-16"
+  }
+}

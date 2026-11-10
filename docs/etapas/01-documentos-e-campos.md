@@ -57,9 +57,30 @@ Cada documento fictício tem um JSON com o valor correto de cada campo:
 }
 ```
 
+### Como o conjunto foi gerado
+
+`scripts/gerar_exemplos.py` cria dois exemplares de cada tipo (semente fixa, reproduzível):
+
+| Tipo | Arquivo de importação | Reproduz do documento real | Versão de impressão |
+|---|---|---|---|
+| CNH | PDF A4 com a carteira **como imagem** | Dados só legíveis por OCR; MRZ com dígitos válidos | Frente e verso em tamanho de cartão |
+| RG antigo | PDF de escaneamento, **frente e verso girados 90°**, leve desfoque | Rotação, duas faces na mesma página, sem texto | Frente e verso em tamanho de cartão |
+| CIN | PDF com o cartão como imagem | CPF como número de registro; MRZ | Frente e verso em tamanho de cartão |
+| Fatura | PDF com texto nativo | Layout de demonstrativo; em aberto traz linha digitável | O próprio PDF |
+| NF-e | DANFE com texto nativo | Blocos do layout padrão; chave de acesso válida | O próprio PDF |
+| Boleto | PDF com texto nativo | Linha digitável e código de barras I2of5 coerentes com valor e vencimento | O próprio PDF |
+
+Todos levam a marca d'água "DOCUMENTO FICTÍCIO · SEM VALOR LEGAL". Nenhum brasão, logotipo oficial, foto real ou elemento de segurança é reproduzido; o rosto é uma silhueta genérica.
+
 ## Conjunto de avaliação: sessões com testers
 
-Cada tester usa **os próprios documentos**, ao vivo, pelo mesmo fluxo do usuário final:
+Cada tester usa **os próprios documentos**, ao vivo, pelo mesmo fluxo do usuário final. Como são dados pessoais de terceiros, valem três condições:
+
+- **O tester é o titular do documento e está presente.** Ninguém testa com documento de outra pessoa.
+- **Consentimento antes da sessão:** o tester é informado do que é processado, de que nada é salvo e de que só o resultado anônimo por campo é registrado.
+- **Nenhum documento de tester é enviado para fora dos dois aparelhos**, inclusive para assistentes de IA usados no desenvolvimento.
+
+Fluxo da sessão:
 
 1. Abre o sistema no computador.
 2. NF-e: faz upload do PDF. RG e CNH: escaneia o QR code e fotografa com o celular.
@@ -230,12 +251,12 @@ Alguns campos têm regra matemática ou formato fixo. O sistema consegue detecta
 
 ## Entregáveis da etapa
 
-- [ ] Documentos fictícios de NF-e, boleto, CNH, RG antigo e CIN em `data/exemplos/`, com gabaritos
-- [ ] Fotos dos documentos fictícios impressos, em condições variadas
+- [x] Documentos fictícios dos seis tipos em `data/exemplos/`, com gabaritos (`scripts/gerar_exemplos.py`)
+- [ ] Fotos dos documentos fictícios impressos (`*-impressao.pdf`), em condições variadas
 - [ ] Formato do registro de avaliação definido
 - [x] Lista final de campos por tipo
 - [ ] Validação das hipóteses de problema e mercado (H1, H5) com pesquisa pública
-- [ ] Funções de validação (CPF, CNPJ, chave NF-e, linha digitável) especificadas
+- [x] Funções de validação (CPF, CNPJ, chave NF-e, linha digitável, código de barras, MRZ) em `src/extracao/validacoes.py`, testadas contra os gabaritos
 
 ## Próxima etapa
 

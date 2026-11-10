@@ -1,0 +1,19 @@
+{
+  "arquivo": "rg-antigo/rg-antigo-ficticio-01.pdf",
+  "tipo": "RG",
+  "ficticio": true,
+  "campos": {
+    "nome": "RAFAEL ROBERTO BARBOSA TEIXEIRA",
+    "filiacao_pai": "TIAGO CARLOS MOREIRA TEIXEIRA",
+    "filiacao_mae": "NATALIA BEATRIZ LIMA FERREIRA",
+    "data_nascimento": "1987-01-25",
+    "naturalidade": "CAMPINAS, SP",
+    "orgao_expedidor": "PC/PR",
+    "estado_emissor": "PR",
+    "registro_geral": "48338721",
+    "via": "2VIA",
+    "data_expedicao": "2005-12-24",
+    "cpf": "835.933.839-69",
+    "registro_civil": "232994 83 68 5813 8 31960 927 6931097 63"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "arquivo": "fatura/fatura-ficticio-01.pdf",
+  "tipo": "FATURA",
+  "ficticio": true,
+  "campos": {
+    "emissora": "CONECTA FIBRA EXEMPLO S.A.",
+    "cnpj_emissora": "08.236.013/0001-76",
+    "cliente": "Vinicius Roberto Vieira Santos",
+    "numero_cliente": "4407191",
+    "numero_fatura": "212548667693",
+    "referencia": "Setembro/2026",
+    "vencimento": "2026-10-15",
+    "valor_total": "417.28",
+    "endereco": "Rua Exemplo das Flores, 1584 - Centro - Manaus / AM - CEP: 33.688-371",
+    "situacao": "PAGA",
+    "linha_digitavel": ""
+  }
+}
