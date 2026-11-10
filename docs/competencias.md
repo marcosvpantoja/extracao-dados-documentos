@@ -13,7 +13,8 @@ Legenda: ✅ demonstrado · 🟡 parcial · ⚪ planejado
 | Competência | Evidência | Situação |
 |---|---|---|
 | Discovery orientado a evidência | [Mapa de hipóteses](etapas/00-concepcao.md#mapa-de-hipóteses), [pesquisa e benchmark](etapas/03-validacao-do-problema.md) | 🟡 Entrevistas pendentes |
-| Personas baseadas em evidência | [Personas 2.0](persona.md) com fonte de cada afirmação e anti-persona | ✅ |
+| Personas baseadas em evidência | [Personas 3.0](persona.md) com fonte de cada afirmação, anti-persona e histórico de versões | ✅ |
+| Seleção de segmento por evidência | Pivô de escritório contábil para advocacia de massa, com motivo registrado ([Etapa 3](etapas/03-validacao-do-problema.md#decisão-de-segmento-10112026)) | ✅ |
 | Estratégia e posicionamento | Reposicionamento por evidência ([Etapa 3](etapas/03-validacao-do-problema.md#decisão-10112026)); tese do MVP | 🟡 Visão e PR/FAQ pendentes |
 | Mapeamento de oportunidades | Opportunity Solution Tree | ⚪ Etapa 4 |
 | Priorização defensável | Cortes de escopo ([ADR 0003](decisoes/0003-escopo-do-mvp.md)), MoSCoW | 🟡 RICE pendente |

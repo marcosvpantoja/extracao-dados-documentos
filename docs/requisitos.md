@@ -1,7 +1,7 @@
 # Documento de Requisitos do Produto (PRD)
 
 **Produto:** Extração de Dados de Documentos
-**Versão do documento:** 1.1 · 10/11/2026 (foco em cadastro de cliente após a [Etapa 3](etapas/03-validacao-do-problema.md))
+**Versão do documento:** 1.2 · 10/11/2026 (segmento: advocacia de consumidor de alto volume, após a [Etapa 3](etapas/03-validacao-do-problema.md))
 **Status:** Aprovado para o MVP
 
 ## 1. Resumo
@@ -10,27 +10,31 @@ Sistema que recebe documentos por **importação de arquivo** no computador ou p
 
 ## 2. Problema
 
-No cadastro de um cliente novo, escritórios contábeis pequenos precisam coletar e transcrever os documentos de cada sócio (RG ou CNH e comprovante de residência). Esses documentos chegam por WhatsApp e e-mail, em qualidade variável, são digitados à mão e deixam cópias espalhadas em conversas e pastas. Enquanto o fiscal já é automatizado (XML da NF-e pela SEFAZ, boletos pelo DDA), o cadastro continua manual, e as plataformas de verificação de identidade existentes são voltadas a empresas maiores e armazenam documentos.
+Escritórios de advocacia de massa em direito do consumidor cadastram muitos clientes por dia. Cada atendimento traz documentos de identificação (RG, CIN ou CNH), comprovante de residência e provas do caso (notas fiscais, faturas, boletos), que chegam misturados e em qualidade variável, normalmente pelo WhatsApp. A digitação manual torna o cadastro um gargalo medido em tempo, e um erro, como um CPF errado, se repete em procurações e processos. As ferramentas atuais cadastram por foto um documento por vez, sem as provas, e soluções de verificação de identidade são voltadas a antifraude e armazenam documentos.
 
-Evidências e lacunas em [Etapa 3](etapas/03-validacao-do-problema.md).
+Evidências em [Etapa 3](etapas/03-validacao-do-problema.md).
 
 ## 3. Personas
 
-- **Ana, assistente contábil** (primária): responsável pelo cadastro de clientes; quer concluir o cadastro de cada sócio numa única interação, sem digitar e sem guardar cópias.
-- **Carlos, sócio do cliente** (secundária): fotografa os próprios documentos, inclusive à distância; quer entregar rápido, sem instalar nada e sem que o documento circule.
+- **Juliana, assistente de cadastro** (primária): quer cadastrar cada cliente em poucos minutos, sem digitar e sem erros que voltem da equipe jurídica.
+- **Roberto, cliente consumidor** (secundária): fotografa os próprios documentos à distância; quer enviar tudo de uma vez, sem instalar nada.
+- **Dra. Paula, advogada** (terciária): precisa de dados corretos e dos arquivos para instruir a petição.
 
-Detalhamento, fontes e anti-persona em [Personas](persona.md).
+Detalhamento, fontes e histórico em [Personas](persona.md).
 
 ## 4. Tese do MVP
 
-> É possível concluir o cadastro dos dados de um sócio numa única interação, capturando os documentos pelo celular (presencialmente ou à distância) ou importando arquivos, com acerto alto e sem que nenhum documento fique salvo em dispositivo ou servidor.
+> É possível cadastrar um cliente, com identificação, comprovante de residência e provas, numa única interação, de forma **ágil** e **precisa**, capturando os documentos pelo celular do próprio cliente ou importando arquivos, sem que o sistema retenha qualquer documento ou dado.
+
+**Promessa de privacidade:** o sistema não retém nada. Arquivos e dados extraídos são entregues ao escritório, que os guarda no próprio ambiente, como controlador dos dados (LGPD).
 
 ## 5. Escopo
 
+**Segmento:** escritórios de direito do consumidor com alto volume de clientes.
 **Tipos de documento:** NF-e (DANFE), boleto, fatura de serviço, CNH (física e digital), RG antigo (modelos estaduais) e CIN.
 **Canais:** importação de arquivo (PDF, JPG, PNG, HEIC) e captura via celular.
 
-**Fora do escopo do MVP:** modo rede local (offline), exibição de campos em streaming, captura automática pela câmera, retreinamento de modelos, histórico de documentos, integração com sistemas contábeis, documentos manuscritos, outros tipos (contratos, NFS-e, comprovantes de pagamento). Ver [ADR 0003](decisoes/0003-escopo-do-mvp.md).
+**Fora do escopo do MVP:** modo rede local (offline), exibição de campos em streaming, captura automática pela câmera, retreinamento de modelos, histórico de documentos, integração com sistemas contábeis, documentos manuscritos, outros tipos (contratos, NFS-e, comprovantes de pagamento), documentos trabalhistas (CTPS, contracheques, TRCT, extrato do FGTS), geração automática de procuração. Ver [ADR 0003](decisoes/0003-escopo-do-mvp.md).
 
 ## 6. Histórias de usuário
 
@@ -38,20 +42,23 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 
 | ID | História | Prioridade |
 |---|---|---|
-| HU-01 | Como Ana, quero importar um arquivo sem dizer o que ele é, para não perder tempo classificando | M |
-| HU-02 | Como Ana, quero escanear um QR code e fotografar o documento do cliente com o celular, para não precisar de scanner | M |
-| HU-03 | Como Ana, quero ver os dados extraídos ao lado da imagem do documento, para conferir rapidamente | M |
-| HU-04 | Como Ana, quero confirmar ou recusar cada campo, para garantir que só dados corretos sigam adiante | M |
-| HU-05 | Como Ana, quero saber quais campos têm baixa confiança, para conferir só esses | M |
-| HU-06 | Como Carlos, quero ter certeza de que meu documento não fica guardado, para confiar no escritório | M |
-| HU-13 | Como Carlos, quero escanear o QR code de Ana numa chamada de vídeo e fotografar meus documentos com meu celular, para fazer o cadastro sem ir ao escritório | S |
-| HU-14 | Como Carlos, quero entender o que fazer na página de captura sem ajuda, para concluir sozinho | M |
-| HU-07 | Como Ana, quero ser orientada pelo celular sobre enquadramento e luz, para a foto sair legível na primeira tentativa | S |
-| HU-08 | Como Ana, quero copiar os dados confirmados, para colá-los no sistema contábil | S |
+| HU-01 | Como Juliana, quero importar um arquivo sem dizer o que ele é, para não perder tempo classificando | M |
+| HU-02 | Como Juliana, quero enviar ao cliente um QR code ou link para ele fotografar os próprios documentos, para não depender de WhatsApp | M |
+| HU-03 | Como Juliana, quero ver os dados extraídos ao lado da imagem do documento, para conferir rapidamente | M |
+| HU-04 | Como Juliana, quero confirmar ou recusar cada campo, para garantir que só dados corretos sigam adiante | M |
+| HU-05 | Como Juliana, quero saber quais campos têm baixa confiança, para conferir só esses | M |
+| HU-06 | Como Roberto, quero ter certeza de que meu documento não fica guardado, para confiar no escritório | M |
+| HU-13 | Como Roberto, quero abrir pelo WhatsApp o link de captura e fotografar todos os meus documentos de uma vez, para fazer o cadastro sem ir ao escritório | M |
+| HU-14 | Como Roberto, quero entender o que fazer na página de captura sem ajuda, para concluir sozinho | M |
+| HU-07 | Como Juliana, quero ser orientada pelo celular sobre enquadramento e luz, para a foto sair legível na primeira tentativa | S |
+| HU-08 | Como Juliana, quero copiar os dados confirmados, para colá-los no sistema contábil | S |
 | HU-09 | Como responsável pelo produto, quero ver a acurácia por campo e por tipo, para priorizar melhorias | S |
-| HU-10 | Como Ana, quero que o sistema avise quando não reconhecer o documento, em vez de inventar dados | M |
-| HU-11 | Como Ana, quero processar vários documentos do mesmo cliente em sequência sem reescanear o QR code | C |
-| HU-12 | Como Ana, quero que a câmera capture sozinha quando a imagem estiver nítida | W |
+| HU-10 | Como Juliana, quero que o sistema avise quando não reconhecer o documento, em vez de inventar dados | M |
+| HU-11 | Como Juliana, quero processar vários documentos do mesmo cliente em sequência sem reescanear o QR code | C |
+| HU-12 | Como Juliana, quero que a câmera capture sozinha quando a imagem estiver nítida | W |
+| HU-15 | Como Juliana, quero baixar os arquivos e os dados confirmados do cliente num pacote organizado, para anexar ao sistema do escritório | M |
+| HU-16 | Como Dra. Paula, quero a procuração preenchida com os dados confirmados, para não redigitar a qualificação | W |
+| HU-17 | Como Juliana, quero cadastrar clientes de ações trabalhistas (CTPS, contracheques, TRCT, FGTS) | W |
 
 ## 7. Requisitos funcionais
 
@@ -89,6 +96,7 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | RF-18 | Correção de valor no modo desenvolvimento | Disponível só no modo desenvolvimento; oculta nos demais | S |
 | RF-19 | Indicação do modo da sessão | Modo (desenvolvimento, avaliação ou produção) sempre visível; documento real nunca abre em modo desenvolvimento | M |
 | RF-20 | Copiar dados confirmados | Botão copia os campos confirmados em texto ou JSON | S |
+| RF-26 | Entrega ao escritório | Download de pacote com arquivos originais e dados confirmados (JSON/CSV), gerado na memória do navegador e salvo apenas onde o usuário escolher | M |
 | RF-21 | Encerrar sessão | Ao encerrar, imagem e dados somem da tela e da memória; canal e chave são descartados | M |
 
 ### 7.4 Medição e aprendizado
@@ -121,9 +129,9 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | Métrica | Definição | Meta |
 |---|---|---|
 | Acurácia de classificação | % de documentos com tipo detectado corretamente | A definir na linha de base |
-| Acurácia por campo | % de campos confirmados na revisão, por tipo | A definir na linha de base |
+| Acurácia por campo (**preciso**) | % de campos confirmados na revisão, por tipo | A definir na linha de base |
 | Tempo até o resultado | Da captura ou importação até os campos na tela | A definir na linha de base |
-| Tempo de cadastro por sócio | Do início da sessão até todos os campos do sócio confirmados | A definir na linha de base |
+| Tempo de cadastro por cliente (**ágil**) | Do início da sessão até todos os campos do cliente confirmados | A definir na linha de base |
 | Recapturas por documento | Quantas vezes um documento precisou ser fotografado de novo | A definir na linha de base |
 | Resíduo zero | % de sessões em que a verificação não encontra dados persistidos | 100% |
 | Taxa de "não reconhecido" correto | % de documentos fora do escopo marcados como "não reconhecido" | A definir na linha de base |

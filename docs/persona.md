@@ -1,105 +1,121 @@
 # Personas
 
-**Versão:** 2.0 · 10/11/2026 · foco em **agilidade no cadastro de cliente**
+**Versão:** 3.0 · 10/11/2026 · segmento: **escritórios de direito do consumidor com alto volume de clientes**
+**Atributos centrais do produto:** **ágil** e **preciso**
 
 Personas construídas a partir da [pesquisa da Etapa 3](etapas/03-validacao-do-problema.md). Cada afirmação indica sua origem:
 
-- **[A1]–[A5]**: achado da pesquisa pública (evidência indireta)
+- **[A1]–[A5], [B1]–[B4]**: achado da pesquisa pública (evidência indireta)
 - **🧪**: hipótese ainda não validada, a testar nas entrevistas
 
 ---
 
-## Persona primária: Ana, assistente contábil
+## Persona primária: Juliana, assistente de cadastro em escritório de advocacia de massa
 
-> "Abrir a empresa de um cliente novo começa sempre igual: pedir os documentos, esperar chegar pelo WhatsApp, descobrir que a foto está cortada, pedir de novo e digitar tudo."
+> "Atendo dezenas de clientes por dia. Cada um manda RG, conta de luz e a fatura que está contestando, tudo por WhatsApp. Se eu erro um CPF na procuração, o erro vai para o processo."
 
 ### Perfil
 
 | | |
 |---|---|
-| Função | Assistente contábil, responsável pela área societária e de cadastro em escritório de pequeno porte 🧪 |
-| Atividades | Abertura de empresas, alterações contratuais, cadastro de clientes novos e trocas de contador 🧪 |
-| Ferramentas | Sistema contábil; captura automática de XML de NF-e pela SEFAZ **[A1]**; DDA para boletos registrados **[A2]**; WhatsApp e e-mail para receber documentos de clientes 🧪 |
-| Relação com tecnologia | Usa ferramentas especializadas no fiscal, mas o cadastro continua manual 🧪 |
+| Função | Assistente de atendimento e cadastro, no primeiro contato com o cliente 🧪 |
+| Escritório | Advocacia de massa em direito do consumidor: grande volume de casos parecidos **[B2]** |
+| Atividades | Recebe documentos, cadastra o cliente, organiza as provas e prepara procuração e contrato de honorários para a equipe jurídica **[B1] [B4]** 🧪 |
+| Ferramentas | Software de gestão jurídica (ex.: Projuris, EasyJur) **[B4]**; WhatsApp para receber documentos **[B2]** 🧪 |
+| Como é avaliada | Tempo de cadastro e ausência de erros que voltem da equipe jurídica **[B2]** |
 
-### Contexto: o que o cadastro exige
+### O que cada cadastro exige [B1]
 
-Para abrir ou cadastrar uma empresa, o escritório coleta de **cada sócio** **[A3]**:
+| Documento | Para quê | Tipo no sistema |
+|---|---|---|
+| RG e CPF, ou CNH | Qualificação da parte e procuração | RG antigo, CIN, CNH |
+| Comprovante de residência | Endereço da parte (prática comum, embora a exigência seja controversa) | Fatura de serviço |
+| Provas do caso: nota fiscal da compra, fatura contestada, boleto cobrado | Fundamentar o pedido | NF-e, fatura de serviço, boleto |
 
-| Documento | Observação |
-|---|---|
-| Documento de identidade com foto (RG ou CNH dentro da validade) | RG estadual é o mais comum; CNH é aceita **[A3]** |
-| CPF | Muitas vezes já consta no RG ou na CNH **[A3]** |
-| Comprovante de residência | Conta de consumo recente, em geral até 90 dias **[A3]** |
-| Comprovante do endereço comercial | Pode ser o residencial quando a empresa funciona em casa **[A3]** |
-
-Contas de consumo (luz, água, internet, celular) **não chegam por DDA [A2]**, então o comprovante de residência só existe como PDF, papel ou foto.
+Os seis tipos do escopo aparecem num **único atendimento**, misturados, e o sistema precisa separá-los sozinho.
 
 ### Jobs to be done
 
-> **Quando** um cliente novo chega, **quero** coletar e transcrever os dados dos documentos dos sócios corretamente e de uma só vez, **para** dar entrada no processo sem idas e vindas e sem que cópias dos documentos fiquem espalhadas.
+> **Quando** um novo cliente envia seus documentos, **quero** ter os dados de identificação e das provas cadastrados corretamente em poucos minutos, **para** liberar o caso para a equipe jurídica e atender o próximo cliente.
 
 ### Dores
 
 | Dor | Origem |
 |---|---|
-| Documentos chegam por canais dispersos (WhatsApp, e-mail) e em qualidade variável, exigindo novo pedido | 🧪 |
-| Digitação manual dos dados de cada sócio: nome, filiação, CPF, RG, naturalidade, endereço | 🧪 |
-| Erros de digitação no cadastro geram retrabalho em órgãos de registro | 🧪 |
-| Cópias de documentos pessoais ficam guardadas em conversas, caixas de e-mail e pastas, com exposição a vazamentos e às obrigações da LGPD | 🧪 |
-| Toda a automação disponível no escritório cobre o fiscal (NF-e, boletos), não o cadastro | **[A1] [A2]** |
+| Volume alto e cadastro como gargalo: o tempo de cadastro é cobrado como indicador | **[B2]** |
+| Em escala, um erro se repete dezenas de vezes; um CPF errado chega à procuração e ao processo | **[B2]** |
+| Documentos chegam misturados e em qualidade variável pelo WhatsApp, exigindo novos pedidos | 🧪 |
+| Digitação dos dados de identificação e das provas (valores, datas, empresa cobradora) | 🧪 |
+| O cadastro por foto da ferramenta atual cobre um documento por vez, sem as provas | **[B4]** 🧪 |
+| Cópias de documentos pessoais ficam espalhadas em celulares e conversas | 🧪 |
 
-### O que ela já tentou
+### O que ela já usa ou tentou
 
-| Alternativa | Por que não resolve | Origem |
+| Alternativa | Limite | Origem |
 |---|---|---|
-| Plataformas de verificação de identidade (Unico, CAF, idwall) | Voltadas a antifraude em empresas de médio e grande porte; custo e complexidade excessivos para poucos cadastros por mês; armazenam documentos | **[A4]** |
-| Ferramentas de captura fiscal | Resolvem NF-e e boletos, não documentos pessoais nem contas de consumo | **[A1] [A2]** |
-| Scanner ou foto pelo WhatsApp | Qualidade irregular, cópias guardadas no celular e na conversa | 🧪 |
+| Cadastro por foto da CNH no software jurídico | Um tipo de documento; não cobre RG antigo, comprovante nem provas | **[B4]** 🧪 |
+| Chatbots de triagem que coletam documentos | Coletam o arquivo, mas não extraem nem conferem os dados | **[B2]** 🧪 |
+| Plataformas de verificação de identidade | Voltadas a antifraude, caras e armazenam documentos | **[A4]** |
 
-### Critérios de sucesso para ela
+### Critérios de sucesso: ágil e preciso
 
-- Cadastro de um sócio concluído numa única interação com o cliente 🧪
-- Nenhum dado digitado à mão 🧪
-- Poder dizer ao cliente: "seu documento não ficou guardado em lugar nenhum" 🧪
-
-### Frequência
-
-O cadastro acontece **uma vez por cliente**, na abertura ou na troca de contador **[A3]**. O volume por escritório é desconhecido e é a principal pergunta das entrevistas: ele define se a dor é frequente o bastante para justificar uma ferramenta 🧪.
+| Atributo | Para ela significa | Métrica |
+|---|---|---|
+| **Ágil** | Cadastro completo do cliente numa única interação, sem digitar | Tempo de cadastro por cliente; recapturas por documento |
+| **Preciso** | Nenhum dado errado chega à equipe jurídica | Acurácia por campo; % de campos confirmados sem correção; erros devolvidos pela equipe jurídica |
 
 ---
 
-## Persona secundária: Carlos, sócio do cliente
+## Persona secundária: Roberto, cliente consumidor
 
-> "Me pediram RG, comprovante de residência e mais um monte de coisa. Mandei foto pelo WhatsApp, mas não gosto de ver meu documento circulando por aí."
+> "Me cobraram uma fatura que eu não devia. O escritório pediu foto do RG, da conta de luz e da fatura. Mandei pelo WhatsApp, mas não gosto de deixar meu documento por aí."
 
 | | |
 |---|---|
-| Papel | Sócio de uma pequena empresa que está abrindo CNPJ ou trocando de contador |
-| Interação com o produto | Fotografa os próprios documentos com o celular, presencialmente ou à distância 🧪 |
-| Necessidade | Entregar os documentos rápido, uma vez só, sem instalar nada 🧪 |
-| Preocupação | Onde seus documentos ficam guardados e quem tem acesso 🧪 |
+| Papel | Consumidor que contrata o escritório para uma ação |
+| Interação com o produto | Fotografa os próprios documentos com o celular, normalmente **à distância** 🧪 |
+| Necessidade | Enviar tudo de uma vez, rápido, sem instalar app e sem ter de reenviar 🧪 |
+| Preocupação | Para onde vão os documentos e quem tem acesso 🧪 |
+| Contexto | Pouca familiaridade com tecnologia é comum; precisa de instruções simples 🧪 |
 
-### Cenário que a persona secundária revela
-
-Num **cadastro à distância**, Ana compartilha a tela numa chamada de vídeo ou envia o link do QR code. Carlos escaneia com **o próprio celular**, fotografa RG e conta de luz, e os dados aparecem direto na tela de Ana, sem passar por WhatsApp ou e-mail e sem deixar cópias. 🧪
-
-Isso muda requisitos de UX: a página de captura precisa ser compreensível para quem **nunca usou o sistema** e pode estar sozinho, sem ninguém para orientar.
+**Requisitos que ele revela:** a página de captura precisa funcionar sozinha, com linguagem simples, para quem nunca usou o sistema; o link pode chegar pelo WhatsApp, e não só por QR code na tela.
 
 ---
 
-## Persona descartada (anti-persona)
+## Persona terciária: Dra. Paula, advogada responsável
 
-**Analista de antifraude de banco ou fintech.** Precisa de biometria, prova de vida, consulta a bases oficiais e guarda de documentos para auditoria. É atendido pelas plataformas de verificação de identidade **[A4]**, e os requisitos dele contradizem a premissa de não armazenar nada.
+| | |
+|---|---|
+| Papel | Recebe o caso cadastrado e redige a petição |
+| Necessidade | Dados de qualificação corretos e provas organizadas, com os arquivos disponíveis para anexar ao processo **[B1]** |
+| Impacto do produto | Menos devoluções de cadastro e menos retrabalho na petição 🧪 |
+
+**Requisito que ela revela:** o escritório **precisa ficar com os arquivos**. O sistema não retém nada, mas entrega os documentos e os dados ao escritório, que os guarda no próprio ambiente ([Etapa 3, tensões](etapas/03-validacao-do-problema.md#tensões-identificadas)).
+
+---
+
+## Anti-persona
+
+**Analista de antifraude de banco ou fintech.** Precisa de biometria, prova de vida e guarda de documentos para auditoria; é atendido pelas plataformas de verificação de identidade **[A4]**.
 
 ---
 
 ## Perguntas para as entrevistas
 
-1. Quantos cadastros de clientes novos o escritório faz por mês?
-2. Como os documentos dos sócios chegam hoje, e quantas vezes é preciso pedir de novo?
-3. Quanto tempo leva, do pedido dos documentos até os dados estarem no sistema?
-4. Onde as cópias dos documentos ficam guardadas depois do cadastro?
-5. Algum cliente já demonstrou preocupação com a guarda dos documentos?
-6. O cadastro costuma ser presencial ou à distância?
-7. Quais documentos ainda chegam sem canal eletrônico, além dos pessoais?
+1. Quantos clientes novos o escritório cadastra por dia?
+2. Quanto tempo leva um cadastro completo, do primeiro contato à liberação para a equipe jurídica?
+3. Quais documentos chegam em cada caso, e por qual canal?
+4. Quantas vezes por dia é preciso pedir que o cliente reenvie um documento?
+5. Com que frequência a equipe jurídica devolve um cadastro por erro? Quais erros são mais comuns?
+6. O que o software jurídico atual faz no cadastro? O que falta?
+7. Onde os documentos ficam guardados hoje? Algum cliente já questionou isso?
+
+---
+
+## Histórico das personas
+
+| Versão | Persona | Por que mudou |
+|---|---|---|
+| 1.0 | Assistente contábil que digita documentos misturados | NF-e e boletos já chegam por canais eletrônicos (XML, DDA) **[A1] [A2]** |
+| 2.0 | Assistente contábil focada no cadastro de clientes | Cadastro acontece uma vez por cliente: frequência insuficiente **[A3]** |
+| 3.0 | Assistente de cadastro em advocacia de massa (consumidor) | Volume alto, tempo de cadastro medido e os seis tipos de documento no mesmo atendimento **[B1] [B2]** |

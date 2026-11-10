@@ -77,8 +77,59 @@ As evidências apontam que o valor do produto, para esta persona, **não está n
 
 A persona permanece como hipótese de trabalho até as entrevistas.
 
+## Segunda rodada: escritórios de advocacia de alto volume (10/11/2026)
+
+A frequência baixa do cadastro no escritório contábil (A3) levou a investigar segmentos que **recebem dados de muitas pessoas todos os dias**.
+
+### B1. Ações de consumidor usam exatamente os seis tipos do escopo
+
+O núcleo documental de uma ação de consumidor é: procuração, documento de identificação (RG e CPF, ou CNH), comprovante de residência e **documentos que provam os fatos**, como contratos, **notas fiscais**, faturas e comprovantes ([Âmbito Jurídico](https://ambitojuridico.com.br/quais-documentos-o-advogado-precisa-para-entrar-com-acao/), [TJGO](https://docs.tjgo.jus.br/institucional/departamentos/atermacao/01_CONSUMIDOR.docx), [Idec](https://idec.org.br/download/file/fid/41117)). A exigência de comprovante de residência em nome próprio é controversa na jurisprudência, mas a prática é coletá-lo ([Migalhas](https://www.migalhas.com.br/depeso/424193/exigencia-indevida-de-documentos-pessoais-e-comprovantes-de-residencia)).
+
+**Implicação:** NF-e, fatura de serviço e boleto deixam de ser casos de cobertura e passam a ser **provas centrais** (compra com defeito, cobrança indevida, serviço não prestado).
+
+### B2. Advocacia de massa tem volume alto e mede tempo de cadastro
+
+A advocacia de massa atua com grande volume de casos, sobretudo em consumidor, previdenciário e trabalhista. Guias de operação tratam a triagem com prazo curto e usam **tempo de cadastro** como indicador, e alertam que, em escala, um erro de triagem se repete dezenas de vezes ([Thomson Reuters: intake jurídico](https://www.thomsonreuters.com.br/pt/juridico/blog/intake-juridico.html), [Thomson Reuters: passivo de massa](https://www.thomsonreuters.com.br/pt/juridico/blog/gestao-passivo-massa-workflow.html), [Projuris](https://www.projuris.com.br/blog/o-que-vale-e-o-que-nao-vale-automatizar-no-seu-escritorio/)).
+
+**Implicação:** confirma a frequência que faltava no cenário contábil e sustenta os dois atributos do produto: **ágil** (tempo de cadastro) e **preciso** (erro multiplicado em escala).
+
+### B3. Ações trabalhistas exigem documentos adicionais
+
+Além de identidade, CPF e comprovante de residência, entram CTPS, contracheques, TRCT e extrato do FGTS ([TRT-3](https://portal.trt3.jus.br/internet/servicos/atermacao-virtual/%40%40trt3-atermacao-info), [TRT-11](https://portal.trt11.jus.br/index.php/sociedades/atermacao/formulario-de-atermacao-rr/instrucoes-para-o-atendimento), [Âmbito Jurídico](https://ambitojuridico.com.br/documentos-necessarios-para-entrar-com-processo-trabalhista/)).
+
+**Implicação:** o trabalhista é um segmento adjacente que exige **novos tipos de documento**. Fica para depois do MVP.
+
+### B4. Softwares jurídicos já oferecem cadastro por foto da CNH
+
+O Projuris ADV lista cadastro via foto da CNH, geração de procuração e coleta de documentos ([Projuris](https://projuris.com.br/adv)); o EasyJur anuncia automação da entrada de dados na captação ([EasyJur](https://easyjur.com/easyjur-os-para-administradores-juridicos/)). Emissão automática de procurações e contratos de honorários a partir do cadastro é tratada como requisito de escolha de sistema ([EasyJur](https://easyjur.com/blog/como-escolher-um-sistema-de-gestao-para-um-escritorio-de-advocacia)).
+
+**Implicação:** existe concorrência direta no cadastro por foto. O diferencial possível está em: **vários tipos sem escolher o tipo**, **captura pelo próprio cliente à distância**, **precisão verificável** (validações matemáticas e revisão humana) e **privacidade por arquitetura**. A geração de documentos a partir dos dados extraídos é uma oportunidade de produto.
+
+### Tensões identificadas
+
+| Tensão | Descrição | Encaminhamento |
+|---|---|---|
+| **Guarda de documentos** | O escritório **precisa** dos documentos para instruir a petição; "nada salvo" não pode significar que o escritório fica sem os arquivos | Redefinir a promessa: **o sistema não retém nada**; os arquivos e os dados são entregues ao escritório, que guarda no próprio ambiente, sob sua responsabilidade de controlador (LGPD) |
+| **Concorrência** | Cadastro por foto já existe em suítes jurídicas | Diferenciação por amplitude de documentos, captura remota, precisão verificável e privacidade |
+| **Mudança de persona** | Terceira versão de persona | Registrada como evolução por evidência; a anterior tinha frequência insuficiente |
+
+## Situação das hipóteses (atualizada)
+
+| # | Hipótese | Situação | Evidência |
+|---|---|---|---|
+| H1 | Cadastro consome tempo relevante no segmento-alvo | 🟡 **Sustentada indiretamente** para advocacia de massa | B2 |
+| H5 | Existem lacunas nas soluções atuais | 🟡 **Parcial**: há concorrência no cadastro por foto; lacunas em amplitude, captura remota, precisão e privacidade | A4, B4 |
+| Persona | Assistente de cadastro em escritório de advocacia de massa | 🟡 **Sustentada indiretamente**; entrevistas pendentes | B1, B2 |
+
+## Decisão de segmento (10/11/2026)
+
+- **Segmento primário:** escritórios de **direito do consumidor** com alto volume de clientes.
+- **Segmento adjacente (pós-MVP):** escritórios **trabalhistas**, que exigem CTPS, contracheques, TRCT e extrato do FGTS.
+- **Segmento anterior (escritório contábil):** arquivado por frequência insuficiente de cadastros.
+- **Atributos centrais do produto:** **ágil** e **preciso**.
+
 ## Próximos passos
 
-- Roteiro de entrevistas focado em: frequência de cadastros, documentos que ainda chegam sem canal eletrônico, preocupação dos clientes com a guarda de documentos e ferramentas usadas hoje.
-- Entrevistas com 3 a 5 profissionais.
+- Entrevistas com 3 a 5 profissionais de escritórios de advocacia de consumidor (roteiro em [Personas](../persona.md#perguntas-para-as-entrevistas)).
+- Benchmark detalhado de Projuris ADV e EasyJur no fluxo de cadastro.
 - Decisão de reposicionamento (persona e proposta de valor) com base nas entrevistas.
