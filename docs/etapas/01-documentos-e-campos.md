@@ -63,7 +63,7 @@ Cada tester usa **os próprios documentos**, ao vivo, pelo mesmo fluxo do usuár
 
 1. Abre o sistema no computador.
 2. NF-e: faz upload do PDF. RG e CNH: escaneia o QR code e fotografa com o celular.
-3. O sistema classifica e extrai em tempo real.
+3. O sistema classifica e extrai os dados.
 4. O tester marca cada campo exibido como **correto** ou **incorreto**.
 
 Documentos pessoais também existem em versão digital (CNH-e, identidade digital em PDF). Por isso RG e CNH são avaliados nos dois canais: **foto do documento físico** pelo celular e **PDF digital** por upload.
@@ -238,4 +238,4 @@ Alguns campos têm regra matemática ou formato fixo. O sistema consegue detecta
 
 ## Próxima etapa
 
-Etapa 2 — Arquitetura e escolha de stack: definir como funcionam o pareamento por QR code, o processamento em tempo real e o motor de leitura e extração, com os trade-offs registrados em ADRs.
+Etapa 2 — Arquitetura e escolha de stack: definir como funcionam o pareamento por QR code, o desempenho do processamento local e o motor de leitura e extração, com os trade-offs registrados em ADRs.

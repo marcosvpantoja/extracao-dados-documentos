@@ -35,4 +35,4 @@ Ou seja, a nuvem tende a ser **mais barata e rápida de desenvolver** e **mais c
 - O produto pode afirmar que documentos reais nunca saem do celular e do computador.
 - Maior esforço de desenvolvimento no motor local.
 - A decisão sobre a nuvem passa a ser baseada em dados medidos, sem expor dados reais.
-- O requisito de tempo real depende do desempenho do hardware local, a ser medido.
+- A meta de "rápido o suficiente" ([ADR 0003](0003-escopo-do-mvp.md)) depende do desempenho do hardware local, a ser medido.
