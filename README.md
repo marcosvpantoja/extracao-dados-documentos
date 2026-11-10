@@ -1,6 +1,6 @@
 # Extração de Dados de Documentos
 
-Sistema que lê **notas fiscais (NF-e), boletos e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo de caso de Product Management.
+Sistema que lê **notas fiscais (NF-e), boletos, faturas de serviço e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo de caso de Product Management.
 
 > **Status:** 🟡 Etapa 1 — Documentos de exemplo e campos-alvo
 
@@ -8,7 +8,7 @@ Sistema que lê **notas fiscais (NF-e), boletos e documentos pessoais (CNH e RG)
 
 O usuário escaneia um QR code na tela do computador, **fotografa o documento com o celular** e, sem dizer o que ele é, recebe os dados de volta no computador. O sistema:
 
-1. Detecta o tipo: NF-e, boleto, CNH ou RG.
+1. Detecta o tipo: NF-e, boleto, fatura de serviço, CNH ou RG.
 2. Lê o conteúdo (texto nativo ou OCR).
 3. Extrai os campos daquele tipo.
 4. Mostra os dados na tela **em tempo real**, com indicação de confiança por campo.

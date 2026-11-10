@@ -27,6 +27,7 @@ Documentos fictícios, com dados inventados e formato válido, que podem ser pub
 
 | Tipo | Formato | Canal de entrada |
 |---|---|---|
+| Fatura de serviço | PDF | Upload no computador |
 | NF-e | DANFE em PDF | Upload no computador |
 | Boleto | PDF | Upload no computador |
 | CNH | Impressão fotografada em condições variadas (luz, ângulo, reflexo) | Câmera do celular (cross-device) |
@@ -106,17 +107,104 @@ Documentos reais importados para teste entram apenas em `data/privado/entrada/`.
 
 A sessão só é considerada encerrada quando o script retorna **✅ CONFIRMADO**. Os documentos reais também não são abertos nem consultados durante o desenvolvimento, o que evita o vazamento de dados descrito acima.
 
+## Achados dos documentos de referência
+
+Três documentos reais foram analisados **apenas quanto a estrutura e campos** (nenhum valor registrado). Eles mudaram premissas do projeto:
+
+| Documento | Formato real | Achado |
+|---|---|---|
+| CNH digital (CNH-e) | PDF A4 emitido pelo Senatran | O PDF tem texto nativo só no aviso de assinatura; **os dados da carteira estão dentro de uma imagem**. Mesmo sendo PDF, exige OCR. Traz uma **zona de leitura mecânica (MRZ)** com dígitos verificadores e um QR code assinado |
+| RG antigo (modelo estadual) | Escaneamento do iPhone, só imagem, sem texto | **Frente e verso na mesma página, girados 90°**. Exige correção de rotação, separação das faces e OCR. Brilho e textura de segurança atrapalham a leitura |
+| Fatura de serviço (internet) | PDF com texto nativo | **Não é NF-e nem boleto.** É um demonstrativo de cobrança. Revelou um tipo não previsto no escopo |
+
+Consequências:
+
+- **"Documento digital" não significa "texto pronto".** A classificação precisa olhar o conteúdo, não o formato do arquivo.
+- **Correção de rotação e separação de frente e verso** entram no pré-processamento (Etapa 3).
+- **MRZ da CNH** vira fonte de validação cruzada: nome, número do documento e datas lidos no corpo do documento podem ser conferidos contra a MRZ.
+- **Fatura de serviço** entra no escopo como quinto tipo, por ser comum no mesmo cenário (contas de consumo e serviços chegam ao escritório junto com boletos e notas).
+
 ## Campos-alvo
 
-| Nota Fiscal (NF-e) | Boleto | CNH | RG |
-|---|---|---|---|
-| Número e série | Linha digitável | Nome | Nome |
-| Chave de acesso | Código de barras | CPF | Número do RG |
-| Data de emissão | Banco emissor | Número de registro | Órgão emissor / UF |
-| Emitente (razão social, CNPJ) | Beneficiário (nome, CNPJ/CPF) | Data de nascimento | Data de expedição |
-| Destinatário (nome, CPF/CNPJ) | Pagador (nome, CPF/CNPJ) | Categoria | Data de nascimento |
-| Valor total | Valor | Validade | Filiação |
-| Itens (descrição, qtd., valor) | Data de vencimento | Primeira habilitação | CPF (quando presente) |
+Os modelos de extração procuram, em cada tipo, os campos abaixo. Campos marcados com * podem não existir em todos os modelos.
+
+### CNH (física e CNH-e)
+
+| Campo | Observação |
+|---|---|
+| Nome completo | |
+| Data de nascimento | |
+| Local e UF de nascimento (cidade) | |
+| Filiação: nome do pai e nome da mãe | Dois nomes no mesmo bloco |
+| Documento de identidade, órgão emissor e UF | |
+| CPF | Validação por dígito verificador |
+| Número de registro | |
+| Categoria de habilitação | |
+| Data da primeira habilitação | |
+| Data de emissão | |
+| Validade | |
+| Nacionalidade | |
+| Local de emissão (cidade, UF) | |
+| Observações* | Ex.: exerce atividade remunerada |
+| Validade por categoria* | Tabela do verso |
+| MRZ* | Usada só para validação cruzada |
+
+### RG antigo (modelos estaduais) e CIN
+
+| Campo | Face | Observação |
+|---|---|---|
+| Nome completo | Frente | |
+| Filiação: nome do pai e nome da mãe | Frente | Separados por barra ou em linhas distintas |
+| Data de nascimento | Frente | |
+| Naturalidade (cidade e UF) | Frente | |
+| Órgão expedidor e UF | Frente | |
+| Estado emissor | Frente | Cabeçalho ("Estado de ...") |
+| Fator RH* | Frente | |
+| Registro geral (número do RG) | Verso | |
+| Via* | Verso | Ex.: 2ª via |
+| Data de expedição | Verso | |
+| CPF* | Verso | Validação por dígito verificador |
+| Registro civil / matrícula da certidão* | Verso | |
+| Outros números* | Verso | Título de eleitor, NIS/PIS, CNH, CNS, CTPS, certificado militar |
+
+### Fatura de serviço
+
+| Campo | Observação |
+|---|---|
+| Empresa emissora (beneficiário) e CNPJ | Validação por dígito verificador |
+| Nome do cliente | |
+| Número do cliente / contrato | |
+| Número da fatura | |
+| Período de referência | Ex.: mês/ano do serviço |
+| Data de vencimento | |
+| Valor total | |
+| Endereço do cliente (cidade, UF, CEP)* | |
+| Situação* | Ex.: paga, em aberto |
+| Linha digitável* | Quando o boleto vem anexo |
+
+### NF-e (DANFE)
+
+| Campo | Observação |
+|---|---|
+| Número e série | |
+| Chave de acesso | 44 dígitos, validação por módulo 11 |
+| Data de emissão | |
+| Emitente: razão social, CNPJ, cidade/UF | |
+| Destinatário: nome, CPF/CNPJ, cidade/UF | |
+| Natureza da operação | |
+| Valor total da nota | |
+| Itens: descrição, quantidade, valor | |
+
+### Boleto
+
+| Campo | Observação |
+|---|---|
+| Linha digitável | Validação por dígitos verificadores |
+| Banco emissor | Três primeiros dígitos da linha digitável |
+| Beneficiário: nome e CNPJ/CPF | |
+| Pagador: nome e CPF/CNPJ | |
+| Valor | Também contido na linha digitável |
+| Data de vencimento | Também contida na linha digitável (fator de vencimento) |
 
 ### Campos com validação automática
 
@@ -132,6 +220,8 @@ Alguns campos têm regra matemática ou formato fixo. O sistema consegue detecta
 ## Limitações conhecidas
 
 - **Amostra pequena:** com poucos testers, as sessões mostram se o sistema funciona em documentos reais, mas não sustentam uma taxa de acurácia com confiança estatística. Toda métrica é reportada com o tamanho da amostra.
+- **Vazamento de layout:** os três documentos de referência foram usados para definir estrutura e campos. Avaliar o sistema **nesses mesmos documentos** tende a superestimar o resultado. A avaliação válida é feita com documentos de outros testers, e os resultados nos documentos de referência são reportados à parte.
+- **Sem NF-e e boleto reais na referência:** esses dois tipos dependem de layouts públicos e do conjunto fictício até que um tester traga exemplares.
 - **Avaliação não reproduzível:** cada sessão ao vivo tem condições diferentes. Comparações entre versões são feitas no conjunto de desenvolvimento; as sessões validam o resultado no mundo real.
 - **Confirmação pelo tester:** depende da atenção do tester ao conferir cada campo.
 
