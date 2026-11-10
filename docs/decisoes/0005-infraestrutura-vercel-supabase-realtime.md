@@ -1,7 +1,7 @@
 # 0005 — Infraestrutura: Vercel para o frontend e Supabase Realtime Broadcast como canal de repasse
 
 **Data:** 10/11/2026
-**Status:** Aceita
+**Status:** Aceita (a proibição de banco e Storage foi substituída pelo [ADR 0007](0007-retencao-temporaria-e-purga-diaria.md): permitidos somente com conteúdo cifrado e remoção diária)
 
 ## Contexto
 

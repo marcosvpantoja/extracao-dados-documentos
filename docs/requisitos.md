@@ -24,9 +24,9 @@ Detalhamento, fontes e histórico em [Personas](persona.md).
 
 ## 4. Tese do MVP
 
-> É possível cadastrar um cliente, com identificação, comprovante de residência e provas, numa única interação, de forma **ágil** e **precisa**, capturando os documentos pelo celular do próprio cliente ou importando arquivos, sem que o sistema retenha qualquer documento ou dado.
+> É possível cadastrar um cliente, com identificação, comprovante de residência e provas, numa única interação, de forma **ágil** e **precisa**, capturando os documentos pelo celular do próprio cliente ou importando arquivos, com retenção mínima: tudo o que o sistema guarda é cifrado e removido às 18h de cada dia.
 
-**Promessa de privacidade:** o sistema não retém nada. Arquivos e dados extraídos são entregues ao escritório, que os guarda no próprio ambiente, como controlador dos dados (LGPD).
+**Promessa de privacidade:** o servidor nunca vê o conteúdo, e nada sobrevive às 18h. Dados e fotos podem ficar salvos na nuvem durante o dia, sempre cifrados com uma chave que só o escritório tem; às 18h (Brasília) tudo é removido e a chave é destruída, e nenhum item permanece por 24h ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)). O pacote baixado fica sob responsabilidade do escritório, como controlador dos dados (LGPD).
 
 ## 5. Escopo
 
@@ -96,6 +96,7 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | RF-18 | Correção de valor no modo desenvolvimento | Disponível só no modo desenvolvimento; oculta nos demais | S |
 | RF-19 | Indicação do modo da sessão | Modo (desenvolvimento, avaliação ou produção) sempre visível; documento real nunca abre em modo desenvolvimento | M |
 | RF-20 | Copiar dados confirmados | Botão copia os campos confirmados em texto ou JSON | S |
+| RF-27 | Aviso de remoção | A partir das 17h, contagem regressiva e lembrete de baixar os pacotes ainda não baixados | M |
 | RF-26 | Entrega ao escritório | Download de pacote com arquivos originais e dados confirmados (JSON/CSV), gerado na memória do navegador e salvo apenas onde o usuário escolher | M |
 | RF-21 | Encerrar sessão | Ao encerrar, imagem e dados somem da tela e da memória; canal e chave são descartados | M |
 
@@ -112,9 +113,10 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 
 | ID | Categoria | Requisito | Critério de aceite | Prior. |
 |---|---|---|---|---|
-| RNF-01 | Privacidade | Nenhum documento ou valor extraído persiste em celular, computador ou servidor | Teste automatizado verifica armazenamento do navegador, cache, arquivos temporários e Supabase após cada sessão | M |
+| RNF-01 | Privacidade | Retenção máxima até as 18h do dia, nunca 24h ou mais; nada persiste no celular | Teste automatizado verifica, após as 18h, tabela e Storage vazios, chave do dia inexistente e nenhum item com mais de 24h; celular sem resíduo após a sessão | M |
+| RNF-12 | Privacidade | Conteúdo salvo sempre cifrado | Nenhum campo de conteúdo legível no banco ou no Storage; chave do dia nunca enviada ao servidor | M |
 | RNF-02 | Privacidade | Documento real não sai do celular e do computador em texto aberto | Só dados cifrados trafegam pelo canal de repasse; motor de leitura é local | M |
-| RNF-03 | Privacidade | Supabase usado só como canal efêmero | Teste verifica ausência de tabelas e buckets criados pelo sistema ([ADR 0005](decisoes/0005-infraestrutura-vercel-supabase-realtime.md)) | M |
+| RNF-03 | Privacidade | Remoção diária às 18h em três camadas | Destruição da chave, tarefa agendada às 18h e limite de 24h executado de hora em hora, cada uma com registro anônimo ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)) | M |
 | RNF-04 | Segurança | Sessão protegida contra uso indevido | Identificador e chave aleatórios de 128 bits ou mais; uso único; expiração | M |
 | RNF-05 | Desempenho | Rápido o suficiente | Meta de tempo até o resultado completo definida na etapa de métricas a partir da linha de base | M |
 | RNF-06 | Acurácia | Acerto alto por campo | Meta definida a partir da linha de base no conjunto de desenvolvimento | M |
@@ -133,7 +135,7 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | Tempo até o resultado | Da captura ou importação até os campos na tela | A definir na linha de base |
 | Tempo de cadastro por cliente (**ágil**) | Do início da sessão até todos os campos do cliente confirmados | A definir na linha de base |
 | Recapturas por documento | Quantas vezes um documento precisou ser fotografado de novo | A definir na linha de base |
-| Resíduo zero | % de sessões em que a verificação não encontra dados persistidos | 100% |
+| Retenção respeitada | % de dias em que nada sobrevive às 18h e nenhum item chega a 24h | 100% |
 | Taxa de "não reconhecido" correto | % de documentos fora do escopo marcados como "não reconhecido" | A definir na linha de base |
 
 ## 10. Premissas e dependências
@@ -152,7 +154,8 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | Modelo local lento em 16 GB | Meta de tempo não atingida | Regras primeiro, modelo só quando necessário; medir cedo |
 | Limite de tamanho no Broadcast | Imagem não chega inteira | Compressão e envio em pedaços |
 | Página na nuvem acessando motor em `localhost` | Bloqueio por navegador | Prova de conceito em Chrome e Safari antes de construir o resto |
-| Uso indevido do Supabase para persistir dados | Quebra da promessa de privacidade | Teste automatizado (RNF-03) |
+| Falha da remoção das 18h | Dados além do prazo | Três camadas independentes; destruição da chave torna cópias ilegíveis (RNF-03) |
+| Cadastro feito perto das 18h perdido antes do download | Retrabalho | Aviso a partir das 17h (RF-27) |
 
 ## 12. Documentos relacionados
 

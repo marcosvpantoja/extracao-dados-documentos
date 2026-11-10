@@ -1,7 +1,7 @@
 # 0001 — Transporte cross-device: servidor de repasse com criptografia ponta a ponta e rede local como guardrail
 
 **Data:** 10/11/2026
-**Status:** Aceita (modo rede local adiado para depois do MVP pelo [ADR 0003](0003-escopo-do-mvp.md))
+**Status:** Aceita (modo rede local adiado pelo [ADR 0003](0003-escopo-do-mvp.md); a regra de não persistência no servidor foi substituída pelo [ADR 0007](0007-retencao-temporaria-e-purga-diaria.md))
 
 ## Contexto
 

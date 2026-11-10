@@ -50,7 +50,7 @@ Cada etapa produz artefatos ligados a um ou mais papéis ([mapa de competências
 | 9 | Entrada: importação e cross-device | Wireframes e microcopy da captura; RF-01 a RF-07 | ⚪ Pendente |
 | 10 | Pipeline: OCR, classificação, extração, validação | RF-08 a RF-15 | ⚪ Pendente |
 | 11 | Tela de revisão | Wireframes; RF-16 a RF-21; acessibilidade | ⚪ Pendente |
-| 12 | Qualidade | Plano de testes; privacidade (RNF-01 a 04); ponta a ponta | ⚪ Pendente |
+| 12 | Qualidade | Plano de testes; privacidade e remoção das 18h (RNF-01 a 04, RNF-12); ponta a ponta | ⚪ Pendente |
 | 13 | Avaliação com usuários | Teste de usabilidade; relatório de acurácia com amostra | ⚪ Pendente |
 | 14 | Lançamento e retrospectiva | Plano de lançamento, resultados, lições aprendidas | ⚪ Pendente |
 

@@ -1,6 +1,6 @@
 # Fluxogramas do sistema
 
-O mesmo sistema visto em sete arranjos diferentes: componentes, jornada, sequência de mensagens, pipeline de processamento, estados da sessão, revisão e aprendizado, e garantias de privacidade.
+O mesmo sistema visto em oito arranjos diferentes: componentes, jornada, sequência de mensagens, pipeline de processamento, estados da sessão, revisão e aprendizado, garantias de privacidade e remoção diária.
 
 Base: [requisitos](../requisitos.md) e [ADRs](../decisoes/README.md).
 
@@ -21,7 +21,8 @@ flowchart LR
 
   subgraph NUVEM["☁️ Nuvem · só dados cifrados"]
     VERCEL["Vercel<br/>hospeda as páginas"]
-    SUPA["Supabase Realtime Broadcast<br/>canal efêmero por sessão<br/>sem banco · sem storage"]
+    SUPA["Supabase Realtime Broadcast<br/>canal efêmero por sessão"]
+    STORE[("Supabase Storage + tabela<br/>só conteúdo cifrado<br/>removido às 18h")]
   end
 
   subgraph PC["💻 Computador do usuário"]
@@ -52,10 +53,12 @@ flowchart LR
   IMP -- "arquivo em memória" --> PRE
   CONF -- "tipo + campos + confiança" --> REV
   REV -- "confirmar / recusar" --> LOG
+  REV -- "fotos e dados cifrados<br/>com a chave do dia" --> STORE
+  KEY["Chave do dia<br/>só neste navegador<br/>destruída às 18h"] --- REV
 
   classDef nuvem fill:#eef3fb,stroke:#5b7db8
   classDef privado fill:#eefaf0,stroke:#3c8a4f
-  class VERCEL,SUPA nuvem
+  class VERCEL,SUPA,STORE nuvem
   class LOG privado
 ```
 
@@ -67,7 +70,7 @@ Os dois canais de entrada convergem no mesmo pipeline e na mesma tela de revisã
 
 ```mermaid
 flowchart TD
-  INI([Ana abre o sistema no computador]) --> MODO{Modo da sessão}
+  INI([Juliana abre o sistema no computador]) --> MODO{Modo da sessão}
   MODO -->|Desenvolvimento| DEV[Só documentos fictícios]
   MODO -->|Avaliação ou produção| PROD[Documentos reais]
   DEV --> CANAL
@@ -99,7 +102,7 @@ flowchart TD
   PIPE[[Pipeline de processamento<br/>ver diagrama 4]] --> TIPO{Tipo reconhecido?}
   TIPO -->|Não| NR[Tela: 'Não reconhecido'<br/>sem campos inventados]
   TIPO -->|Sim| TELA[Tela de revisão:<br/>imagem + campos + confiança]
-  NR --> REVT[Ana indica o tipo correto ou descarta]
+  NR --> REVT[Juliana indica o tipo correto ou descarta]
   TELA --> REVI[[Revisão campo a campo<br/>ver diagrama 6]]
   REVI --> COPIA[Copia dados confirmados]
   REVT --> FIM
@@ -118,16 +121,16 @@ O que cada parte envia, em ordem, e o que cada uma consegue ler.
 ```mermaid
 sequenceDiagram
   autonumber
-  actor Ana
+  actor Juliana
   participant N as Navegador do computador
   participant M as Motor local
   participant S as Supabase Broadcast
   participant C as Celular
 
-  Ana->>N: Clica em "Capturar pelo celular"
+  Juliana->>N: Clica em "Capturar pelo celular"
   N->>N: Gera id de sessão e chave AES-256 aleatórios
   N->>S: Assina o canal "sessao:<id>"
-  N-->>Ana: Mostra QR = https://.../captura?s=<id>#<chave>
+  N-->>Juliana: Mostra QR = https://.../captura?s=<id>#<chave>
   Note over N,S: A chave fica após o #, e o navegador nunca envia o fragmento ao servidor
 
   C->>C: Escaneia o QR e abre a página de captura
@@ -154,13 +157,15 @@ sequenceDiagram
   M->>M: Pré-processa, OCR, classifica, extrai, valida
   M-->>N: tipo, campos e confiança
   M->>M: Descarta a imagem da memória
-  N-->>Ana: Tela de revisão
+  N->>N: Cifra foto e dados com a chave do dia
+  N->>S: Salva no Storage e na tabela (só conteúdo cifrado)
+  N-->>Juliana: Tela de revisão
 
-  Ana->>N: Confirma ou recusa cada campo
+  Juliana->>N: Confirma ou recusa cada campo
   N->>M: POST /revisao (só correto/incorreto por campo)
   M->>M: Grava métrica anônima no registro local
 
-  Ana->>N: Encerra sessão
+  Juliana->>N: Encerra sessão
   N->>S: "encerrar" e sai do canal
   S->>C: Repassa "encerrar"
   C->>C: Fecha a página de captura
@@ -232,7 +237,7 @@ Ciclo de vida de uma sessão cross-device, incluindo falhas.
 
 ```mermaid
 stateDiagram-v2
-  [*] --> Criada: Ana pede captura pelo celular
+  [*] --> Criada: Juliana pede captura pelo celular
   Criada --> AguardandoPareamento: QR exibido
   AguardandoPareamento --> Expirada: 5 min sem leitura
   AguardandoPareamento --> Pareada: primeiro celular conecta
@@ -245,9 +250,9 @@ stateDiagram-v2
   Recebendo --> Processando: imagem completa e descriptografada
   Processando --> EmRevisao: campos exibidos
   Processando --> NaoReconhecido: tipo não identificado
-  NaoReconhecido --> EmRevisao: Ana indica o tipo
+  NaoReconhecido --> EmRevisao: Juliana indica o tipo
   EmRevisao --> Pareada: próximo documento (HU-11)
-  EmRevisao --> Encerrada: Ana encerra
+  EmRevisao --> Encerrada: Juliana encerra
   Pareada --> Encerrada: inatividade
   Expirada --> Encerrada
   Encerrada --> Verificada: verificação de resíduo zero
@@ -268,13 +273,13 @@ O que acontece com cada confirmação ou recusa, conforme o modo ([ADR 0004](../
 ```mermaid
 flowchart TD
   T[Tela de revisão] --> TT{Tipo detectado correto?}
-  TT -->|Recusa| TC[Ana indica o tipo correto] --> REX[Reextrai com o tipo indicado] --> CAMPOS
+  TT -->|Recusa| TC[Juliana indica o tipo correto] --> REX[Reextrai com o tipo indicado] --> CAMPOS
   TT -->|Confirma| CAMPOS[Lista de campos ordenada<br/>baixa confiança primeiro]
   CAMPOS --> C1{Para cada campo}
   C1 -->|Confirma| OK[Campo confirmado]
   C1 -->|Recusa| NOK[Campo recusado]
   NOK --> MD{Modo da sessão?}
-  MD -->|Desenvolvimento| CORR[Ana digita o valor correto]
+  MD -->|Desenvolvimento| CORR[Juliana digita o valor correto]
   MD -->|Avaliação ou produção| SEMV[Registra só 'incorreto']
   OK --> REG
   CORR --> REG
@@ -311,20 +316,21 @@ flowchart LR
   subgraph EXISTE["Documento em texto aberto"]
     direction TB
     X1["Memória da página de captura<br/>até o 'recebido'"]
-    X2["Memória do navegador do computador<br/>até encerrar a sessão"]
+    X2["Memória do navegador do computador<br/>enquanto a tela estiver aberta"]
     X3["Memória do motor local<br/>só durante o processamento"]
   end
   subgraph CIFRADO["Documento cifrado"]
     direction TB
     Y1["Rede celular → Supabase"]
     Y2["Supabase → computador"]
+    Y3["Storage e tabela do Supabase<br/>até as 18h"]
   end
   subgraph NUNCA["Nunca"]
     direction TB
     Z1["Galeria do celular"]
     Z2["Armazenamento local e cache do navegador"]
     Z3["Arquivos temporários no disco"]
-    Z4["Banco ou Storage do Supabase"]
+    Z4["Conteúdo legível no Supabase<br/>(só existe cifrado)"]
     Z5["Logs do servidor"]
     Z6["Registro de revisão em produção"]
   end
@@ -332,11 +338,47 @@ flowchart LR
     direction TB
     V1["Teste: localStorage, IndexedDB,<br/>Cache Storage vazios após sessão"]
     V2["Teste: nenhum arquivo novo<br/>em diretórios temporários"]
-    V3["Teste: projeto Supabase sem<br/>tabelas nem buckets do sistema"]
+    V3["Teste: após as 18h, tabela e Storage<br/>vazios e chave do dia inexistente"]
     V4["Teste: registro de produção sem<br/>CPF, nomes ou base64"]
     V5["scripts/limpar-e-verificar.sh"]
   end
   EXISTE --> PROVA
   CIFRADO --> PROVA
   NUNCA --> PROVA
+```
+
+---
+
+## 8. Remoção diária às 18h
+
+As três camadas independentes de remoção ([ADR 0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md)).
+
+```mermaid
+flowchart TD
+  DIA([Início do dia]) --> K1[Primeiro uso: computador gera a chave do dia<br/>não exportável, nunca enviada ao servidor]
+  K1 --> USO[Cadastros do dia: fotos e dados<br/>cifrados com a chave e salvos no Supabase]
+  USO --> H17{17h00?}
+  H17 -->|Sim| AV[Tela mostra contagem regressiva<br/>e lembra de baixar pacotes pendentes]
+  AV --> BX{Pacote baixado?}
+  BX -->|Sim| ESC[Arquivos sob responsabilidade do escritório]
+  BX -->|Não| RISCO[Será perdido às 18h]
+  H17 -->|Não| USO
+  ESC --> H18
+  RISCO --> H18
+  H18{{18h00 de Brasília}}
+
+  H18 --> C1[Camada 1 · computador<br/>destrói a chave do dia]
+  H18 --> C2[Camada 2 · servidor<br/>pg_cron apaga tabela e Storage]
+  C1 --> R1[Cópias remanescentes, inclusive backups,<br/>ficam ilegíveis]
+  C2 --> R2[Itens removidos do Supabase]
+
+  HORA[[A cada hora · camada 3]] --> TTL{Algum item com<br/>mais de 24h?}
+  TTL -->|Sim| DEL[Apaga o item] --> LOGR
+  TTL -->|Não| LOGR
+
+  R1 --> LOGR[(Registro anônimo:<br/>horário · itens removidos · resultado)]
+  R2 --> LOGR
+  LOGR --> VER{Teste de verificação<br/>às 18h05}
+  VER -->|Tabela e Storage vazios<br/>e chave inexistente| OK([✅ Dia encerrado])
+  VER -->|Algo restou| ALERTA([❌ Alerta e remoção manual])
 ```
