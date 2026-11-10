@@ -3,6 +3,10 @@
 **Data de início:** 10/11/2026
 **Status:** 🟡 Em andamento
 
+## Natureza do projeto
+
+Projeto de **estudo**, sem cliente real. O objetivo é praticar, de ponta a ponta, as atribuições de Product Management (discovery, requisitos, priorização, métricas, decisões técnicas, riscos de IA, roadmap e comunicação) enquanto o sistema é construído. Personas e cenários são hipóteses explícitas, validadas com pesquisa pública e documentos de exemplo, não com dados de clientes.
+
 ## Problema
 
 Documentos chegam em formatos heterogêneos (PDF digital, PDF escaneado, foto de celular) e os dados que importam precisam ser digitados manualmente em outro sistema. Isso é lento, sujeito a erro e não escala.
