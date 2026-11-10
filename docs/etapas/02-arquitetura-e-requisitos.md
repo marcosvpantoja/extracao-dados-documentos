@@ -43,4 +43,4 @@ A ordem de construção começa por uma **prova de conceito** dos dois riscos qu
 
 ## Próxima etapa
 
-Etapa 3 — Validação do problema e benchmark de concorrentes.
+[Etapa 3 — Validação do problema e benchmark](03-validacao-do-problema.md).

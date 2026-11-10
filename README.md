@@ -37,7 +37,7 @@ O usuário **importa um arquivo no computador** ou escaneia um QR code e **fotog
 | 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | Problema, persona, hipóteses | ✅ Concluída |
 | 1 | [Documentos de exemplo e campos-alvo](docs/etapas/01-documentos-e-campos.md) | Conjunto fictício, gabaritos, validadores | 🟡 Fotos dos impressos pendentes |
 | 2 | [Arquitetura e requisitos](docs/etapas/02-arquitetura-e-requisitos.md) | PRD, fluxogramas, ADRs 0004–0006 | ✅ Concluída |
-| 3 | Validação do problema e benchmark de concorrentes | Evidências para H1 e H5, mapa de concorrentes | ⚪ Pendente |
+| 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências para H1 e H5, mapa de concorrentes | 🟡 Entrevistas pendentes |
 | 4 | Métricas: linha de base e metas | Metas de acurácia e tempo | ⚪ Pendente |
 | 5 | Backlog priorizado e roadmap | Backlog com RICE, marcos | ⚪ Pendente |
 | 6 | Prova de conceito técnica | Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
