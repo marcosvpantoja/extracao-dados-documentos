@@ -1,15 +1,5 @@
 # data/privado
 
-Pasta **local** para documentos reais e seus gabaritos. Todo o conteúdo, exceto este arquivo, é ignorado pelo git.
+Pasta **local**, ignorada pelo git (exceto este arquivo). Guarda apenas os registros das sessões de avaliação com testers: tipo detectado, resultado por campo (correto / incorreto / não extraído) e tempos.
 
-Estrutura usada:
-
-```
-data/privado/
-├── nfe/   PDF da nota fiscal (entrada por upload)
-├── rg/    fotos do RG capturadas pelo fluxo cross-device
-├── cnh/   fotos da CNH capturadas pelo fluxo cross-device
-└── gabaritos/   valores corretos de cada campo (JSON), usados para medir acurácia
-```
-
-Os gabaritos também contêm dados pessoais, por isso ficam aqui e não em `data/exemplos/`.
+Nenhum documento, imagem ou valor de campo é salvo aqui. Ver `docs/etapas/01-documentos-e-campos.md`.

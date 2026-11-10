@@ -93,7 +93,7 @@ Upload direto de PDF no computador continua possível (ex.: NF-e e boleto recebi
 
 ## Riscos e restrições
 
-- **LGPD:** RG e CNH contêm dados pessoais. Proposta para o MVP: processar sem armazenar o documento nem os dados extraídos (decisão a ser registrada em ADR).
+- **LGPD:** RG e CNH contêm dados pessoais. Nenhum documento ou dado extraído é salvo em base de dados online; tudo existe só durante a sessão, e apenas métricas anônimas de avaliação ficam em arquivo local (ver Etapa 1).
 - **Repositório público:** nenhum documento real entra no repositório. Testes usam apenas documentos fictícios ou modelos públicos.
 - **RG tem vários modelos:** o RG antigo varia por estado e há a nova CIN. Decidido suportar ambos, o que aumenta o esforço de classificação e extração; será o tipo mais trabalhoso do MVP.
 - **Segurança do pareamento:** o QR code deve gerar uma sessão única, de curta duração e de uso único, para que ninguém envie documentos para a sessão de outra pessoa.

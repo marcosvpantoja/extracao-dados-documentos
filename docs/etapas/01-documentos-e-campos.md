@@ -5,44 +5,42 @@
 
 ## Objetivo
 
-Montar o conjunto de documentos que guia o desenvolvimento e a avaliação do sistema, e fechar a lista de campos extraídos de cada tipo. Sem esse conjunto não há como medir acurácia nem comparar abordagens técnicas.
+Definir com quais documentos o sistema é desenvolvido e com quais ele é avaliado, e fechar a lista de campos extraídos de cada tipo.
 
-## Conjunto de teste
+## Princípio: separar desenvolvimento de avaliação
 
-O conjunto combina **documentos reais**, que medem o desempenho em condições verdadeiras, e **documentos fictícios**, que podem ser publicados e reproduzidos.
+Se os mesmos documentos usados para ajustar o sistema forem usados para medi-lo, o resultado fica inflado: o sistema aprende aqueles arquivos, não o tipo de documento. Esse vício é conhecido como **vazamento de dados** (*data leakage*) e leva a **overfitting**.
 
-| Tipo | Real (local, não versionado) | Fictício (versionado) | Canal de entrada |
-|---|---|---|---|
-| NF-e | 1 DANFE em PDF | A gerar | Upload no computador |
-| CNH | 1 CNH física | A gerar | Câmera do celular (cross-device) |
-| RG | 1 RG | A gerar (RG antigo e CIN) | Câmera do celular (cross-device) |
-| Boleto | — | A gerar | Upload no computador |
+Por isso o projeto usa dois conjuntos que nunca se misturam:
 
-### Dois canais de entrada
+| | Conjunto de desenvolvimento | Conjunto de avaliação |
+|---|---|---|
+| **Documentos** | Fictícios | Reais, dos próprios testers |
+| **Quem vê** | Equipe do projeto, livremente | Ninguém antes do teste |
+| **Armazenamento** | Versionados em `data/exemplos/` | Não são armazenados |
+| **Gabarito** | JSON escrito junto com o documento | O próprio tester confirma cada campo na tela |
+| **Uso** | Construir, ajustar e comparar versões (testes de regressão) | Medir o desempenho em condições reais |
 
-A escolha do canal segue a forma como cada documento chega no mundo real:
+## Conjunto de desenvolvimento
 
-- **NF-e e boleto → upload de PDF.** Normalmente chegam por e-mail já em formato digital. O PDF pode conter texto nativo, o que dispensa OCR.
-- **RG e CNH → captura pelo celular.** São documentos físicos. O fluxo cross-device é testado exatamente com eles, porque é onde a qualidade da foto (luz, reflexo, ângulo, foco) mais afeta o resultado.
+Documentos fictícios, com dados inventados e formato válido, que podem ser publicados.
 
-Isso ajusta o requisito de captura da Etapa 0: o celular é o canal principal para documentos físicos, e o upload é o canal principal para documentos digitais. A classificação automática vale para os dois canais.
+| Tipo | Formato | Canal de entrada |
+|---|---|---|
+| NF-e | DANFE em PDF | Upload no computador |
+| Boleto | PDF | Upload no computador |
+| CNH | Impressão fotografada em condições variadas (luz, ângulo, reflexo) | Câmera do celular (cross-device) |
+| RG antigo e CIN | Impressão fotografada em condições variadas | Câmera do celular (cross-device) |
 
-## Privacidade dos documentos reais
+As fotos ficam salvas e são sempre as mesmas. Isso permite rodar duas versões do sistema sobre a mesma entrada e saber se uma mudança melhorou ou piorou a extração.
 
-| Regra | Como é garantida |
-|---|---|
-| Documentos reais nunca vão para o repositório | `data/privado/` ignorado pelo git, e PDFs e imagens bloqueados fora de `data/exemplos/` |
-| Gabaritos de documentos reais também são privados | Ficam em `data/privado/gabaritos/`, porque repetem os dados pessoais |
-| Prints e exemplos na documentação usam só documentos fictícios | Revisão antes de cada commit |
-| Envio de documentos reais a serviços externos (APIs de OCR ou IA) | Decisão registrada em ADR na Etapa 2, considerando LGPD e retenção de dados pelo provedor |
+### Gabarito (ground truth)
 
-## Gabarito (ground truth)
-
-Cada documento do conjunto tem um arquivo JSON com o valor correto de cada campo. A acurácia é calculada comparando a extração do sistema com esse gabarito, campo a campo.
+Cada documento fictício tem um JSON com o valor correto de cada campo:
 
 ```json
 {
-  "arquivo": "cnh/cnh-01.jpg",
+  "arquivo": "cnh/cnh-ficticia-01.jpg",
   "tipo": "CNH",
   "campos": {
     "nome": "FULANO DE TAL",
@@ -56,9 +54,44 @@ Cada documento do conjunto tem um arquivo JSON com o valor correto de cada campo
 }
 ```
 
-## Campos-alvo
+## Conjunto de avaliação: sessões com testers
 
-Versão inicial definida na Etapa 0, a ser confirmada contra os documentos reais.
+Cada tester usa **os próprios documentos**, ao vivo, pelo mesmo fluxo do usuário final:
+
+1. Abre o sistema no computador.
+2. NF-e: faz upload do PDF. RG e CNH: escaneia o QR code e fotografa com o celular.
+3. O sistema classifica e extrai em tempo real.
+4. O tester marca cada campo exibido como **correto** ou **incorreto**.
+
+O tester conhece os próprios dados, então ele é o gabarito. Não é preciso guardar o documento nem digitar os valores corretos.
+
+### O que é registrado
+
+| Registrado (localmente) | Nunca registrado |
+|---|---|
+| Tipo detectado e se a detecção estava certa | Imagem ou PDF do documento |
+| Por campo: correto / incorreto / não extraído | Valor de qualquer campo |
+| Tempo até o primeiro campo e até o resultado completo | Nome ou identificação do tester |
+| Canal de entrada e versão do sistema | |
+
+Exemplo de registro:
+
+```json
+{ "sessao": "s-007", "versao": "0.3.0", "canal": "celular", "tipo_real": "CNH", "tipo_detectado": "CNH",
+  "campos": { "nome": "correto", "cpf": "correto", "validade": "incorreto" },
+  "ms_primeiro_campo": 1800, "ms_resultado_completo": 4200 }
+```
+
+## Privacidade
+
+| Regra | Como é garantida |
+|---|---|
+| Nenhum dado é salvo em base de dados online | Documentos e dados extraídos existem só durante a sessão; os registros de avaliação ficam em arquivo local |
+| Documentos reais nunca vão para o repositório | `data/privado/` ignorado pelo git, e PDFs e imagens bloqueados fora de `data/exemplos/` |
+| Prints na documentação usam só documentos fictícios | Revisão antes de cada commit |
+| Trânsito por serviços externos (APIs de OCR ou IA) | Não salvar não é o mesmo que não transmitir. Se a leitura usar um serviço na nuvem, a imagem trafega por ele. Decisão registrada em ADR na Etapa 2, considerando LGPD e política de retenção do provedor |
+
+## Campos-alvo
 
 | Nota Fiscal (NF-e) | Boleto | CNH | RG |
 |---|---|---|---|
@@ -72,7 +105,7 @@ Versão inicial definida na Etapa 0, a ser confirmada contra os documentos reais
 
 ### Campos com validação automática
 
-Alguns campos têm regra matemática ou formato fixo. Isso permite ao sistema saber se errou, mesmo sem gabarito, e alimenta o indicador de confiança.
+Alguns campos têm regra matemática ou formato fixo. O sistema consegue detectar o próprio erro nesses campos, mesmo sem gabarito, e isso alimenta o indicador de confiança.
 
 | Campo | Validação |
 |---|---|
@@ -81,14 +114,17 @@ Alguns campos têm regra matemática ou formato fixo. Isso permite ao sistema sa
 | Linha digitável do boleto | Dígitos verificadores por bloco e dígito geral |
 | Datas | Formato válido e coerência (ex.: validade da CNH posterior à emissão) |
 
-## Limitação conhecida
+## Limitações conhecidas
 
-Com um documento real por tipo, a amostra mostra **se o sistema funciona**, mas não permite afirmar uma taxa de acurácia com confiança estatística. Os documentos fictícios ampliam a cobertura de layouts, e as métricas serão reportadas sempre informando o tamanho da amostra.
+- **Amostra pequena:** com poucos testers, as sessões mostram se o sistema funciona em documentos reais, mas não sustentam uma taxa de acurácia com confiança estatística. Toda métrica é reportada com o tamanho da amostra.
+- **Avaliação não reproduzível:** cada sessão ao vivo tem condições diferentes. Comparações entre versões são feitas no conjunto de desenvolvimento; as sessões validam o resultado no mundo real.
+- **Confirmação pelo tester:** depende da atenção do tester ao conferir cada campo.
 
 ## Entregáveis da etapa
 
-- [ ] Documentos reais em `data/privado/`, com gabaritos
 - [ ] Documentos fictícios de NF-e, boleto, CNH, RG antigo e CIN em `data/exemplos/`, com gabaritos
+- [ ] Fotos dos documentos fictícios impressos, em condições variadas
+- [ ] Formato do registro de avaliação definido
 - [ ] Lista final de campos por tipo
 - [ ] Funções de validação (CPF, CNPJ, chave NF-e, linha digitável) especificadas
 
