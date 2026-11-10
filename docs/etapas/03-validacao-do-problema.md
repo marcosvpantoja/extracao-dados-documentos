@@ -63,7 +63,19 @@ As evidências apontam que o valor do produto, para esta persona, **não está n
 1. **Documentos pessoais no cadastro**, com a garantia de que nada fica armazenado.
 2. **Documentos sem canal eletrônico:** faturas de serviço e contas de consumo, além de documentos fiscais entregues em papel.
 
-A decisão sobre o reposicionamento está registrada abaixo quando tomada.
+## Decisão (10/11/2026)
+
+**O escopo de tipos de documento é mantido.** Como estudo de caso, a cobertura de NF-e e boleto demonstra a capacidade de classificação e extração em documentos estruturados, com validações matemáticas ricas.
+
+**A proposta de valor é reposicionada** de acordo com a evidência:
+
+| | Antes | Depois |
+|---|---|---|
+| Valor principal | Eliminar a digitação de todos os documentos | Capturar com segurança documentos **sem canal eletrônico** (documentos pessoais no cadastro, faturas de consumo, documentos fiscais em papel), sem que nada fique armazenado |
+| NF-e e boleto | Casos centrais | Casos de cobertura: úteis quando não há acesso ao XML ou ao DDA |
+| Diferencial | Classificação automática | Privacidade por arquitetura e adequação a escritórios pequenos |
+
+A persona permanece como hipótese de trabalho até as entrevistas.
 
 ## Próximos passos
 

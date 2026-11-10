@@ -29,24 +29,29 @@ O usuário **importa um arquivo no computador** ou escaneia um QR code e **fotog
 - [Documento de requisitos (PRD)](docs/requisitos.md)
 - [Fluxogramas do sistema](docs/arquitetura/fluxogramas.md)
 - [Registro de decisões (ADRs)](docs/decisoes/README.md)
+- [Competências de PM demonstradas](docs/competencias-pm.md)
 
 ## Roteiro
+
+Cada etapa produz um artefato ligado a uma competência de Product Management ([mapa de competências](docs/competencias-pm.md)).
 
 | # | Etapa | Entregável principal | Status |
 |---|---|---|---|
 | 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | Problema, persona, hipóteses | ✅ Concluída |
 | 1 | [Documentos de exemplo e campos-alvo](docs/etapas/01-documentos-e-campos.md) | Conjunto fictício, gabaritos, validadores | 🟡 Fotos dos impressos pendentes |
 | 2 | [Arquitetura e requisitos](docs/etapas/02-arquitetura-e-requisitos.md) | PRD, fluxogramas, ADRs 0004–0006 | ✅ Concluída |
-| 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências para H1 e H5, mapa de concorrentes | 🟡 Entrevistas pendentes |
-| 4 | Métricas: linha de base e metas | Metas de acurácia e tempo | ⚪ Pendente |
-| 5 | Backlog priorizado e roadmap | Backlog com RICE, marcos | ⚪ Pendente |
-| 6 | Prova de conceito técnica | Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
-| 7 | Entrada: importação e cross-device | RF-01 a RF-07 | ⚪ Pendente |
-| 8 | Pipeline: OCR, classificação, extração, validação | RF-08 a RF-15 | ⚪ Pendente |
-| 9 | Tela de revisão | RF-16 a RF-21 | ⚪ Pendente |
-| 10 | Testes de privacidade (resíduo zero) | RNF-01 a RNF-04 automatizados | ⚪ Pendente |
-| 11 | Avaliação com testers | Relatório de acurácia com amostra | ⚪ Pendente |
-| 12 | Retrospectiva e próximos passos | Lições aprendidas, roadmap pós-MVP | ⚪ Pendente |
+| 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências, reposicionamento, entrevistas | 🟡 Entrevistas pendentes |
+| 4 | Estratégia e mapeamento de oportunidades | Visão, Opportunity Solution Tree, PR/FAQ | ⚪ Pendente |
+| 5 | Métricas | North Star, árvore de métricas, OKRs, linha de base | ⚪ Pendente |
+| 6 | Priorização e roadmap | Backlog com RICE, roadmap Agora / Próximo / Depois | ⚪ Pendente |
+| 7 | Business case | Custos, modelo de receita hipotético, mercado, go-to-market | ⚪ Pendente |
+| 8 | Prova de conceito técnica | Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
+| 9 | Entrada: importação e cross-device | RF-01 a RF-07 | ⚪ Pendente |
+| 10 | Pipeline: OCR, classificação, extração, validação | RF-08 a RF-15 | ⚪ Pendente |
+| 11 | Tela de revisão | RF-16 a RF-21 | ⚪ Pendente |
+| 12 | Testes de privacidade (resíduo zero) | RNF-01 a RNF-04 automatizados | ⚪ Pendente |
+| 13 | Avaliação com testers | Relatório de acurácia com amostra | ⚪ Pendente |
+| 14 | Lançamento e retrospectiva | Plano de lançamento, resultados, lições aprendidas | ⚪ Pendente |
 
 O roteiro é vivo: etapas podem ser divididas, fundidas ou reordenadas conforme o projeto avança, e cada mudança fica registrada no diário.
 
