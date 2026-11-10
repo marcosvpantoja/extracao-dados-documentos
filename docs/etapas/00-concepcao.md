@@ -1,12 +1,11 @@
 # Etapa 0 — Concepção e discovery
 
-**Data de início:** 10/11/2026
-**Status:** 🟡 Em andamento
-**Atributo de PM praticado:** Discovery e definição do problema
+**Período:** 10/11/2026
+**Status:** ✅ Concluída
 
 ## Natureza do projeto
 
-Projeto de **estudo**, sem cliente real. O objetivo é praticar, de ponta a ponta, as atribuições de Product Management (discovery, requisitos, priorização, métricas, decisões técnicas, riscos de IA, roadmap e comunicação) enquanto o sistema é construído. Personas e cenários são **hipóteses explícitas**, validadas com pesquisa pública e documentos de exemplo, não com dados de clientes.
+Estudo de caso, sem cliente real, que documenta a construção do produto de ponta a ponta sob a ótica de Product Management: discovery, requisitos, priorização, métricas, decisões técnicas, riscos de IA e roadmap. Personas e cenários são **hipóteses explícitas**, validadas com pesquisa pública e documentos de exemplo, não com dados de clientes.
 
 > Convenção: tudo marcado com 🧪 é hipótese ainda não validada. Quando for validada (ou descartada), a marca muda para ✅ ou ❌ com a fonte da evidência.
 
@@ -14,7 +13,7 @@ Projeto de **estudo**, sem cliente real. O objetivo é praticar, de ponta a pont
 
 > **O usuário envia um documento (NF-e, boleto, CNH ou RG) sem informar o tipo. O sistema identifica sozinho o tipo, extrai os dados e mostra os campos na tela.**
 
-Três requisitos centrais, definidos pelo dono do produto em 10/11/2026:
+Requisitos centrais:
 
 1. **Tipos suportados no MVP:** Nota Fiscal (NF-e / DANFE), boleto bancário e documentos pessoais (CNH e RG).
 2. **Classificação automática:** o usuário não escolhe o tipo; o sistema detecta.
@@ -25,7 +24,7 @@ Três requisitos centrais, definidos pelo dono do produto em 10/11/2026:
    - **No celular:** a câmera detecta o documento no enquadramento e captura sozinha quando a imagem está nítida (sem precisar apertar o botão).
    - **No computador:** os campos aparecem na tela conforme são extraídos (streaming), sem precisar recarregar a página.
 
-Decisões complementares (10/11/2026):
+Decisão complementar:
 - **RG:** suportar **ambos**, o RG antigo (modelos estaduais) e a nova Carteira de Identidade Nacional (CIN).
 
 ## Cenário de trabalho 🧪
@@ -68,7 +67,7 @@ O nome técnico desse padrão é **fluxo cross-device** (ou *mobile handoff*): o
 
 Upload direto de PDF no computador continua possível (ex.: NF-e e boleto recebidos por e-mail), mas o foco do MVP é a captura pelo celular.
 
-## Campos-alvo (proposta inicial, a validar na Etapa 1)
+## Campos-alvo (versão inicial, refinada na Etapa 1)
 
 | Nota Fiscal (NF-e) | Boleto | CNH | RG |
 |---|---|---|---|
@@ -111,7 +110,7 @@ Upload direto de PDF no computador continua possível (ex.: NF-e e boleto recebi
 - Armazenamento de histórico de documentos.
 - Documentos manuscritos.
 
-## Critérios de sucesso (rascunho)
+## Critérios de sucesso
 
 - **Acurácia da classificação:** % de documentos com tipo detectado corretamente.
 - **Acurácia por campo:** % de campos extraídos corretamente, por tipo de documento.
@@ -119,9 +118,6 @@ Upload direto de PDF no computador continua possível (ex.: NF-e e boleto recebi
 
 As metas numéricas serão definidas na etapa de métricas, depois de medir uma linha de base.
 
-## ✍️ Sua tarefa como PM nesta etapa
+## Próxima etapa
 
-1. **Revisar a persona e o problema:** o cenário do escritório contábil serve, ou prefere outro contexto (ex.: cadastro de clientes em financeira, imobiliária)?
-2. **Validar os campos-alvo:** cortar ou incluir campos na tabela acima.
-
-As respostas fecham a Etapa 0 e abrem a Etapa 1 (documentos e campos-alvo).
+[Etapa 1 — Documentos de exemplo e campos-alvo](01-documentos-e-campos.md): montar o conjunto de documentos fictícios de NF-e, boleto, CNH e RG e fechar a lista de campos de cada tipo.

@@ -1,8 +1,8 @@
 # Extração de Dados de Documentos
 
-Sistema que lê **notas fiscais (NF-e), boletos e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo prático de Product Management.
+Sistema que lê **notas fiscais (NF-e), boletos e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo de caso de Product Management.
 
-> **Status:** 🟡 Etapa 0 — Concepção
+> **Status:** 🟡 Etapa 1 — Documentos de exemplo e campos-alvo
 
 ## Objetivo
 
@@ -25,8 +25,8 @@ O usuário escaneia um QR code na tela do computador, **fotografa o documento co
 
 | # | Etapa | Status |
 |---|---|---|
-| 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | 🟡 Em andamento |
-| 1 | Documentos de exemplo e campos-alvo (NF-e, boleto, CNH, RG) | ⚪ Pendente |
+| 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | ✅ Concluída |
+| 1 | Documentos de exemplo e campos-alvo (NF-e, boleto, CNH, RG) | 🟡 Em andamento |
 | 2 | Arquitetura e escolha de stack | ⚪ Pendente |
 | 3 | Captura pelo celular via QR code (cross-device) | ⚪ Pendente |
 | 4 | Leitura: texto nativo + OCR | ⚪ Pendente |
