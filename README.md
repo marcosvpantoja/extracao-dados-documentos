@@ -1,6 +1,6 @@
 # Extração de Dados de Documentos
 
-Sistema que lê **notas fiscais, CNH e RG**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo prático de Product Management.
+Sistema que lê **notas fiscais (NF-e), boletos e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo prático de Product Management.
 
 > **Status:** 🟡 Etapa 0 — Concepção
 
@@ -8,7 +8,7 @@ Sistema que lê **notas fiscais, CNH e RG**, identifica sozinho o tipo de docume
 
 O usuário envia um documento (PDF ou foto) **sem dizer o que ele é**. O sistema:
 
-1. Detecta o tipo: Nota Fiscal, CNH ou RG.
+1. Detecta o tipo: NF-e, boleto, CNH ou RG.
 2. Lê o conteúdo (texto nativo ou OCR).
 3. Extrai os campos daquele tipo.
 4. Mostra os dados na tela, com indicação de confiança por campo.
@@ -26,7 +26,7 @@ O usuário envia um documento (PDF ou foto) **sem dizer o que ele é**. O sistem
 | # | Etapa | Status |
 |---|---|---|
 | 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | 🟡 Em andamento |
-| 1 | Documentos de exemplo e campos-alvo (NF, CNH, RG) | ⚪ Pendente |
+| 1 | Documentos de exemplo e campos-alvo (NF-e, boleto, CNH, RG) | ⚪ Pendente |
 | 2 | Arquitetura e escolha de stack | ⚪ Pendente |
 | 3 | Ingestão e pré-processamento (PDF/imagem) | ⚪ Pendente |
 | 4 | Leitura: texto nativo + OCR | ⚪ Pendente |

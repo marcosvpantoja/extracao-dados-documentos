@@ -12,11 +12,11 @@ Projeto de **estudo**, sem cliente real. O objetivo é praticar, de ponta a pont
 
 ## Definição do produto ✅
 
-> **O usuário envia um documento (nota fiscal, CNH ou RG) sem informar o tipo. O sistema identifica sozinho o tipo, extrai os dados e mostra os campos na tela.**
+> **O usuário envia um documento (NF-e, boleto, CNH ou RG) sem informar o tipo. O sistema identifica sozinho o tipo, extrai os dados e mostra os campos na tela.**
 
 Três requisitos centrais, definidos pelo dono do produto em 10/11/2026:
 
-1. **Tipos suportados no MVP:** Nota Fiscal (NF-e / DANFE), CNH e RG.
+1. **Tipos suportados no MVP:** Nota Fiscal (NF-e / DANFE), boleto bancário e documentos pessoais (CNH e RG).
 2. **Classificação automática:** o usuário não escolhe o tipo; o sistema detecta.
 3. **Saída em tela:** os dados extraídos aparecem organizados para o usuário ler e conferir.
 
@@ -24,7 +24,7 @@ Três requisitos centrais, definidos pelo dono do produto em 10/11/2026:
 
 Um **escritório de contabilidade de pequeno porte**. No dia a dia ele recebe dois grupos de documentos misturados, pelos mesmos canais (e-mail, WhatsApp, pasta compartilhada):
 
-- **Documentos fiscais:** notas fiscais de compra e venda dos clientes, que precisam ser lançadas no fechamento.
+- **Documentos fiscais e financeiros:** notas fiscais de compra e venda e boletos a pagar dos clientes, que precisam ser lançados no fechamento.
 - **Documentos pessoais:** RG e CNH de sócios e responsáveis, usados em cadastros, abertura de empresa e alterações contratuais.
 
 Hoje alguém abre cada arquivo, descobre o que é e digita os dados à mão.
@@ -39,35 +39,35 @@ Hoje alguém abre cada arquivo, descobre o que é e digita os dados à mão.
 
 ## Problema em uma frase 🧪
 
-> Escritórios que lidam com documentos fiscais e pessoais misturados perdem tempo identificando cada arquivo e digitando seus dados à mão, num processo lento e propenso a erro.
+> Escritórios que lidam com notas fiscais, boletos e documentos pessoais misturados perdem tempo identificando cada arquivo e digitando seus dados à mão, num processo lento e propenso a erro.
 
 ## Fluxo do usuário
 
 ```
 1. Envia o arquivo (PDF ou foto)
-2. Sistema detecta o tipo  ──►  "Nota Fiscal" | "CNH" | "RG" | "Não reconhecido"
+2. Sistema detecta o tipo  ──►  "NF-e" | "Boleto" | "CNH" | "RG" | "Não reconhecido"
 3. Sistema extrai os campos daquele tipo
 4. Tela mostra: tipo detectado + campos extraídos + indicação de confiança
 ```
 
 ## Campos-alvo (proposta inicial, a validar na Etapa 1)
 
-| Nota Fiscal (NF-e) | CNH | RG |
-|---|---|---|
-| Número e série | Nome | Nome |
-| Chave de acesso | CPF | Número do RG |
-| Data de emissão | Número de registro | Órgão emissor / UF |
-| Emitente (razão social, CNPJ) | Data de nascimento | Data de expedição |
-| Destinatário (nome, CPF/CNPJ) | Categoria | Data de nascimento |
-| Valor total | Validade | Filiação |
-| Itens (descrição, qtd., valor) | Primeira habilitação | CPF (quando presente) |
+| Nota Fiscal (NF-e) | Boleto | CNH | RG |
+|---|---|---|---|
+| Número e série | Linha digitável | Nome | Nome |
+| Chave de acesso | Código de barras | CPF | Número do RG |
+| Data de emissão | Banco emissor | Número de registro | Órgão emissor / UF |
+| Emitente (razão social, CNPJ) | Beneficiário (nome, CNPJ/CPF) | Data de nascimento | Data de expedição |
+| Destinatário (nome, CPF/CNPJ) | Pagador (nome, CPF/CNPJ) | Categoria | Data de nascimento |
+| Valor total | Valor | Validade | Filiação |
+| Itens (descrição, qtd., valor) | Data de vencimento | Primeira habilitação | CPF (quando presente) |
 
 ## Mapa de hipóteses
 
 | # | Hipótese | Risco se estiver errada | Como validar |
 |---|---|---|---|
 | H1 🧪 | Triagem + digitação de documentos consome tempo significativo em escritórios pequenos | Problema pequeno demais para justificar o produto | Pesquisa pública (fóruns de contadores, conteúdos do setor) |
-| H2 🧪 | É possível distinguir NF, CNH e RG automaticamente com alta acurácia | Usuário teria que escolher o tipo, quebrando o requisito central | Teste com conjunto de exemplos na etapa de classificação |
+| H2 🧪 | É possível distinguir NF-e, boleto, CNH e RG automaticamente com alta acurácia | Usuário teria que escolher o tipo, quebrando o requisito central | Teste com conjunto de exemplos na etapa de classificação |
 | H3 🧪 | Fotos de celular (RG/CNH) são lidas com qualidade suficiente | Extração falha justamente nos documentos pessoais | Testar com fotos em condições variadas (luz, ângulo, desfoque) |
 | H4 🧪 | O usuário confia no resultado se a tela indicar a confiança por campo | Se precisar conferir tudo, o ganho de tempo some | Protótipo da tela de resultado |
 | H5 🧪 | Existem lacunas nas soluções atuais para escritório pequeno | Mercado já resolvido | Benchmark de concorrentes |
@@ -78,11 +78,12 @@ Hoje alguém abre cada arquivo, descobre o que é e digita os dados à mão.
 - **Repositório público:** nenhum documento real entra no repositório. Testes usam apenas documentos fictícios ou modelos públicos.
 - **RG tem vários modelos:** o RG antigo varia por estado e há a nova Carteira de Identidade Nacional (CIN). Escopo exato a definir na Etapa 1.
 - **CNH física x CNH digital (PDF):** layouts diferentes; ambos podem chegar.
+- **Boleto tem validação matemática:** a linha digitável tem dígitos verificadores, o que permite checar automaticamente se a extração está correta. Pode servir de referência de confiança.
 
 ## Fora de escopo (MVP)
 
 - Seleção manual do tipo de documento (contraria o requisito central).
-- Outros documentos (boletos, contratos, comprovantes), que ficam para depois do MVP.
+- Outros documentos (contratos, comprovantes de pagamento, NFS-e), que ficam para depois do MVP.
 - Integração com sistemas contábeis e exportação automática.
 - Armazenamento de histórico de documentos.
 - Documentos manuscritos.
