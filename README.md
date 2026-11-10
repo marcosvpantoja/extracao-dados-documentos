@@ -1,12 +1,17 @@
 # Extração de Dados de Documentos
 
-Sistema de leitura e extração de dados estruturados a partir de documentos (PDFs, imagens digitalizadas, fotos de documentos), documentado passo a passo desde a concepção.
+Sistema que lê **notas fiscais, CNH e RG**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Documentado passo a passo desde a concepção, como estudo prático de Product Management.
 
 > **Status:** 🟡 Etapa 0 — Concepção
 
 ## Objetivo
 
-Receber um documento, identificar o tipo, ler o conteúdo (texto nativo ou OCR) e devolver os campos relevantes em formato estruturado (JSON), com indicação de confiança e possibilidade de revisão humana.
+O usuário envia um documento (PDF ou foto) **sem dizer o que ele é**. O sistema:
+
+1. Detecta o tipo: Nota Fiscal, CNH ou RG.
+2. Lê o conteúdo (texto nativo ou OCR).
+3. Extrai os campos daquele tipo.
+4. Mostra os dados na tela, com indicação de confiança por campo.
 
 ## Como este repositório está organizado
 
@@ -21,14 +26,14 @@ Receber um documento, identificar o tipo, ler o conteúdo (texto nativo ou OCR) 
 | # | Etapa | Status |
 |---|---|---|
 | 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | 🟡 Em andamento |
-| 1 | Levantamento de documentos e campos-alvo | ⚪ Pendente |
+| 1 | Documentos de exemplo e campos-alvo (NF, CNH, RG) | ⚪ Pendente |
 | 2 | Arquitetura e escolha de stack | ⚪ Pendente |
 | 3 | Ingestão e pré-processamento (PDF/imagem) | ⚪ Pendente |
 | 4 | Leitura: texto nativo + OCR | ⚪ Pendente |
-| 5 | Classificação do tipo de documento | ⚪ Pendente |
+| 5 | Classificação automática do tipo de documento | ⚪ Pendente |
 | 6 | Extração de campos estruturados | ⚪ Pendente |
 | 7 | Validação, confiança e revisão humana | ⚪ Pendente |
-| 8 | API / interface | ⚪ Pendente |
+| 8 | Tela de resultado | ⚪ Pendente |
 | 9 | Avaliação (métricas de acurácia) | ⚪ Pendente |
 | 10 | Deploy e monitoramento | ⚪ Pendente |
 
