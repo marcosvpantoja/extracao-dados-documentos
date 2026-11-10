@@ -63,6 +63,8 @@ Cada tester usa **os próprios documentos**, ao vivo, pelo mesmo fluxo do usuár
 3. O sistema classifica e extrai em tempo real.
 4. O tester marca cada campo exibido como **correto** ou **incorreto**.
 
+Documentos pessoais também existem em versão digital (CNH-e, identidade digital em PDF). Por isso RG e CNH são avaliados nos dois canais: **foto do documento físico** pelo celular e **PDF digital** por upload.
+
 O tester conhece os próprios dados, então ele é o gabarito. Não é preciso guardar o documento nem digitar os valores corretos.
 
 ### O que é registrado
