@@ -120,11 +120,11 @@ Formato da Amazon (*Working Backwards*): a comunicação de lançamento é escri
 >
 > Um escritório de advocacia de massa recebe dezenas de clientes por dia. Cada um envia RG ou CNH, uma conta de luz e as provas da cobrança que contesta: notas fiscais, faturas e boletos. Hoje, uma assistente digita esses dados, documento por documento, e um CPF errado na procuração volta da equipe jurídica ou chega ao processo.
 >
-> Com o novo cadastro por documentos, a assistente envia ao cliente um link. Ele fotografa os documentos com o celular, sem instalar nada, e os dados aparecem no computador do escritório já separados por tipo e conferidos: CPF, chave da nota fiscal e linha digitável do boleto passam por validação antes de chegar à tela. A assistente só confirma ou corrige cada campo. Arquivos recebidos pelo WhatsApp podem ser importados da mesma forma.
+> Com o novo cadastro por documentos, a assistente envia ao cliente um link. Ele fotografa os documentos com o celular, sem instalar nada, e os dados aparecem no computador do escritório já separados por tipo e conferidos: CPF, chave da nota fiscal e linha digitável do boleto passam por validação antes de chegar à tela. Se uma foto não permite ler os dados, o próprio celular pede outra na hora, enquanto o cliente ainda está com o documento na mão. A assistente só confirma ou corrige cada campo. Arquivos recebidos pelo WhatsApp podem ser importados da mesma forma, e o sistema avisa na hora se algum estiver ilegível.
 >
 > Os documentos trafegam cifrados de ponta a ponta e ficam guardados cifrados, com uma chave exclusiva de cada escritório. Só pessoas autorizadas acessam, cada acesso é registrado, e os documentos são apagados automaticamente no prazo que o escritório definir.
 >
-> *"Antes eu digitava três documentos por cliente e conferia o CPF duas vezes. Agora eu confiro só o que o sistema marca em dúvida"*, diz Juliana, assistente de cadastro de um escritório fictício usado no estudo.
+> *"Antes, um RG com reflexo me fazia esperar o cliente até o dia seguinte. Agora o próprio celular pede outra foto na hora, e eu só confiro o que o sistema marca em dúvida"*, diz Juliana, assistente de cadastro de um escritório fictício usado no estudo.
 
 ### Perguntas do cliente
 
@@ -132,7 +132,8 @@ Formato da Amazon (*Working Backwards*): a comunicação de lançamento é escri
 |---|---|
 | Preciso escolher o tipo de documento? | Não. O sistema identifica sozinho entre NF-e, boleto, fatura de serviço, CNH, RG antigo e CIN. |
 | O cliente precisa instalar um aplicativo? | Não. O link abre a câmera no navegador do celular. |
-| E se a foto ficar ruim? | A página de captura avisa antes do envio e pede uma nova foto. |
+| E se a foto ficar ruim? | A página de captura avisa antes do envio. Se mesmo assim o sistema não conseguir ler os dados, o celular pede uma nova foto em até 30 segundos (RF-05, RF-31). |
+| E se o arquivo enviado pelo WhatsApp estiver ilegível? | O sistema avisa na hora da importação, antes da revisão, para a assistente pedir outro ao cliente (RF-32). |
 | O sistema pode errar? | Pode. Por isso nada segue sem a confirmação de uma pessoa, e os campos com dígito verificador são conferidos antes. |
 | Onde ficam os documentos? | Cifrados na nuvem, com uma chave exclusiva do escritório. Só usuários autorizados acessam, e cada acesso fica registrado. |
 | Por quanto tempo ficam guardados? | Pelo prazo que o escritório definir. Depois são apagados automaticamente, e o cliente pode pedir a exclusão a qualquer momento (LGPD). |
@@ -142,10 +143,10 @@ Formato da Amazon (*Working Backwards*): a comunicação de lançamento é escri
 | Pergunta | Resposta |
 |---|---|
 | Por que agora? | Leitura de texto local (Apple Vision) e modelos de linguagem que rodam num notebook tornaram viável extrair dados sem enviar documentos a terceiros. |
-| O que precisa ser verdade? | (1) Revisar é mais rápido que digitar (E1). (2) A acurácia por campo é alta o bastante para a revisão ser só conferência (E4). (3) O cliente aceita o link (E5). |
+| O que precisa ser verdade? | Os quatro resultados-chave da [Etapa 5](05-metricas.md#5-okrs-do-estudo): dados certos na conferência (KR1), documentos confirmados sem edição (KR2), cadastro mais rápido que a digitação manual (KR3) e fotos aceitas na primeira tentativa (KR4). E, fora do estudo, que o cliente aceite o link no lugar do WhatsApp (E5). |
 | Qual o maior risco técnico? | A página na nuvem conversar com o motor local, e o limite de tamanho das mensagens do Broadcast. Ambos vão para a prova de conceito da Etapa 8. |
 | Qual o maior risco de produto? | O cadastro não ser o gargalo que a pesquisa indica: a evidência sobre tempo de cadastro ainda é indireta **[B2]**. |
-| Por que não usar uma API de IA na nuvem? | Documentos de terceiros não saem dos dispositivos. A nuvem só é comparada com documentos fictícios ([ADR 0002](../decisoes/0002-motor-de-leitura-e-extracao.md)). |
+| Por que não usar uma API de IA na nuvem? | Os documentos não são enviados a provedores de IA de terceiros: a leitura e a extração rodam num motor próprio. APIs de IA na nuvem só são comparadas com documentos fictícios ([ADR 0002](../decisoes/0002-motor-de-leitura-e-extracao.md)). |
 | O que fica de fora? | Documentos trabalhistas, outros tipos, histórico, integração com software jurídico e modo offline ([ADR 0003](../decisoes/0003-escopo-do-mvp.md)). |
 
 ---
@@ -187,6 +188,7 @@ O mapa mostra a jornada **atual** (sem o produto), com ações, pensamentos, emo
 - **A ordem foi invertida.** Na prática, visão e árvore de oportunidades vêm antes do PRD. Aqui o PRD veio primeiro (Etapa 2) e a árvore serviu para conferi-lo. A conferência encontrou um ponto que o PRD não cobria: a checagem de qualidade na importação (S2b), que depois entrou no MVP como RF-32.
 - **Oportunidades sem dados primários.** O2, O4 e O5 dependem das entrevistas. A ordem da tabela de oportunidades pode mudar depois delas.
 - **Estudo e produção foram misturados na primeira versão.** A remoção às 18h, regra de proteção do estudo, chegou a aparecer como promessa ao cliente. A correção separou os dois contextos nos ADRs [0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md) e [0008](../decisoes/0008-armazenamento-em-producao.md).
+- **O título pressupõe o cliente com todos os documentos em mãos.** As [entrevistas simuladas](../pesquisa/entrevistas-simuladas.md) indicam que o cadastro muitas vezes espera dias pelo último documento (N4). O título "em uma única interação" foi mantido por decisão; o achado segue para a priorização.
 - **O PR/FAQ é um exercício de clareza, não uma previsão.** Os depoimentos são de personas, não de pessoas reais.
 
 ## Entregáveis
