@@ -21,3 +21,6 @@ data/raw/
 *.webp
 !data/exemplos/**
 !docs/**/*.png
+
+# Supabase CLI (estado local)
+supabase/.temp/
