@@ -43,7 +43,7 @@ Cada etapa produz artefatos ligados a um ou mais papéis ([mapa de competências
 | 2 | [Arquitetura e requisitos](docs/etapas/02-arquitetura-e-requisitos.md) | PRD, fluxogramas, ADRs 0004–0006 | ✅ Concluída |
 | 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências, [personas](docs/persona.md), entrevistas | 🟡 Entrevistas pendentes |
 | 4 | [Estratégia e mapeamento de oportunidades](docs/etapas/04-estrategia.md) | Visão, Opportunity Solution Tree, PR/FAQ, mapa de jornada | ✅ Concluída |
-| 5 | Métricas | North Star, árvore de métricas, OKRs, linha de base | ⚪ Pendente |
+| 5 | [Métricas](docs/etapas/05-metricas.md) | North Star, árvore de métricas, OKRs, linha de base | 🟡 Em andamento |
 | 6 | Priorização e roadmap | Backlog com RICE, histórias INVEST, DoR/DoD, roadmap | ⚪ Pendente |
 | 7 | Business case | Custos, receita hipotética, mercado, go-to-market, stakeholders | ⚪ Pendente |
 | 8 | Arquitetura detalhada e prova de conceito | Diagrama C4; Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
