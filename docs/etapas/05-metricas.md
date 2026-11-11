@@ -153,3 +153,30 @@ O título impresso ("Registro Geral", "Carteira Nacional de Habilitação", "DAN
 - um reflexo sobre o título apaga o sinal.
 
 Por isso a classificação combina o título com outros sinais: a MRZ (presente na CIN e na CNH, ausente no RG antigo), a linha digitável do boleto e a chave de 44 dígitos da NF-e ([pipeline, diagrama 4](../arquitetura/fluxogramas.md#4-pipeline-de-processamento)).
+
+---
+
+## 5. OKRs do estudo
+
+O período não é um trimestre, e sim o próprio estudo, até as sessões com testers ([Etapa 13](../../README.md#roteiro)).
+
+> **Objetivo:** provar que um cliente pode ser cadastrado com qualidade e sem digitação, liberando o mesmo time para atender mais clientes.
+
+| KR | Afirmação que prova | Métrica | Meta |
+|---|---|---|---|
+| **KR1** | Com qualidade | % de documentos sem nenhum campo apontado como errado pelo tester na conferência | A definir |
+| **KR2** | Sem digitação | % de documentos confirmados sem nenhuma edição | A definir |
+| **KR3** | Mais clientes com o mesmo time | Redução do tempo de cadastro por cliente em relação à digitação manual dos mesmos documentos | A definir |
+| **KR4** | O cliente faz a parte dele sozinho | % de fotos aceitas na primeira tentativa | A definir |
+
+### Como os resultados-chave foram escolhidos
+
+| Proposta inicial | Ajuste | Motivo |
+|---|---|---|
+| % de fotos aceitas na primeira tentativa como prova de qualidade | Virou o KR4, da captura; a qualidade passou a ser medida na conferência (KR1) | Uma foto nítida não garante dado certo: mede a qualidade da captura, não a dos dados |
+| A mesma métrica cobrindo "sem digitação" | KR2, % de documentos sem edição | Foto aceita não diz se a assistente precisou corrigir algum campo |
+| Tempo de leitura e aprovação de cada sessão | KR3, com comparação contra a digitação manual | Um tempo isolado não prova ganho; precisa de referência |
+
+**Limite do KR3:** "mais clientes com o mesmo time" é uma **projeção** feita a partir do tempo poupado por cliente, e não uma medida da capacidade de um escritório real.
+
+**Objetivo descartado:** "a esteira de cadastro pode ser resumida em etapas com tecnologia que se aprimora com a evolução do escritório". Juntava três promessas, e a evolução com o uso não pode ser provada no estudo: o MVP não tem retreinamento ([ADR 0004](../decisoes/0004-revisao-humana-e-ciclo-de-aprendizado.md)). A ideia fica para depois do MVP.
