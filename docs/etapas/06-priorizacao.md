@@ -140,3 +140,25 @@ Requisitos de base, que não pertencem a uma história só (validações RF-12 e
 **O que o corte revelou:** com as exceções, só a HU-19 ficou de fora. O RICE serviu mais para definir a **ordem** de construção do que o **tamanho** do MVP. As exceções têm motivos válidos (medição, decisões já registradas), mas mostram que boa parte do escopo foi decidida antes da pontuação. Num produto real, a pontuação viria antes das decisões, e não depois.
 
 As prioridades das histórias e dos requisitos novos foram atualizadas no [PRD](../requisitos.md#6-histórias-de-usuário).
+
+---
+
+## 5. Definição de pronto
+
+### Pronta para começar (Definition of Ready)
+
+Uma história só entra em construção quando:
+
+- [ ] **Critérios de aceite:** cada requisito da história tem critério verificável no [PRD](../requisitos.md).
+- [ ] **Wireframe aprovado:** histórias com tela têm wireframe e textos (microcopy) definidos.
+- [ ] **Dependências prontas:** o que ela precisa (motor, link, tela de revisão) já existe ou está na mesma entrega.
+- [ ] **Dados de teste:** os documentos fictícios e os gabaritos necessários já existem.
+
+### Concluída (Definition of Done)
+
+Uma história só é considerada pronta quando:
+
+- [ ] **Testes automatizados:** os critérios de aceite são cobertos por testes, que rodam sem falha.
+- [ ] **Privacidade verificada:** `scripts/limpar-e-verificar.sh` e os testes de resíduo retornam ✅ CONFIRMADO.
+- [ ] **Acessível e responsivo:** quando houver tela, ela funciona no celular e no computador, com navegação por teclado e contraste AA.
+- [ ] **Documentado:** PRD, fluxogramas e ADRs atualizados, se a história mudou alguma decisão.
