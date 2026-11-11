@@ -62,6 +62,7 @@ Telas de exceção: **E1** link expirado ou já usado · **E2** tempo de leitura
 ```
 
 - A lista vem da que a assistente montou ao gerar o link (RF-33).
+- **"Leva uns 3 minutos" é uma promessa** e precisa ser conferida nas sessões com testers (tempo de captura por sessão). Se o tempo medido for maior, o texto muda.
 - "Saiba mais" abre um texto curto sobre quem acessa e por quanto tempo (HU-06).
 
 ### 2 · Permissão da câmera
@@ -165,12 +166,12 @@ Telas de exceção: **E1** link expirado ou já usado · **E2** tempo de leitura
 │ ┌──────────────────────────┐ │
 │ │      Tirar outra         │ │
 │ └──────────────────────────┘ │
-│        Usar mesmo assim      │
 └──────────────────────────────┘
 ```
 
 - Motivos possíveis: escura · tremida · cortada · com reflexo.
 - Quando a foto está boa, a tela é pulada.
+- **Não há "usar mesmo assim":** a foto só segue quando passa na checagem de qualidade. Risco aceito: quem está num lugar muito escuro pode ficar preso nesta tela até mudar de lugar.
 
 ### 6 · Verso
 
