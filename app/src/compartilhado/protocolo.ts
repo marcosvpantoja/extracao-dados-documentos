@@ -4,6 +4,7 @@
 
 import { deBase64Url, paraBase64Url } from './cripto';
 
+
 export const TAMANHO_PEDACO = 128 * 1024;
 export const ESPERA_LEITURA_MS = 30_000; // RF-31
 export const VALIDADE_PAREAMENTO_MS = 5 * 60_000; // RF-03
@@ -34,10 +35,10 @@ export interface DadosDoLink {
   documentos: DocumentoPedido[];
 }
 
-/** Monta o link de captura. Chave, escritório e lista ficam no fragmento (#), fora do alcance do servidor. */
+/** Monta o link de captura. Chave, escritório e lista ficam no fragmento (#), fora do alcance do servidor.
+ *  A lista vai só com os identificadores do catálogo, para o QR code ficar curto e fácil de ler. */
 export function montarLink(base: string, d: DadosDoLink): string {
-  const lista = paraBase64Url(new TextEncoder().encode(JSON.stringify(d.documentos)));
-  const frag = new URLSearchParams({ k: d.chave, e: d.escritorio, d: lista });
+  const frag = new URLSearchParams({ k: d.chave, e: d.escritorio, d: d.documentos.map((x) => x.id).join('.') });
   return `${base}?s=${encodeURIComponent(d.sessao)}#${frag.toString()}`;
 }
 
@@ -50,9 +51,9 @@ export function lerLink(href: string): DadosDoLink | null {
     const escritorio = frag.get('e');
     const lista = frag.get('d');
     if (!sessao || !chave || !escritorio || !lista) return null;
-    const documentos = JSON.parse(new TextDecoder().decode(deBase64Url(lista))) as DocumentoPedido[];
-    if (!Array.isArray(documentos) || documentos.length === 0) return null;
-    return { sessao, chave, escritorio, documentos };
+    const documentos = lista.split('.').map((id) => CATALOGO.find((c) => c.id === id));
+    if (documentos.length === 0 || documentos.some((x) => !x)) return null;
+    return { sessao, chave, escritorio, documentos: documentos as DocumentoPedido[] };
   } catch {
     return null;
   }
