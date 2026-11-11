@@ -6,7 +6,7 @@
 
 ## 1. Resumo
 
-Sistema que recebe documentos por **importação de arquivo** no computador ou por **captura com o celular** (fluxo cross-device via QR code), identifica automaticamente o tipo, extrai os dados e os exibe numa tela de revisão para o usuário confirmar ou recusar cada campo. Nenhum documento ou dado extraído é salvo em dispositivo ou servidor.
+Sistema que recebe documentos por **importação de arquivo** no computador ou por **captura com o celular** (fluxo cross-device via QR code), identifica automaticamente o tipo, extrai os dados e os exibe numa tela de revisão para o usuário confirmar ou recusar cada campo. O que o sistema guarda fica cifrado com uma chave que só o escritório tem e é removido às 18h de cada dia ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)).
 
 ## 2. Problema
 
