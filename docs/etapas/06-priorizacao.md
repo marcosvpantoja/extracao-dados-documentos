@@ -1,6 +1,6 @@
 # Etapa 6: Priorização e roadmap
 
-**Status:** 🟡 Em andamento · 11/11/2026
+**Status:** ✅ Concluída · 11/11/2026
 **Papéis:** PM, PO
 **Entradas:** [PRD](../requisitos.md), [Etapa 4](04-estrategia.md), [Etapa 5](05-metricas.md), [entrevistas simuladas](../pesquisa/entrevistas-simuladas.md)
 
@@ -162,3 +162,32 @@ Uma história só é considerada pronta quando:
 - [ ] **Privacidade verificada:** `scripts/limpar-e-verificar.sh` e os testes de resíduo retornam ✅ CONFIRMADO.
 - [ ] **Acessível e responsivo:** quando houver tela, ela funciona no celular e no computador, com navegação por teclado e contraste AA.
 - [ ] **Documentado:** PRD, fluxogramas e ADRs atualizados, se a história mudou alguma decisão.
+- [ ] **Aceite do PO:** o PO confere a história contra os critérios de aceite e registra o aceite antes de dá-la como pronta.
+
+---
+
+## 6. Roadmap
+
+**Estratégia: captura primeiro.** O foco do estudo é o cliente capturando os documentos, então a captura pelo celular é construída antes do motor de extração, com um **motor simulado** que devolve respostas prontas, inclusive falhas de leitura para testar o pedido de nova foto (RF-31). O motor real entra depois, começando pelo documento mais fácil.
+
+| Incremento | Etapa | O que entrega | Histórias |
+|---|---|---|---|
+| **0 · Prova de conceito** | 8 | Os dois riscos técnicos testados antes de construir: envio em pedaços pelo Broadcast e página na nuvem chamando o motor local | — |
+| **1 · Captura pelo celular** | 9 | Link, lista de documentos, câmera com orientação, envio cifrado, "não tenho agora" e nova foto pedida na hora, com motor simulado | HU-02, HU-06, HU-07, HU-13, HU-14, HU-18, HU-20 |
+| **2 · Motor real com NF-e** | 10 e 11 | Importação, leitura, classificação e extração da NF-e, com a tela de revisão. Vitória rápida: PDF com texto nativo e chave de 44 dígitos | HU-01, HU-03, HU-04, HU-05, HU-10, HU-21 |
+| **3 · Documentos pessoais e demais tipos** | 10 | CNH, CIN e RG antigo fotografados, ligando o motor real à captura; boleto e fatura | HU-01, HU-13 (com motor real) |
+| **4 · Escritório e medição** | 11 e 12 | Pacote do cliente, cópia dos dados, registro de acessos, marcação de dado errado, relatório de acurácia e remoção das 18h | HU-08, HU-09, HU-15, HU-22, HU-23 |
+
+**Por que essa ordem:**
+
+- **O incremento 0 vem antes de tudo** porque a captura depende dos dois riscos técnicos que ele testa. Se um deles falhar, a arquitetura muda antes de existir código para jogar fora.
+- **O motor simulado** permite testar a experiência de captura, que é o foco do estudo, sem esperar o motor real. O risco é a captura ser desenhada para um motor que ainda não existe; o incremento 3 corrige isso ao ligar os dois.
+- **A NF-e abre o motor real** por ser o tipo mais fácil, mas chega por importação, e não pelo celular. Os documentos pessoais, que são os capturados, só ganham motor real no incremento 3.
+- **O incremento 4 precisa terminar antes da Etapa 13**, porque o relatório de acurácia (HU-09) e a marcação de dado errado (HU-23) são o que mede os resultados-chave.
+
+**Linha de base e metas:** medidas no fim dos incrementos 2 e 3, sobre o conjunto fictício, e congeladas antes da Etapa 13 ([Etapa 5](05-metricas.md#como-as-metas-serão-definidas)).
+
+| Alternativa | Por que não foi escolhida |
+|---|---|
+| Fatias de ponta a ponta, um tipo por vez | Teria algo funcionando mais cedo, mas adiaria a captura, que é o foco do estudo |
+| Por camada (entrada, motor, revisão) | Só funcionaria de ponta a ponta no fim, sem nada para mostrar antes |
