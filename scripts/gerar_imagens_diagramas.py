@@ -26,6 +26,7 @@ DOCUMENTOS = [
     RAIZ / "docs/etapas/04-estrategia.md",
     RAIZ / "docs/etapas/05-metricas.md",
     RAIZ / "docs/etapas/07-business-case.md",
+    RAIZ / "docs/ux/captura-wireframes.md",
 ]
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 MERMAID = "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"

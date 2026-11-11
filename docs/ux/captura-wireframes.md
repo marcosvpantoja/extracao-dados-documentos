@@ -16,19 +16,50 @@
 
 ## Fluxo das telas
 
-```
-1 Abertura → 2 Permissão da câmera → 3 Documento N de M → 4 Câmera → 5 Aviso de qualidade
-                     ↓ negada                  ↓ "Não tenho agora"         ↓ boa
-                  2b Como liberar          (pula para o próximo)      6 Verso (se houver)
-                                                                           ↓
-                                  8 Enviado ← 7 Lendo seu documento… (até 30 s)
-                                     ↓              ↓ não deu para ler
-                         próximo documento     7b Vamos tentar de novo → 4 Câmera
-                                     ↓
-                               9 Tudo enviado
+```mermaid
+flowchart TD
+    LINK([Roberto toca no link<br/>recebido pelo WhatsApp]) --> VAL{Link válido?}
+    VAL -->|Não| E1["E1 · Este link não vale mais"]
+    VAL -->|Sim| T1["1 · Abertura<br/>lista de documentos, tempo<br/>e quem vê os documentos"]
+    T1 --> T2["2 · Precisamos usar sua câmera"]
+    T2 --> PERM{Permitiu a câmera?}
+    PERM -->|Não| T2B["2b · Como liberar a câmera"]
+    T2B -->|Tentar de novo| PERM
+    PERM -->|Sim| T3["3 · Documento N de M"]
+
+    T3 -->|Não tenho agora| PEND["Item marcado como pendente"]
+    T3 -->|Fotografar| T4["4 · Câmera com moldura<br/>e dica de luz ao vivo"]
+    T4 --> QUAL{Foto boa?<br/>luz, nitidez, enquadramento}
+    QUAL -->|Não| T5["5 · Aviso de qualidade<br/>só Tirar outra"]
+    T5 --> T4
+    QUAL -->|Sim| VER{Documento tem verso<br/>e falta fotografá-lo?}
+    VER -->|Sim| T6["6 · Agora o verso"]
+    T6 --> T4
+    VER -->|Não| T7["7 · Lendo seu documento…<br/>até 30 s"]
+
+    T7 --> LEU{Resultado da leitura}
+    LEU -->|Não deu para ler<br/>por causa da foto| T7B["7b · Vamos tentar de novo<br/>com o motivo"]
+    T7B --> T4
+    LEU -->|Leu| T8["8 · Enviado"]
+    LEU -->|Passou de 30 s| E2["E2 · Recebemos sua foto<br/>o escritório avisa se precisar"]
+
+    T8 --> MAIS{Falta algum documento?}
+    E2 --> MAIS
+    PEND --> MAIS
+    MAIS -->|Sim| T3
+    MAIS -->|Não| T9(["9 · Tudo enviado<br/>com os pendentes listados"])
+
+    classDef tela fill:#bfdbfe,stroke:#1d4ed8,color:#111
+    classDef excecao fill:#fee2e2,stroke:#b91c1c,color:#111
+    classDef decisao fill:#fde68a,stroke:#b45309,color:#111
+    class T1,T2,T3,T4,T5,T6,T7,T7B,T8 tela
+    class E1,E2,T2B excecao
+    class VAL,PERM,QUAL,VER,LEU,MAIS decisao
 ```
 
-Telas de exceção: **E1** link expirado ou já usado · **E2** tempo de leitura esgotado.
+🖼️ [Ver como imagem](img/captura-wireframes-01-fluxo-das-telas.png)
+
+**Legenda:** 🟦 tela · 🟥 exceção · 🟨 decisão do sistema
 
 ---
 
