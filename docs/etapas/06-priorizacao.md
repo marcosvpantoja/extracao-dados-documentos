@@ -124,3 +124,19 @@ Requisitos de base, que não pertencem a uma história só (validações RF-12 e
 | HU-08 e HU-22 tinham impacto alto, mas acontecem depois da revisão | Impacto reduzido para baixo (0,5) | A North Star conta as edições feitas na revisão; o valor delas é real, mas fica fora dessa métrica |
 | O RICE não enxerga dependências: a HU-02 é pré-requisito da captura e ficou em 12º | A ordem do RICE é mantida; as dependências são resolvidas na construção | O RICE mede valor por esforço; a ordem de construção respeita o que precisa existir antes (seção 5, roadmap) |
 | HU-18 e HU-19 ficaram em último | **HU-18 entra no MVP**; HU-19 fica para depois | O cliente marcar "não tenho agora" resolve o principal do achado N4. Sem a HU-19, a Juliana gera um link comum e monta a lista só com os pendentes (RF-33), o que cobre o caso manualmente |
+
+---
+
+## 4. Escopo do MVP
+
+**Regra de corte:** entram as histórias com nota **20 ou mais**, além das exceções com motivo registrado.
+
+| Situação | Histórias |
+|---|---|
+| **Entram pela nota** (≥ 20) | HU-23, HU-06, HU-04, HU-05, HU-14, HU-10, HU-03, HU-07, HU-13, HU-20, HU-08, HU-02, HU-15, HU-01 |
+| **Entram por exceção** | HU-09: mede os resultados-chave; sem ela os OKRs não são medidos · HU-21: decidida para o MVP como RF-32 na [Etapa 4](04-estrategia.md#2-opportunity-solution-tree) · HU-22: decidida no [ADR 0009](../decisoes/0009-registro-de-auditoria-no-estudo.md) · HU-18: resolve o principal do achado N4 |
+| **Ficam para depois** | HU-19 (link complementar, coberto à mão pela RF-33) · HU-12, HU-16 e HU-17 (já eram W) |
+
+**O que o corte revelou:** com as exceções, só a HU-19 ficou de fora. O RICE serviu mais para definir a **ordem** de construção do que o **tamanho** do MVP. As exceções têm motivos válidos (medição, decisões já registradas), mas mostram que boa parte do escopo foi decidida antes da pontuação. Num produto real, a pontuação viria antes das decisões, e não depois.
+
+As prioridades das histórias e dos requisitos novos foram atualizadas no [PRD](../requisitos.md#6-histórias-de-usuário).
