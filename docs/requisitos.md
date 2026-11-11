@@ -115,6 +115,8 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | RF-22 | Registro de revisão no modo avaliação/produção | Registra só tipo, resultado por campo, tempos, canal e versão; nunca valores nem imagem | M |
 | RF-23 | Registro completo no modo desenvolvimento | Registra valores extraídos e corrigidos dos documentos fictícios | S |
 | RF-24 | Relatório de acurácia | Acurácia por campo e por tipo, sempre com tamanho da amostra | S |
+| RF-28 | Registro de auditoria | Abrir, baixar e excluir documento geram um registro com horário, evento, perfil, estação, código do documento e tipo; a tabela só aceita inclusão ([ADR 0009](decisoes/0009-registro-de-auditoria-no-estudo.md)) | M |
+| RF-29 | Perfil simulado | Seletor de perfil (assistente ou advogada) sempre visível; o perfil ativo vai para o registro de auditoria | M |
 | RF-25 | Erros viram testes | Cada erro revisado no modo desenvolvimento pode ser exportado como caso de teste de regressão | C |
 
 ## 8. Requisitos não funcionais
@@ -125,6 +127,7 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | RNF-12 | Privacidade | Conteúdo salvo sempre cifrado | Nenhum campo de conteúdo legível no banco ou no Storage; chave do dia nunca enviada ao servidor | M |
 | RNF-02 | Privacidade | Documento real não sai do celular e do computador em texto aberto | Só dados cifrados trafegam pelo canal de repasse; motor de leitura é local | M |
 | RNF-03 | Privacidade (estudo) | Remoção diária às 18h em três camadas | Destruição da chave, tarefa agendada às 18h e limite de 24h executado de hora em hora, cada uma com registro anônimo ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)) | M |
+| RNF-13 | Privacidade | Registro de auditoria sem dados pessoais | Tabela sem colunas de texto livre; teste automatizado procura CPF, nomes de arquivo e base64 e não encontra nada | M |
 | RNF-04 | Segurança | Sessão protegida contra uso indevido | Identificador e chave aleatórios de 128 bits ou mais; uso único; expiração | M |
 | RNF-05 | Desempenho | Rápido o suficiente | Meta de tempo até o resultado completo definida na etapa de métricas a partir da linha de base | M |
 | RNF-06 | Acurácia | Acerto alto por campo | Meta definida a partir da linha de base no conjunto de desenvolvimento | M |

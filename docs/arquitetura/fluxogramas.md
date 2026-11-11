@@ -23,6 +23,7 @@ flowchart LR
     VERCEL["Vercel<br/>hospeda as páginas"]
     SUPA["Supabase Realtime Broadcast<br/>canal efêmero por sessão"]
     STORE[("Supabase Storage + tabela<br/>só conteúdo cifrado<br/>removido às 18h")]
+    AUD[("Tabela auditoria<br/>só inclusão · sem dados pessoais<br/>não é removida às 18h")]
   end
 
   subgraph PC["💻 Computador do usuário"]
@@ -54,11 +55,12 @@ flowchart LR
   CONF -- "tipo + campos + confiança" --> REV
   REV -- "confirmar / recusar" --> LOG
   REV -- "fotos e dados cifrados<br/>com a chave do dia" --> STORE
+  REV -- "abrir / baixar / excluir<br/>perfil simulado" --> AUD
   KEY["Chave do dia<br/>só neste navegador<br/>destruída às 18h"] --- REV
 
   classDef nuvem fill:#eef3fb,stroke:#5b7db8
   classDef privado fill:#eefaf0,stroke:#3c8a4f
-  class VERCEL,SUPA,STORE nuvem
+  class VERCEL,SUPA,STORE,AUD nuvem
   class LOG privado
 ```
 

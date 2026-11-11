@@ -34,3 +34,4 @@ O que muda, o que fica mais fácil e o que fica mais difícil.
 | [0006](0006-ocr-apple-vision.md) | OCR: Apple Vision atrás de interface trocável | Aceita |
 | [0007](0007-retencao-temporaria-e-purga-diaria.md) | Retenção temporária cifrada; remoção diária às 18h; nada na nuvem por 24h | Aceita (só no estudo de caso) |
 | [0008](0008-armazenamento-em-producao.md) | Armazenamento em produção: criptografia com chave por escritório, controle de acesso, auditoria e retenção definida pelo escritório | Aceita como referência (não implementada) |
+| [0009](0009-registro-de-auditoria-no-estudo.md) | Registro de auditoria no estudo: abrir, baixar e excluir documento, sem dados pessoais, com perfil simulado | Aceita |
