@@ -99,6 +99,7 @@ A conferência fica com o tester, e não com o facilitador: quem revisou não po
 A árvore desdobra a North Star nos fatores que a fazem subir. Cada galho segue o caminho de um documento, do celular do cliente à confirmação da assistente, e cada folha é um número que o time consegue influenciar diretamente.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 flowchart LR
     NS["⭐ North Star<br/>Clientes cadastrados por semana<br/>sem nenhuma edição"]
     AP["Apoio<br/>% de documentos confirmados<br/>sem edição"]

@@ -153,6 +153,7 @@ Custo fixo anual: ~R$ 336 mil.
 Com o licenciamento, o **comprador** passa a ser o software parceiro: o líder de produto dele decide incorporar o componente, e o escritório só escolhe ativar o recurso.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 quadrantChart
     title Poder x interesse
     x-axis Pouco interesse --> Muito interesse

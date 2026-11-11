@@ -52,6 +52,7 @@ A árvore (Teresa Torres, *Continuous Discovery Habits*) parte de **um resultado
 **Resultado:** a North Star, **clientes cadastrados por semana sem nenhuma edição** ([Etapa 5](05-metricas.md#1-north-star)). A primeira versão da árvore usava "menos tempo de cadastro, sem mais erros devolvidos", escrita antes da North Star; a raiz foi alinhada para árvore e métricas falarem a mesma língua.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 flowchart TB
     R["⭐ North Star<br/>Clientes cadastrados por semana<br/>sem nenhuma edição"]
 

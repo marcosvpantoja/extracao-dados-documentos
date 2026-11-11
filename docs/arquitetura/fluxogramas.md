@@ -11,6 +11,7 @@ Base: [requisitos](../requisitos.md) e [ADRs](../decisoes/README.md).
 Quem fala com quem, e onde o documento existe em texto aberto.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 flowchart LR
   subgraph CEL["📱 Celular · navegador"]
     CAP["Página de captura"]
@@ -73,6 +74,7 @@ flowchart LR
 Os dois canais de entrada convergem no mesmo pipeline e na mesma tela de revisão.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 flowchart TD
   INI([Juliana abre o sistema no computador]) --> MODO{Modo da sessão}
   MODO -->|Desenvolvimento| DEV[Só documentos fictícios]
@@ -130,6 +132,7 @@ flowchart TD
 O que cada parte envia, em ordem, e o que cada uma consegue ler.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 sequenceDiagram
   autonumber
   actor Juliana
@@ -204,6 +207,7 @@ sequenceDiagram
 Do arquivo bruto aos campos com confiança. Cada losango é uma decisão automática.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 flowchart TD
   IN[/Imagem ou PDF em memória/] --> ISPDF{É PDF?}
   ISPDF -->|Sim| TXT{Tem texto nativo<br/>na área do documento?}
@@ -263,6 +267,7 @@ flowchart TD
 Ciclo de vida de uma sessão cross-device, incluindo falhas.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 stateDiagram-v2
   [*] --> Criada: Juliana pede captura pelo celular
   Criada --> AguardandoPareamento: QR exibido
@@ -300,6 +305,7 @@ stateDiagram-v2
 O que acontece com cada confirmação ou recusa, conforme o modo ([ADR 0004](../decisoes/0004-revisao-humana-e-ciclo-de-aprendizado.md)).
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 flowchart TD
   T[Tela de revisão] --> TT{Tipo detectado correto?}
   TT -->|Recusa| TC[Juliana indica o tipo correto] --> REX[Reextrai com o tipo indicado] --> CAMPOS
@@ -343,6 +349,7 @@ flowchart TD
 Cada lugar por onde o documento passa, por quanto tempo e como isso é verificado.
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 flowchart LR
   subgraph EXISTE["Documento em texto aberto"]
     direction TB
@@ -387,6 +394,7 @@ flowchart LR
 As três camadas independentes de remoção ([ADR 0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md)).
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6"}}}%%
 flowchart TD
   DIA([Início do dia]) --> K1[Primeiro uso: computador gera a chave do dia<br/>não exportável, nunca enviada ao servidor]
   K1 --> USO[Cadastros do dia: fotos e dados<br/>cifrados com a chave e salvos no Supabase]
