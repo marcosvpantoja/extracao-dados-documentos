@@ -61,3 +61,33 @@ A North Star pode subir por um motivo errado: se a revisão vira um clique autom
 | Edição feita dentro do produto | Obriga o jurídico a trocar de ferramenta |
 | Integração com o software jurídico | Fora do escopo do MVP; depende de cada fornecedor |
 | Confirmações rápidas demais como alerta | Indício, não prova; não incluída nesta versão |
+
+---
+
+## 3. Métricas no estudo de caso
+
+O estudo não tem escritório real, então as métricas de produção são reproduzidas nas sessões com testers ([Etapa 1](01-documentos-e-campos.md#conjunto-de-avaliação-sessões-com-testers)) e no conjunto fictício.
+
+### Papéis na sessão
+
+| Pessoa | Papel em produção | O que faz | Métrica que alimenta |
+|---|---|---|---|
+| **Tester** | Roberto, o cliente | Captura os próprios documentos pelo celular | Métricas de captura |
+| **Facilitador** | Juliana, a assistente | Envia o link, revisa e confirma os campos | North Star |
+| **Tester**, no fim | Jurídico | Confere os dados confirmados e aponta erros. Sabe a resposta certa porque é o dono do documento | Métrica de proteção |
+
+A conferência fica com o tester, e não com o facilitador: quem revisou não pode conferir o próprio trabalho, senão a métrica de proteção deixa de vir de fora da revisão.
+
+### Correspondência
+
+| Métrica de produção | Substituta nas sessões | Substituta no conjunto fictício |
+|---|---|---|
+| **North Star:** clientes cadastrados sem nenhuma edição | Testers cujos documentos foram todos confirmados sem correção | Documentos de um mesmo "cliente" fictício extraídos sem nenhum campo diferente do gabarito |
+| **Apoio:** % de documentos confirmados sem edição | Mesma métrica, nas sessões | % de documentos idênticos ao gabarito |
+| **Proteção:** % de documentos editados depois da confirmação | % de documentos com algum campo apontado como errado pelo tester na conferência | Não se aplica: sem revisão humana, não há o que proteger |
+
+### Limites
+
+- **North Star otimista:** o facilitador conhece o sistema e não está sob a pressão de uma fila de clientes, então revisa com mais cuidado que a Juliana real. A substituta tende a ficar acima do valor de produção.
+- **Amostra pequena:** com poucos testers, os números mostram direção, não taxas com confiança estatística. Todo resultado é reportado com o tamanho da amostra.
+- **Atenção do tester:** a conferência depende de o tester olhar cada campo com cuidado.

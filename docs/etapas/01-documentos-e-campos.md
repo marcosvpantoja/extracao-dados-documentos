@@ -77,15 +77,25 @@ Todos levam a marca d'água "DOCUMENTO FICTÍCIO · SEM VALOR LEGAL". Nenhum bra
 Cada tester usa **os próprios documentos**, ao vivo, pelo mesmo fluxo do usuário final. Como são dados pessoais de terceiros, valem três condições:
 
 - **O tester é o titular do documento e está presente.** Ninguém testa com documento de outra pessoa.
-- **Consentimento antes da sessão:** o tester é informado do que é processado, de que nada é salvo e de que só o resultado anônimo por campo é registrado.
+- **Consentimento antes da sessão:** o tester é informado do que é processado, de que o facilitador verá os documentos e os dados na tela, de que tudo é removido às 18h do mesmo dia ([ADR 0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md)) e de que só o resultado anônimo por campo é registrado.
 - **Nenhum documento de tester é enviado para fora dos dois aparelhos**, inclusive para assistentes de IA usados no desenvolvimento.
+
+Papéis na sessão:
+
+| Pessoa | Papel em produção | O que faz |
+|---|---|---|
+| **Tester** | Roberto, o cliente | Captura os próprios documentos pelo celular e, no fim, confere os dados |
+| **Facilitador** (autor do estudo) | Juliana, a assistente | Cria e envia o link, importa arquivos e revisa os campos |
+
+O foco principal de observação é **o tester capturando os documentos**: a experiência do cliente na ponta final.
 
 Fluxo da sessão:
 
-1. Abre o sistema no computador.
-2. NF-e: faz upload do PDF. RG e CNH: escaneia o QR code e fotografa com o celular.
+1. O facilitador abre o sistema no computador e envia o link de captura ao tester.
+2. RG, CNH e CIN: o tester fotografa pelo celular. NF-e, fatura e boleto em PDF: o facilitador importa o arquivo.
 3. O sistema classifica e extrai os dados.
-4. O tester marca cada campo exibido como **correto** ou **incorreto**.
+4. **Revisão:** o facilitador confirma ou corrige cada campo, como a Juliana faria.
+5. **Conferência:** o tester vê os dados já confirmados e marca o que estiver errado. É o papel do jurídico que devolve um cadastro ([Etapa 5](05-metricas.md#3-métricas-no-estudo-de-caso)).
 
 Documentos pessoais também existem em versão digital (CNH-e, identidade digital em PDF). Por isso RG e CNH são avaliados nos dois canais: **foto do documento físico** pelo celular e **PDF digital** por upload.
 
@@ -96,7 +106,8 @@ O tester conhece os próprios dados, então ele é o gabarito. Não é preciso g
 | Registrado (localmente) | Nunca registrado |
 |---|---|
 | Tipo detectado e se a detecção estava certa | Imagem ou PDF do documento |
-| Por campo: correto / incorreto / não extraído | Valor de qualquer campo |
+| Por campo, na revisão: confirmado / corrigido / não extraído | Valor de qualquer campo |
+| Por campo, na conferência: correto / apontado como errado | |
 | Tempo até o primeiro campo e até o resultado completo | Nome ou identificação do tester |
 | Canal de entrada e versão do sistema | |
 
