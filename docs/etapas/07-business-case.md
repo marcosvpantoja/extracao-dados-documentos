@@ -103,3 +103,45 @@ Em produção, o motor roda num servidor próprio na nuvem, e não no computador
 **O que a estimativa revela:** para se pagar só com direito do consumidor, o produto precisaria cadastrar **de 14% a 28% de todos os clientes do mercado alcançável**. É uma participação muito alta para um produto novo. O preço por cadastro, que é baixo porque acompanha o valor gerado, faz o mercado parecer grande em volume e pequeno em receita.
 
 A Justiça do Trabalho tem um volume parecido (3,6 milhões de casos novos por ano), mas exige outros documentos (carteira de trabalho, contracheques, rescisão e FGTS), hoje fora do escopo.
+
+---
+
+## 4. Go-to-market: licenciamento para softwares jurídicos
+
+**Decisão:** em vez de vender direto a escritórios, o produto é licenciado como **componente** para softwares de gestão jurídica. Eles incorporam a captura e a extração ao próprio sistema e revendem aos escritórios que já atendem. O produto passa a ser **parceiro** desses softwares, e não concorrente, o que é coerente com o enquadramento do estudo.
+
+**Por que:** a venda direta exigiria cadastrar de 14% a 28% de todos os clientes do mercado alcançável só para empatar. Os softwares jurídicos já estão dentro dos escritórios, e poucos parceiros cobrem uma parcela grande do mercado.
+
+### Modelo de cobrança: fixo mais variável
+
+| Componente | Valor |
+|---|---|
+| Taxa anual por parceiro | R$ 40 mil |
+| Valor por cadastro processado | R$ 0,30 |
+
+As faixas da seção 1 deixam de ser o preço do produto e passam a ser uma **referência** para o preço que o parceiro cobra do escritório. A diferença é a margem do parceiro.
+
+### Ponto de equilíbrio com parceiros
+
+Custo fixo anual: ~R$ 336 mil.
+
+| Parceiros | Receita fixa | Cadastros necessários por ano | Parcela do mercado alcançável |
+|---|---|---|---|
+| 3 | R$ 120 mil | ~720 mil | 36% a 72% |
+| 5 | R$ 200 mil | ~450 mil | 23% a 45% |
+| 8 | R$ 320 mil | ~50 mil | 3% a 5% |
+
+**Leitura:** a taxa fixa é o que sustenta o modelo. Com oito parceiros, ela quase cobre sozinha o custo fixo, e o valor por cadastro vira crescimento. Com três, o produto continua dependendo de uma fatia muito alta do mercado.
+
+| Alternativa | Por que não foi escolhida |
+|---|---|
+| Só por cadastro, no atacado (~R$ 0,50) | Exigiria de 34% a 67% do mercado alcançável |
+| Só licença anual fixa (~R$ 120 mil) | Previsível, mas difícil de vender sem provar volume |
+| Ampliar para ações trabalhistas | Dobra o mercado, mas exige novos tipos de documento; fica como expansão futura |
+| Registrar como inviável | O licenciamento mostrou um caminho possível; a conclusão seria precipitada |
+
+### O que muda no produto
+
+- **API e componente incorporável:** a captura pelo celular e a tela de revisão precisam funcionar dentro do sistema do parceiro, com a marca dele.
+- **Multiempresa:** cada parceiro atende muitos escritórios, o que reforça o isolamento entre escritórios do [ADR 0008](../decisoes/0008-armazenamento-em-producao.md).
+- **Ciclo de venda longo:** vender a um software jurídico exige provar acurácia e segurança antes. Os resultados do estudo (Etapa 13) seriam o primeiro material de venda.
