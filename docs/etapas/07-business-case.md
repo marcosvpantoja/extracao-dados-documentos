@@ -1,6 +1,6 @@
 # Etapa 7: Business case
 
-**Status:** 🟡 Em andamento · 11/11/2026
+**Status:** ✅ Concluída · 11/11/2026
 **Papéis:** PM
 
 > **Hipotético.** Este projeto é um estudo de caso, não um produto comercial, e não pretende concorrer com softwares de gestão jurídica. O business case responde a uma pergunta de exercício: **se este estudo virasse produto, ele se sustentaria?** Todos os números são suposições declaradas.
@@ -145,3 +145,52 @@ Custo fixo anual: ~R$ 336 mil.
 - **API e componente incorporável:** a captura pelo celular e a tela de revisão precisam funcionar dentro do sistema do parceiro, com a marca dele.
 - **Multiempresa:** cada parceiro atende muitos escritórios, o que reforça o isolamento entre escritórios do [ADR 0008](../decisoes/0008-armazenamento-em-producao.md).
 - **Ciclo de venda longo:** vender a um software jurídico exige provar acurácia e segurança antes. Os resultados do estudo (Etapa 13) seriam o primeiro material de venda.
+
+---
+
+## 5. Stakeholders
+
+Com o licenciamento, o **comprador** passa a ser o software parceiro: o líder de produto dele decide incorporar o componente, e o escritório só escolhe ativar o recurso.
+
+```mermaid
+quadrantChart
+    title Poder x interesse
+    x-axis Pouco interesse --> Muito interesse
+    y-axis Pouco poder --> Muito poder
+    quadrant-1 Gerenciar de perto
+    quadrant-2 Manter satisfeito
+    quadrant-3 Monitorar
+    quadrant-4 Manter informado
+    Lider de produto do parceiro: [0.85, 0.9]
+    Encarregado de dados: [0.65, 0.75]
+    Reguladores ANPD e OAB: [0.25, 0.85]
+    Suporte e vendas do parceiro: [0.7, 0.35]
+    Juliana assistente: [0.9, 0.3]
+    Roberto cliente: [0.6, 0.15]
+    Dra Paula advogada: [0.55, 0.25]
+```
+
+🖼️ [Ver como imagem](img/07-business-case-01-stakeholders.png)
+
+| Stakeholder | Quadrante | O que importa para ele | Como lidar |
+|---|---|---|---|
+| **Líder de produto do parceiro** | Gerenciar de perto | Diferencial para o software dele, sem risco de segurança nem de suporte | Provar acurácia e segurança com os resultados do estudo; integração simples |
+| **Encarregado de dados** (escritório e parceiro) | Gerenciar de perto | Base legal, retenção, registro de acessos, resposta a incidentes | Documentação de segurança pronta ([ADR 0008](../decisoes/0008-armazenamento-em-producao.md), [ADR 0009](../decisoes/0009-registro-de-auditoria-no-estudo.md)); pode vetar a compra |
+| **Reguladores** (ANPD e OAB) | Manter satisfeito | Proteção de dados pessoais; ética profissional na relação com o cliente | Conformidade com a LGPD desde o desenho; o produto não capta clientes, só cadastra quem já contratou |
+| **Suporte e vendas do parceiro** | Manter informado | Explicar e vender o recurso aos escritórios sem gerar chamados | Material de treinamento e textos da página de captura claros para o cliente |
+| **Juliana**, assistente de cadastro | Manter informado | Cadastrar rápido e sem erro | É a usuária principal: sessões de teste e métricas de revisão |
+| **Roberto**, cliente | Manter informado | Enviar os documentos fácil e com segurança | Página de captura simples; transparência sobre quem acessa os documentos |
+| **Dra. Paula**, advogada | Manter informado | Dados certos para a petição | Marcação de dado errado depois da confirmação |
+
+**Leitura:** o produto é usado por quem tem pouco poder de decisão (Juliana e Roberto) e comprado por quem não o usa (o líder de produto do parceiro). O argumento de venda precisa traduzir o ganho da Juliana em diferencial para o parceiro, e o encarregado de dados pode barrar a venda mesmo com o comprador convencido.
+
+---
+
+## Conclusão do business case
+
+| Pergunta | Resposta |
+|---|---|
+| Vender direto aos escritórios se sustenta? | **Não**, com o preço baseado no valor gerado: exigiria de 14% a 28% de todo o mercado alcançável |
+| Existe um caminho? | **Licenciar para softwares jurídicos**, com taxa fixa e valor por cadastro; com cerca de 8 parceiros, o custo fixo fica coberto |
+| O que precisa ser verdade? | O produto poupar de fato ~8 min por cadastro (resultado-chave de tempo, KR3), e a acurácia se manter ao trocar o Apple Vision pelo PaddleOCR ([ADR 0010](../decisoes/0010-motor-em-producao.md)) |
+| Maior risco | Ciclo de venda longo com parceiros, que exigem prova de acurácia e segurança antes de assinar |

@@ -19,10 +19,10 @@ Legenda: ✅ demonstrado · 🟡 parcial · ⚪ planejado
 | Mapeamento de oportunidades | [Opportunity Solution Tree](etapas/04-estrategia.md#2-opportunity-solution-tree) com experimentos por solução | 🟡 Oportunidades O2, O4 e O5 a validar nas entrevistas |
 | Priorização defensável | Cortes de escopo ([ADR 0003](decisoes/0003-escopo-do-mvp.md)), MoSCoW, [RICE com decisões sobre o resultado](etapas/06-priorizacao.md#3-rice) | ✅ |
 | Métricas e resultados | [North Star, proteção, árvore de métricas e OKRs](etapas/05-metricas.md); metas congeladas antes da avaliação | ✅ |
-| Visão de negócio | Custo de desenvolvimento x operação ([ADR 0002](decisoes/0002-motor-de-leitura-e-extracao.md)) | ⚪ Business case, Etapa 7 |
+| Visão de negócio | [Business case](etapas/07-business-case.md): preço pelo valor, ponto de equilíbrio, mercado com dados do CNJ e do TST, mudança para licenciamento | ✅ |
 | Privacidade, risco e ética de IA | LGPD, consentimento, resíduo zero, metadados | ✅ |
 | Gestão de mudança de escopo | Revisões registradas em ADRs e commits | ✅ |
-| Comunicação e influência | ADRs com alternativas e consequências | 🟡 Mapa de stakeholders e status reports |
+| Comunicação e influência | ADRs com alternativas e consequências; [mapa de stakeholders](etapas/07-business-case.md#5-stakeholders) | 🟡 Status reports pendentes |
 
 ## Arquiteto de Software: como o sistema se sustenta
 
