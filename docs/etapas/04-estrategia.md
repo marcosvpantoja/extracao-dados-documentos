@@ -83,6 +83,8 @@ flowchart TB
     class E1,E1b,E2,E3,E4,E5 exp
 ```
 
+🖼️ [Ver como imagem](img/04-estrategia-01-opportunity-solution-tree.png)
+
 ### Oportunidades comparadas
 
 | Oportunidade | Impacto no resultado | Evidência | Coberta pelo MVP? | Hipótese mais arriscada |

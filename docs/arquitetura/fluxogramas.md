@@ -62,6 +62,8 @@ flowchart LR
   class LOG privado
 ```
 
+🖼️ [Ver como imagem](img/fluxogramas-01-componentes-e-fronteiras-de-confianca.png)
+
 ---
 
 ## 2. Jornada completa do usuário
@@ -111,6 +113,8 @@ flowchart TD
   FIM -->|Não| ENC[Encerra sessão:<br/>tela, memória, canal e chave descartados]
   ENC --> VERI[Verificação de resíduo zero] --> FIMJ([Fim])
 ```
+
+🖼️ [Ver como imagem](img/fluxogramas-02-jornada-completa-do-usuario.png)
 
 ---
 
@@ -172,6 +176,8 @@ sequenceDiagram
   N->>N: Apaga a chave, a imagem e os campos da memória
 ```
 
+🖼️ [Ver como imagem](img/fluxogramas-03-sequencia-de-mensagens-no-cross-device.png)
+
 ---
 
 ## 4. Pipeline de processamento
@@ -229,6 +235,8 @@ flowchart TD
   NE --> OUT[/Tipo + campos + confiança/]
 ```
 
+🖼️ [Ver como imagem](img/fluxogramas-04-pipeline-de-processamento.png)
+
 ---
 
 ## 5. Estados da sessão
@@ -263,6 +271,8 @@ stateDiagram-v2
     Canal Broadcast abandonado nos dois lados
   end note
 ```
+
+🖼️ [Ver como imagem](img/fluxogramas-05-estados-da-sessao.png)
 
 ---
 
@@ -304,6 +314,8 @@ flowchart TD
   CMP -->|Não| A2
   PRI --> A2
 ```
+
+🖼️ [Ver como imagem](img/fluxogramas-06-revisao-humana-e-ciclo-de-aprendizado.png)
 
 ---
 
@@ -347,6 +359,8 @@ flowchart LR
   NUNCA --> PROVA
 ```
 
+🖼️ [Ver como imagem](img/fluxogramas-07-garantias-de-privacidade-onde-o-documento-existe.png)
+
 ---
 
 ## 8. Remoção diária às 18h
@@ -382,3 +396,5 @@ flowchart TD
   VER -->|Tabela e Storage vazios<br/>e chave inexistente| OK([✅ Dia encerrado])
   VER -->|Algo restou| ALERTA([❌ Alerta e remoção manual])
 ```
+
+🖼️ [Ver como imagem](img/fluxogramas-08-remocao-diaria-as-18h.png)
