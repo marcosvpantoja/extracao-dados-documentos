@@ -75,3 +75,52 @@ A etapa tem quatro partes: o backlog, a pontuação RICE, a definição de pront
 | HU-23 | Marcar dado errado depois da confirmação | RF-30 | A definir |
 
 Requisitos de base, que não pertencem a uma história só (validações RF-12 e RF-13, modo da sessão RF-19, correção no modo desenvolvimento RF-18), entram no esforço das histórias que dependem deles.
+
+---
+
+## 3. RICE
+
+**Nota = (Alcance × Impacto × Confiança) ÷ Esforço.** Quanto maior a nota, maior o valor por dia de trabalho.
+
+### Como cada fator foi definido
+
+| Fator | Escala | Quem definiu |
+|---|---|---|
+| **Alcance** | % das sessões com testers em que a história acontece, tirado do roteiro da sessão: link, captura e revisão = 100; importação = 50 (só com PDF); documento pendente = 30; não reconhecido = 20 | Derivado do roteiro, conferido pelo PM |
+| **Impacto** | Pergunta: "sem essa função, o tester sairia com mais campos corrigidos?" Alto = 2 · Médio = 1 · Baixo = 0,5 | PM |
+| **Confiança** | 80% quando há indício público ou de desenho; 50% quando depende só das entrevistas simuladas ou de palpite | PM e desenvolvimento |
+| **Esforço** | Dias de trabalho, sem contar o motor de extração, que é a base de todas as histórias | Desenvolvimento |
+
+**Contexto:** a pontuação reflete o **estudo**, e não um escritório real. Por isso as histórias de captura saem na frente, e as do escritório, como o registro de acessos (HU-22), saem atrás. Num produto real, a ordem seria outra.
+
+### Resultado
+
+| # | História | Alcance | Impacto | Confiança | Esforço | **Nota** |
+|---|---|---|---|---|---|---|
+| 1 | HU-23 Marcar dado errado depois da confirmação | 100 | 2 | 80% | 1,5 | **107** |
+| 2 | HU-06 Saber quem acessa e por quanto tempo | 100 | 1 | 50% | 0,5 | **100** |
+| 3 | HU-04 Confirmar ou recusar cada campo | 100 | 2 | 80% | 2 | **80** |
+| 3 | HU-05 Campos de baixa confiança em destaque | 100 | 1 | 80% | 1 | **80** |
+| 3 | HU-14 Entender a página sem ajuda | 100 | 2 | 80% | 2 | **80** |
+| 6 | HU-10 Aviso de não reconhecido | 20 | 2 | 80% | 0,5 | **64** |
+| 7 | HU-03 Dados ao lado da imagem | 100 | 2 | 80% | 3 | **53** |
+| 7 | HU-07 Orientação de enquadramento e luz | 100 | 2 | 80% | 3 | **53** |
+| 7 | HU-13 Enviar todos os documentos pelo link | 100 | 2 | 80% | 3 | **53** |
+| 7 | HU-20 Saber na hora se a foto foi lida | 100 | 2 | 80% | 3 | **53** |
+| 11 | HU-08 Copiar dados confirmados | 100 | 0,5 | 50% | 0,5 | **50** |
+| 12 | HU-02 Enviar link ou QR ao cliente | 100 | 2 | 80% | 5 | **32** |
+| 13 | HU-15 Baixar pacote do cliente | 100 | 1 | 50% | 2 | **25** |
+| 14 | HU-01 Importar sem dizer o tipo | 50 | 1 | 80% | 2 | **20** |
+| 15 | HU-21 Aviso de arquivo ilegível na importação | 50 | 1 | 50% | 1,5 | **17** |
+| 16 | HU-09 Relatório de acurácia | 100 | 0,5 | 50% | 2 | **13** |
+| 16 | HU-22 Registro de acessos | 100 | 0,5 | 50% | 2 | **13** |
+| 18 | HU-18 Marcar "não tenho agora" | 30 | 0,5 | 50% | 2 | **4** |
+| 18 | HU-19 Link só para os pendentes | 30 | 0,5 | 50% | 2 | **4** |
+
+### Decisões sobre o resultado
+
+| Questão | Decisão | Motivo |
+|---|---|---|
+| HU-08 e HU-22 tinham impacto alto, mas acontecem depois da revisão | Impacto reduzido para baixo (0,5) | A North Star conta as edições feitas na revisão; o valor delas é real, mas fica fora dessa métrica |
+| O RICE não enxerga dependências: a HU-02 é pré-requisito da captura e ficou em 12º | A ordem do RICE é mantida; as dependências são resolvidas na construção | O RICE mede valor por esforço; a ordem de construção respeita o que precisa existir antes (seção 5, roadmap) |
+| HU-18 e HU-19 ficaram em último | **HU-18 entra no MVP**; HU-19 fica para depois | O cliente marcar "não tenho agora" resolve o principal do achado N4. Sem a HU-19, a Juliana gera um link comum e monta a lista só com os pendentes (RF-33), o que cobre o caso manualmente |
