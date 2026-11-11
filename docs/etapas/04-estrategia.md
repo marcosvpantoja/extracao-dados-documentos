@@ -153,7 +153,7 @@ Formato da Amazon (*Working Backwards*): a comunicação de lançamento é escri
 
 ## 4. Mapa de jornada
 
-O mapa mostra a jornada **atual** (sem o produto), com ações, pensamentos, emoções e dores em cada fase, e as oportunidades da árvore que cada dor revela. Emoções e tempos são hipóteses 🧪 até as entrevistas.
+O mapa mostra a jornada **atual** (sem o produto), com ações, pensamentos, emoções e dores em cada fase, e as oportunidades da árvore que cada dor revela. Emoções, tempos e dores são hipóteses 🧪, ilustradas pelas [entrevistas simuladas](../pesquisa/entrevistas-simuladas.md), que não são evidência.
 
 ### Juliana, assistente de cadastro
 
@@ -162,9 +162,9 @@ O mapa mostra a jornada **atual** (sem o produto), com ações, pensamentos, emo
 | **Ação** | Atende o cliente e entende o caso | Lista os documentos pelo WhatsApp | Recebe fotos e PDFs misturados, em várias mensagens | Abre cada arquivo e digita os dados no software jurídico | Pede um novo documento ou devolve um erro apontado pelo jurídico | Envia o caso à advogada |
 | **Pensa** | "Mais um caso de cobrança indevida" | "Tomara que mande tudo de uma vez" | "Qual destes é o comprovante?" | "Esse 8 é um 3?" | "De novo esse CPF" | "Próximo" |
 | **Emoção** | 🙂 | 😐 | 😕 | 😩 | 😠 | 🙂 |
-| **Dor** | — | O cliente esquece documentos | Arquivos misturados e ilegíveis | Digitação lenta; erro de leitura | Espera pelo reenvio; retrabalho | — |
+| **Dor** | — | O cliente esquece documentos | Arquivos misturados e ilegíveis; o cadastro espera dias pelo último documento (N4) | Digitação lenta; erro de leitura; comprovante em nome de outra pessoa (N1) | Espera pelo reenvio; retrabalho | — |
 | **Oportunidade** | — | O2 | O2, O3 | O1, O4 | O1, O2 | — |
-| **Com o produto** | — | Envia o link de captura | Os documentos chegam separados por tipo, com qualidade conferida | Confere campos já extraídos e validados | Menos reenvios; CPF validado antes | Baixa o pacote e libera |
+| **Com o produto** | — | Envia o link de captura | Os documentos chegam separados por tipo, com qualidade conferida | Confere campos já extraídos e validados | A nova foto é pedida na hora pelo celular (RF-31); CPF validado antes | Baixa o pacote e libera |
 
 **Momento crítico:** a fase 4 é a mais longa e a mais cobrada **[B2]**, mas a fase 5 é a mais cara, porque depende de outra pessoa responder. O produto ataca as duas, e a fase 5 é onde a hipótese O2 precisa de dados.
 
@@ -177,9 +177,32 @@ O mapa mostra a jornada **atual** (sem o produto), com ações, pensamentos, emo
 | **Emoção** | 🙂 | 😐 | 😕 | 😟 | 😐 |
 | **Dor** | — | Lista confusa | Não sabe se a foto serve | Insegurança com os documentos | Não sabe se precisa reenviar |
 | **Oportunidade** | — | O2 | O2 | O5 | O2 |
-| **Com o produto** | — | Recebe um link com a lista | A página guia a foto e avisa se ficou ruim | Envio cifrado; sabe quem terá acesso | Vê a confirmação na tela |
+| **Com o produto** | — | Recebe um link com a lista | A página guia a foto, avisa se ficou ruim e pede outra se não der para ler | Envio cifrado; sabe quem terá acesso | Vê "Lendo seu documento…" e depois "Enviado" |
 
-**Momento crítico:** a fase 4. O WhatsApp é o hábito. O link precisa ser mais simples que ele, e a garantia de que só o escritório acessa os documentos é o que pode convencer Roberto a trocar (E5).
+**Momento crítico, em dois contextos:**
+
+| Contexto | Fase | Por quê |
+|---|---|---|
+| **Produto real** | 4 · Enviar | O WhatsApp é o hábito. Se o Roberto não confiar no link, nem chega a usar o produto. O link precisa ser mais simples que o WhatsApp, e a garantia de que só o escritório acessa os documentos é o que pode convencê-lo (E5) |
+| **Estudo de caso** | 3 · Fotografar | O tester usa o link de qualquer jeito, então o risco da fase 4 não aparece nas sessões. O que o estudo observa é a dúvida "ficou boa? vai servir?", onde o produto mais age (RF-05, RF-31) e o KR4 mede |
+
+### Roberto com o produto, passo a passo
+
+A jornada abaixo mostra a captura **com o produto**, que é o foco do estudo. Cada passo corresponde a uma tela ou a um estado da página de captura e serve de base para os wireframes da [Etapa 9](../../README.md#roteiro).
+
+| Passo | O que o Roberto faz | O que a página mostra | Pensa | Emoção | Requisito | Métrica |
+|---|---|---|---|---|---|---|
+| 1. Recebe o link | Toca no link enviado pelo escritório no WhatsApp | — | "É do escritório mesmo?" | 😐 | HU-13 | — |
+| 2. Abre a página | Lê a lista do que precisa fotografar | Nome do escritório, lista de documentos e como os dados são protegidos | "Ok, são três documentos" | 🙂 | RF-04, HU-14 | — |
+| 3. Fotografa | Enquadra o documento na moldura | Câmera com moldura e dica de luz | "Assim está bom?" | 😕 | RF-05 | — |
+| 4. Recebe o aviso de qualidade | Refaz a foto, se a página pedir | "Imagem escura, tente perto de uma janela" | "Ainda bem que avisou" | 😐 | RF-05 | KR4 |
+| 5. Fotografa o verso | Vira o documento, quando houver verso | "Agora o verso" | — | 😐 | — | — |
+| 6. Espera a leitura | Aguarda, até 30 s | "Lendo seu documento…" com indicação de progresso | "Está carregando?" | 😐 | RF-31 | — |
+| 7. Refaz, se a leitura falhar | Fotografa de novo, com o documento ainda na mão | "Não conseguimos ler o número. Tente sem reflexo" | "Melhor agora do que depois" | 😕 | RF-31 | KR4 |
+| 8. Vê o envio concluído | Passa para o próximo documento | "Enviado" e o que ainda falta na lista | "Falta só um" | 🙂 | — | — |
+| 9. Termina | Fecha a página | "Tudo enviado. O escritório já recebeu" | "Pronto, não preciso mandar de novo" | 😀 | — | — |
+
+**Ponto em aberto:** se o Roberto não tiver um dos documentos em mãos no momento, a sessão de uso único (RF-03) impede que ele volte depois pelo mesmo link. As entrevistas simuladas indicam que isso é comum (N4). A decisão fica para a priorização da Etapa 6.
 
 ---
 
