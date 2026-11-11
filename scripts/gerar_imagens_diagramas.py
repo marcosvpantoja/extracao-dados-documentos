@@ -22,6 +22,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 DOCUMENTOS = [
     RAIZ / "docs/arquitetura/fluxogramas.md",
+    RAIZ / "docs/arquitetura/c4.md",
     RAIZ / "docs/etapas/04-estrategia.md",
     RAIZ / "docs/etapas/05-metricas.md",
     RAIZ / "docs/etapas/07-business-case.md",
