@@ -66,32 +66,18 @@ flowchart TD
 
 ## Telas
 
+Visão geral, na ordem da jornada. Os detalhes de cada tela estão nas seções abaixo.
+
+| | | | |
+|---|---|---|---|
+| <img src="img/telas/01-abertura.png" alt="1 · Abertura" width="160"><br>**1 · Abertura** | <img src="img/telas/02-permissao-da-camera.png" alt="2 · Permissão da câmera" width="160"><br>**2 · Permissão da câmera** | <img src="img/telas/02b-camera-bloqueada.png" alt="2b · Câmera negada" width="160"><br>**2b · Câmera negada** | <img src="img/telas/03-documento-n-de-m.png" alt="3 · Documento N de M" width="160"><br>**3 · Documento N de M** |
+| <img src="img/telas/04-camera.png" alt="4 · Câmera" width="160"><br>**4 · Câmera** | <img src="img/telas/05-aviso-de-qualidade.png" alt="5 · Aviso de qualidade" width="160"><br>**5 · Aviso de qualidade** | <img src="img/telas/06-verso.png" alt="6 · Verso" width="160"><br>**6 · Verso** | <img src="img/telas/07-lendo-seu-documento.png" alt="7 · Lendo seu documento" width="160"><br>**7 · Lendo seu documento** |
+| <img src="img/telas/07b-vamos-tentar-de-novo.png" alt="7b · Vamos tentar de novo" width="160"><br>**7b · Vamos tentar de novo** | <img src="img/telas/08-enviado.png" alt="8 · Enviado" width="160"><br>**8 · Enviado** | <img src="img/telas/09-tudo-enviado.png" alt="9 · Tudo enviado" width="160"><br>**9 · Tudo enviado** | <img src="img/telas/e1-link-expirado.png" alt="E1 · Link expirado ou já usado" width="160"><br>**E1 · Link expirado ou já usado** |
+| <img src="img/telas/e2-leitura-demorada.png" alt="E2 · Tempo de leitura esgotado" width="160"><br>**E2 · Tempo de leitura esgotado** |  |  |  |
+
 ### 1 · Abertura
 
-```
-┌──────────────────────────────┐
-│ Escritório Exemplo           │
-│                              │
-│ Olá! Vamos enviar seus       │
-│ documentos.                  │
-│                              │
-│ São 3 documentos:            │
-│ • RG ou CNH                  │
-│ • Conta de luz ou água       │
-│ • Fatura que você contesta   │
-│                              │
-│ Leva uns 3 minutos. Tenha os │
-│ documentos em mãos.          │
-│                              │
-│ ┌──────────────────────────┐ │
-│ │        Começar           │ │
-│ └──────────────────────────┘ │
-│                              │
-│ 🔒 Só o Escritório Exemplo   │
-│ vê seus documentos.          │
-│ Saiba mais                   │
-└──────────────────────────────┘
-```
+<img src="img/telas/01-abertura.png" alt="Tela 1 · Abertura" width="280">
 
 - A lista vem da que a assistente montou ao gerar o link (RF-33).
 - **"Leva uns 3 minutos" é uma promessa** e precisa ser conferida nas sessões com testers (tempo de captura por sessão). Se o tempo medido for maior, o texto muda.
@@ -99,107 +85,29 @@ flowchart TD
 
 ### 2 · Permissão da câmera
 
-```
-┌──────────────────────────────┐
-│ Precisamos usar sua câmera   │
-│                              │
-│ Para fotografar os           │
-│ documentos, o celular vai    │
-│ pedir permissão.             │
-│                              │
-│ Toque em "Permitir" na       │
-│ próxima mensagem.            │
-│                              │
-│ ┌──────────────────────────┐ │
-│ │       Entendi            │ │
-│ └──────────────────────────┘ │
-└──────────────────────────────┘
-```
+<img src="img/telas/02-permissao-da-camera.png" alt="Tela 2 · Permissão da câmera" width="280">
 
 - Explica **antes** do aviso do navegador, para o Roberto não negar por susto.
 
 ### 2b · Câmera negada
 
-```
-┌──────────────────────────────┐
-│ A câmera está bloqueada      │
-│                              │
-│ Sem ela não dá para          │
-│ fotografar os documentos.    │
-│                              │
-│ Para liberar:                │
-│ 1. Toque no "aA" ou no       │
-│    cadeado ao lado do        │
-│    endereço                  │
-│ 2. Permita a câmera          │
-│ 3. Toque em "Tentar de novo" │
-│                              │
-│ ┌──────────────────────────┐ │
-│ │     Tentar de novo       │ │
-│ └──────────────────────────┘ │
-└──────────────────────────────┘
-```
+<img src="img/telas/02b-camera-bloqueada.png" alt="Tela 2b · Câmera negada" width="280">
 
 ### 3 · Documento N de M
 
-```
-┌──────────────────────────────┐
-│ Documento 2 de 3      ●●○    │
-│                              │
-│ Conta de luz ou água         │
-│ Serve para comprovar seu     │
-│ endereço.                    │
-│                              │
-│ ┌──────────────────────────┐ │
-│ │      📷 Fotografar       │ │
-│ └──────────────────────────┘ │
-│                              │
-│        Não tenho agora       │
-│                              │
-│ 🔒 Só o escritório vê        │
-└──────────────────────────────┘
-```
+<img src="img/telas/03-documento-n-de-m.png" alt="Tela 3 · Documento N de M" width="280">
 
 - "Não tenho agora" marca o item como pendente e passa ao próximo (RF-34).
 
 ### 4 · Câmera
 
-```
-┌──────────────────────────────┐
-│ ┌──────────────────────────┐ │
-│ │                          │ │
-│ │  ┌────────────────────┐  │ │
-│ │  │                    │  │ │
-│ │  │  moldura do        │  │ │
-│ │  │  documento         │  │ │
-│ │  │                    │  │ │
-│ │  └────────────────────┘  │ │
-│ │                          │ │
-│ │  💡 Procure mais luz     │ │
-│ └──────────────────────────┘ │
-│                              │
-│            ( ◯ )             │
-│   Cancelar                   │
-└──────────────────────────────┘
-```
+<img src="img/telas/04-camera.png" alt="Tela 4 · Câmera" width="280">
 
 - Dicas ao vivo, uma por vez: "Procure mais luz" · "Aproxime o documento" · "Segure firme" · "Pronto, pode fotografar".
 
 ### 5 · Aviso de qualidade
 
-```
-┌──────────────────────────────┐
-│ [miniatura da foto]          │
-│                              │
-│ A foto ficou escura          │
-│ Tente perto de uma janela ou │
-│ com a luz acesa.             │
-│                              │
-│ ┌──────────────────────────┐ │
-│ │      Tirar outra         │ │
-│ └──────────────────────────┘ │
-└──────────────────────────────┘
-```
+<img src="img/telas/05-aviso-de-qualidade.png" alt="Tela 5 · Aviso de qualidade" width="280">
 
 - Motivos possíveis: escura · tremida · cortada · com reflexo.
 - Quando a foto está boa, a tela é pulada.
@@ -207,118 +115,37 @@ flowchart TD
 
 ### 6 · Verso
 
-```
-┌──────────────────────────────┐
-│ ✅ Frente da CNH             │
-│                              │
-│ Agora vire o documento e     │
-│ fotografe o verso.           │
-│                              │
-│ ┌──────────────────────────┐ │
-│ │   📷 Fotografar o verso  │ │
-│ └──────────────────────────┘ │
-└──────────────────────────────┘
-```
+<img src="img/telas/06-verso.png" alt="Tela 6 · Verso" width="280">
 
 - Só para RG, CNH física e CIN (RF-06).
 
 ### 7 · Lendo seu documento
 
-```
-┌──────────────────────────────┐
-│                              │
-│        ◐  Lendo seu          │
-│           documento…         │
-│                              │
-│   Isso leva alguns segundos. │
-│   Mantenha o documento por   │
-│   perto.                     │
-│                              │
-└──────────────────────────────┘
-```
+<img src="img/telas/07-lendo-seu-documento.png" alt="Tela 7 · Lendo seu documento" width="280">
 
 - Espera de até 30 s (RF-31). "Mantenha o documento por perto" prepara para uma possível nova foto.
 
 ### 7b · Vamos tentar de novo
 
-```
-┌──────────────────────────────┐
-│ Não conseguimos ler o número │
-│ do documento                 │
-│                              │
-│ Pode ser reflexo de luz.     │
-│ Incline um pouco o documento │
-│ e fotografe de novo.         │
-│                              │
-│ ┌──────────────────────────┐ │
-│ │     Fotografar de novo   │ │
-│ └──────────────────────────┘ │
-└──────────────────────────────┘
-```
+<img src="img/telas/07b-vamos-tentar-de-novo.png" alt="Tela 7b · Vamos tentar de novo" width="280">
 
 - O motivo vem do motor, sem nenhum dado do documento: só o que faltou ler e a causa provável.
 
 ### 8 · Enviado
 
-```
-┌──────────────────────────────┐
-│ ✅ Conta de luz enviada      │
-│                              │
-│ ┌──────────────────────────┐ │
-│ │   Próximo: Fatura  →     │ │
-│ └──────────────────────────┘ │
-└──────────────────────────────┘
-```
+<img src="img/telas/08-enviado.png" alt="Tela 8 · Enviado" width="280">
 
 ### 9 · Tudo enviado
 
-```
-┌──────────────────────────────┐
-│ ✅ Pronto!                   │
-│                              │
-│ O Escritório Exemplo já      │
-│ recebeu seus documentos.     │
-│                              │
-│ ✅ RG ou CNH                 │
-│ ✅ Fatura                    │
-│ ⏸ Conta de luz: você disse  │
-│   que não tem agora. O       │
-│   escritório vai te mandar   │
-│   um novo link.              │
-│                              │
-│ Pode fechar esta página.     │
-│ As fotos não ficam salvas    │
-│ no seu celular.              │
-└──────────────────────────────┘
-```
+<img src="img/telas/09-tudo-enviado.png" alt="Tela 9 · Tudo enviado" width="280">
 
 ### E1 · Link expirado ou já usado
 
-```
-┌──────────────────────────────┐
-│ Este link não vale mais      │
-│                              │
-│ Ele já foi usado ou passou   │
-│ do tempo. Peça um novo ao    │
-│ escritório.                  │
-└──────────────────────────────┘
-```
+<img src="img/telas/e1-link-expirado.png" alt="Tela E1 · Link expirado ou já usado" width="280">
 
 ### E2 · Tempo de leitura esgotado
 
-```
-┌──────────────────────────────┐
-│ ✅ Recebemos sua foto        │
-│                              │
-│ A leitura está demorando. Se │
-│ for preciso outra foto, o    │
-│ escritório avisa você.       │
-│                              │
-│ ┌──────────────────────────┐ │
-│ │   Próximo documento →    │ │
-│ └──────────────────────────┘ │
-└──────────────────────────────┘
-```
+<img src="img/telas/e2-leitura-demorada.png" alt="Tela E2 · Tempo de leitura esgotado" width="280">
 
 ---
 
