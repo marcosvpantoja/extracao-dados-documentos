@@ -3,6 +3,7 @@
 **Versão:** 0.1 · 11/11/2026 · rascunho para aprovação
 **Etapa:** [9, captura pelo celular](../../README.md#roteiro) · **Papéis:** UX, Front-end
 **Base:** [jornada do Roberto com o produto](../etapas/04-estrategia.md#roberto-com-o-produto-passo-a-passo)
+**Figma:** [Extração de documentos · Wireframes da captura](https://www.figma.com/design/SRwA8xYCHp8B8c2QtufKyv), com as 13 telas em formato de celular (360 × 720) e os componentes reutilizáveis (botões, rodapé de privacidade, espaço para imagem)
 
 ## Decisões de base
 
