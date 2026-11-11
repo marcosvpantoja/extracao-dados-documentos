@@ -31,3 +31,47 @@ A etapa tem quatro partes: o backlog, a pontuação RICE, a definição de pront
 **Custo conhecido:** montar a lista a cada cliente toma tempo da Juliana em todo atendimento, e esse tempo entra no tempo de cadastro medido pelo KR3.
 
 **Impacto na North Star:** um cliente com documento pendente só conta como "cadastrado sem edição" quando o último documento chegar e for confirmado.
+
+---
+
+## 2. Backlog
+
+**Unidade:** histórias de usuário. O RICE pergunta pelo impacto no usuário, e a história é a unidade que tem usuário. Cada história aponta para os requisitos que a compõem, e o esforço é estimado a partir deles.
+
+### Ajustes antes de pontuar
+
+| História | Ajuste | Motivo |
+|---|---|---|
+| HU-06 | "não fica guardado" passou a "saber quem terá acesso e por quanto tempo" | Em produção os documentos ficam guardados ([ADR 0008](../decisoes/0008-armazenamento-em-producao.md)) |
+| HU-08 | "sistema contábil" passou a "software jurídico" | Resto da persona contábil, anterior ao pivô de segmento |
+| HU-11 | Absorvida pela HU-13 | Enviar vários documentos numa sessão já é a HU-13 |
+| HU-20 a HU-23 | Criadas | Requisitos decididos depois do PRD ficaram sem história (RF-28 a RF-32) |
+
+### Histórias e requisitos
+
+| História | Resumo | Requisitos | Prioridade atual |
+|---|---|---|---|
+| HU-01 | Importar sem dizer o tipo | RF-01, RF-08 a RF-11 | M |
+| HU-02 | Enviar link ou QR ao cliente | RF-02, RF-03, RF-07 | M |
+| HU-03 | Dados ao lado da imagem | RF-16 | M |
+| HU-04 | Confirmar ou recusar cada campo | RF-17 | M |
+| HU-05 | Ver campos de baixa confiança | RF-14 | M |
+| HU-06 | Saber quem acessa e por quanto tempo | RF-07, RF-21 | M |
+| HU-07 | Orientação de enquadramento e luz | RF-05, RF-06 | S |
+| HU-08 | Copiar dados confirmados | RF-20 | S |
+| HU-09 | Ver acurácia por campo e tipo | RF-22 a RF-25 | S |
+| HU-10 | Aviso de documento não reconhecido | RF-10, RF-15 | M |
+| HU-12 | Captura automática | — | W |
+| HU-13 | Enviar todos os documentos pelo link | RF-04, RF-06 | M |
+| HU-14 | Entender a página sem ajuda | RF-04, RF-05 | M |
+| HU-15 | Baixar pacote do cliente | RF-26, RF-27 | M |
+| HU-16 | Procuração preenchida | — | W |
+| HU-17 | Documentos trabalhistas | — | W |
+| HU-18 | Marcar "não tenho agora" | RF-33, RF-34 | A definir |
+| HU-19 | Link só para os pendentes | RF-35, RF-36 | A definir |
+| HU-20 | Saber na hora se a foto foi lida | RF-31 | A definir |
+| HU-21 | Aviso de arquivo ilegível na importação | RF-32 | A definir |
+| HU-22 | Saber quem acessou cada documento | RF-28, RF-29 | A definir |
+| HU-23 | Marcar dado errado depois da confirmação | RF-30 | A definir |
+
+Requisitos de base, que não pertencem a uma história só (validações RF-12 e RF-13, modo da sessão RF-19, correção no modo desenvolvimento RF-18), entram no esforço das histórias que dependem deles.

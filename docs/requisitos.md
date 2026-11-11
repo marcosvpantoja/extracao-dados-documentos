@@ -55,20 +55,24 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | HU-03 | Como Juliana, quero ver os dados extraídos ao lado da imagem do documento, para conferir rapidamente | M |
 | HU-04 | Como Juliana, quero confirmar ou recusar cada campo, para garantir que só dados corretos sigam adiante | M |
 | HU-05 | Como Juliana, quero saber quais campos têm baixa confiança, para conferir só esses | M |
-| HU-06 | Como Roberto, quero ter certeza de que meu documento não fica guardado, para confiar no escritório | M |
+| HU-06 | Como Roberto, quero saber quem terá acesso aos meus documentos e por quanto tempo, para confiar no escritório | M |
 | HU-13 | Como Roberto, quero abrir pelo WhatsApp o link de captura e fotografar todos os meus documentos de uma vez, para fazer o cadastro sem ir ao escritório | M |
 | HU-14 | Como Roberto, quero entender o que fazer na página de captura sem ajuda, para concluir sozinho | M |
 | HU-07 | Como Juliana, quero ser orientada pelo celular sobre enquadramento e luz, para a foto sair legível na primeira tentativa | S |
-| HU-08 | Como Juliana, quero copiar os dados confirmados, para colá-los no sistema contábil | S |
+| HU-08 | Como Juliana, quero copiar os dados confirmados, para colá-los no software jurídico | S |
 | HU-09 | Como responsável pelo produto, quero ver a acurácia por campo e por tipo, para priorizar melhorias | S |
 | HU-10 | Como Juliana, quero que o sistema avise quando não reconhecer o documento, em vez de inventar dados | M |
-| HU-11 | Como Juliana, quero processar vários documentos do mesmo cliente em sequência sem reescanear o QR code | C |
+| HU-11 | ~~Como Juliana, quero processar vários documentos do mesmo cliente em sequência sem reescanear o QR code~~ Absorvida pela HU-13 (todos os documentos numa sessão) | — |
 | HU-12 | Como Juliana, quero que a câmera capture sozinha quando a imagem estiver nítida | W |
 | HU-15 | Como Juliana, quero baixar os arquivos e os dados confirmados do cliente num pacote organizado, para anexar ao sistema do escritório | M |
 | HU-16 | Como Dra. Paula, quero a procuração preenchida com os dados confirmados, para não redigitar a qualificação | W |
 | HU-17 | Como Juliana, quero cadastrar clientes de ações trabalhistas (CTPS, contracheques, TRCT, FGTS) | W |
 | HU-18 | Como Roberto, quero indicar que não tenho um documento agora, para enviar o resto sem travar o cadastro | A definir no RICE |
 | HU-19 | Como Juliana, quero ver quais documentos ficaram pendentes e enviar um novo link só para eles, para completar o cadastro sem pedir tudo de novo | A definir no RICE |
+| HU-20 | Como Roberto, quero saber na hora se o sistema conseguiu ler minha foto, para refazer enquanto ainda estou com o documento na mão | A definir no RICE |
+| HU-21 | Como Juliana, quero saber na importação se um arquivo está ilegível, para pedir outro ao cliente antes de começar a revisão | A definir no RICE |
+| HU-22 | Como Dra. Paula, quero saber quem abriu, baixou ou excluiu cada documento, para prestar contas ao cliente e à LGPD | A definir no RICE |
+| HU-23 | Como Dra. Paula, quero marcar um dado errado num cadastro já confirmado, para que o erro seja corrigido e medido | A definir no RICE |
 
 ## 7. Requisitos funcionais
 
