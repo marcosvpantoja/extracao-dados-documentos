@@ -1,6 +1,6 @@
 # Etapa 5: Métricas
 
-**Status:** 🟡 Em andamento · 10/11/2026
+**Status:** ✅ Concluída · 11/11/2026 (metas definidas na Etapa 10, congeladas antes da Etapa 13)
 **Papéis:** PM
 **Entradas:** [Etapa 4](04-estrategia.md), [PRD, métricas de sucesso](../requisitos.md#9-métricas-de-sucesso)
 
@@ -180,3 +180,18 @@ O período não é um trimestre, e sim o próprio estudo, até as sessões com t
 **Limite do KR3:** "mais clientes com o mesmo time" é uma **projeção** feita a partir do tempo poupado por cliente, e não uma medida da capacidade de um escritório real.
 
 **Objetivo descartado:** "a esteira de cadastro pode ser resumida em etapas com tecnologia que se aprimora com a evolução do escritório". Juntava três promessas, e a evolução com o uso não pode ser provada no estudo: o MVP não tem retreinamento ([ADR 0004](../decisoes/0004-revisao-humana-e-ciclo-de-aprendizado.md)). A ideia fica para depois do MVP.
+
+### Como as metas serão definidas
+
+Ainda não há dados: o motor de extração não existe. Uma meta escolhida agora seria inventada. Por isso:
+
+1. **Linha de base no conjunto fictício (Etapa 10):** os quatro resultados-chave são medidos nos documentos fictícios, comparando com os gabaritos. O KR3 usa a digitação manual cronometrada dos mesmos documentos.
+2. **Definição das metas** a partir dessa linha de base.
+3. **Congelamento antes das sessões com testers (Etapa 13):** as metas são registradas num commit com data, antes da primeira sessão, e não mudam depois.
+
+O congelamento evita ajustar a régua ao resultado. Se as metas fossem definidas depois de ver os números dos testers, um resultado de 78% poderia virar "meta de 75%".
+
+| Alternativa | Por que não foi escolhida |
+|---|---|
+| Definir as metas agora | Sem dados, a meta seria intuição: alta demais faz o estudo "fracassar" sem motivo; baixa demais não prova nada |
+| Não ter metas | Sem meta, não há como dizer se o objetivo foi atingido |

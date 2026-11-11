@@ -43,15 +43,15 @@ Cada etapa produz artefatos ligados a um ou mais papéis ([mapa de competências
 | 2 | [Arquitetura e requisitos](docs/etapas/02-arquitetura-e-requisitos.md) | PRD, fluxogramas, ADRs 0004–0006 | ✅ Concluída |
 | 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências, [personas](docs/persona.md), entrevistas | 🟡 Entrevistas pendentes |
 | 4 | [Estratégia e mapeamento de oportunidades](docs/etapas/04-estrategia.md) | Visão, Opportunity Solution Tree, PR/FAQ, mapa de jornada | ✅ Concluída |
-| 5 | [Métricas](docs/etapas/05-metricas.md) | North Star, árvore de métricas, OKRs, linha de base | 🟡 Em andamento |
+| 5 | [Métricas](docs/etapas/05-metricas.md) | North Star, métricas de apoio e proteção, árvore de métricas, OKRs | ✅ Concluída |
 | 6 | Priorização e roadmap | Backlog com RICE, histórias INVEST, DoR/DoD, roadmap | ⚪ Pendente |
 | 7 | Business case | Custos, receita hipotética, mercado, go-to-market, stakeholders | ⚪ Pendente |
 | 8 | Arquitetura detalhada e prova de conceito | Diagrama C4; Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
 | 9 | Entrada: importação e cross-device | Wireframes e microcopy da captura; RF-01 a RF-07 | ⚪ Pendente |
-| 10 | Pipeline: OCR, classificação, extração, validação | RF-08 a RF-15 | ⚪ Pendente |
+| 10 | Pipeline: OCR, classificação, extração, validação | RF-08 a RF-15; linha de base e metas dos OKRs | ⚪ Pendente |
 | 11 | Tela de revisão | Wireframes; RF-16 a RF-21; acessibilidade | ⚪ Pendente |
 | 12 | Qualidade | Plano de testes; privacidade e remoção das 18h (RNF-01 a 04, RNF-12); ponta a ponta | ⚪ Pendente |
-| 13 | Avaliação com usuários | Teste de usabilidade; relatório de acurácia com amostra | ⚪ Pendente |
+| 13 | Avaliação com usuários | Metas congeladas antes da 1ª sessão; teste de usabilidade; relatório de acurácia com amostra | ⚪ Pendente |
 | 14 | Lançamento e retrospectiva | Plano de lançamento, resultados, lições aprendidas | ⚪ Pendente |
 
 O roteiro é vivo: etapas podem ser divididas, fundidas ou reordenadas conforme o projeto avança, e cada mudança fica registrada no diário.

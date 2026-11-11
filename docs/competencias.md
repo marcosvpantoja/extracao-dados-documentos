@@ -18,7 +18,7 @@ Legenda: ✅ demonstrado · 🟡 parcial · ⚪ planejado
 | Estratégia e posicionamento | Reposicionamento por evidência ([Etapa 3](etapas/03-validacao-do-problema.md#decisão-10112026)); [visão, princípios e PR/FAQ](etapas/04-estrategia.md) | ✅ |
 | Mapeamento de oportunidades | [Opportunity Solution Tree](etapas/04-estrategia.md#2-opportunity-solution-tree) com experimentos por solução | 🟡 Oportunidades O2, O4 e O5 a validar nas entrevistas |
 | Priorização defensável | Cortes de escopo ([ADR 0003](decisoes/0003-escopo-do-mvp.md)), MoSCoW | 🟡 RICE pendente |
-| Métricas e resultados | Métricas no [PRD](requisitos.md#9-métricas-de-sucesso), avaliação sem vício | 🟡 North Star e OKRs pendentes |
+| Métricas e resultados | [North Star, proteção, árvore de métricas e OKRs](etapas/05-metricas.md); metas congeladas antes da avaliação | ✅ |
 | Visão de negócio | Custo de desenvolvimento x operação ([ADR 0002](decisoes/0002-motor-de-leitura-e-extracao.md)) | ⚪ Business case, Etapa 7 |
 | Privacidade, risco e ética de IA | LGPD, consentimento, resíduo zero, metadados | ✅ |
 | Gestão de mudança de escopo | Revisões registradas em ADRs e commits | ✅ |
