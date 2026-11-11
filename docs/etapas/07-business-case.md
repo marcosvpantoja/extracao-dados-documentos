@@ -42,3 +42,35 @@ Volumes baseados nas [entrevistas simuladas](../pesquisa/entrevistas-simuladas.m
 O preço por cadastro cai com o volume, mas fica sempre bem abaixo da economia estimada (~R$ 4).
 
 **Risco do modelo:** se o tempo poupado medido no estudo for menor que 8 minutos, a economia cai e os preços deixam de se justificar. O preço depende diretamente do resultado-chave de tempo de cadastro (KR3).
+
+---
+
+## 2. Custos
+
+### Onde o motor roda
+
+Em produção, o motor roda num servidor próprio na nuvem, e não no computador do escritório ([ADR 0010](../decisoes/0010-motor-em-producao.md)). Isso cria um custo mensal de servidor, mas elimina instalação e suporte em cada escritório.
+
+### Custos mensais do primeiro ano
+
+| Item | Custo mensal | Observação |
+|---|---|---|
+| **Equipe:** fundador (produto e vendas) e um desenvolvedor | ~R$ 25.000 | Com encargos |
+| Servidor do motor (leitura e extração) | ~R$ 1.500 | Ordem de grandeza; depende do volume |
+| Hospedagem das páginas, banco, armazenamento, cofre de chaves e backups | ~R$ 1.000 | Ordem de grandeza |
+| Ferramentas, domínio e contabilidade | ~R$ 500 | |
+| **Total fixo** | **~R$ 28.000** | |
+
+**Custo variável:** cerca de R$ 0,10 por cadastro (processamento e armazenamento), pequeno diante do preço de R$ 1,00 a R$ 1,49 por cadastro.
+
+### Ponto de equilíbrio
+
+| Se a carteira for… | Receita média por escritório | Escritórios necessários |
+|---|---|---|
+| Só plano Escritório (até 300 cadastros) | R$ 390 | ~72 |
+| Mistura dos quatro planos | ~R$ 700 | ~40 |
+| Só plano Profissional (até 1.000 cadastros) | R$ 1.190 | ~24 |
+
+**Leitura:** o produto se paga com algumas dezenas de escritórios, se eles forem de alto volume. Com escritórios pequenos, o número necessário cresce rápido.
+
+**Risco da equipe:** com duas pessoas, ninguém se dedica a suporte nem a LGPD. Num produto que guarda documentos de identificação, um incidente de segurança ou uma demanda de titular pode parar o desenvolvimento.
