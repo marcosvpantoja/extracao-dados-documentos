@@ -2,7 +2,7 @@
 
 Sistema que lê **notas fiscais (NF-e), boletos, faturas de serviço e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Projeto de **estudo de caso e pesquisa**, sem fins comerciais, documentado passo a passo desde a concepção que exercita os papéis de **PM, Arquitetura, PO, Desenvolvimento, Front-end, UX e QA**, com foco em **cadastro ágil e preciso de clientes em escritórios de advocacia de alto volume**.
 
-> **Status:** 🟡 Etapa 3 — Validação do problema
+> **Status:** 🟡 Etapas 0 a 5 concluídas · próxima: Etapa 6, Priorização e roadmap
 
 ## Objetivo
 
