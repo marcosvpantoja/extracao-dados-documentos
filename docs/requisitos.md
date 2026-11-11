@@ -79,6 +79,7 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | RF-03 | Sessão de uso único e expiração curta | Segundo celular é recusado; sessão não pareada expira em 5 min; QR expirado mostra aviso e opção de gerar outro | M |
 | RF-04 | Página de captura abre no navegador do celular, sem app | Funciona no Safari (iOS) e no Chrome (Android) atuais | M |
 | RF-05 | Captura pela câmera com orientação de enquadramento | Moldura na tela; aviso de imagem escura ou borrada antes do envio | S |
+| RF-31 | Nova captura pedida pela extração | Depois do envio, o celular aguarda o resultado da extração por até 30 s; se a extração falhar por causa da imagem, pede uma nova foto daquele documento; passados 30 s, libera o cliente e o pedido de nova captura fica com a assistente ([Etapa 5](etapas/05-metricas.md)) | M |
 | RF-06 | Captura de frente e verso para RG, CNH física e CIN | Página pede a segunda face quando aplicável; as duas faces chegam como um documento | S |
 | RF-07 | Criptografia ponta a ponta da imagem | Imagem criptografada no celular (AES-GCM); chave só no fragmento da URL do QR; canal de repasse recebe apenas dados cifrados | M |
 
