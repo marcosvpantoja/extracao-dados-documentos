@@ -44,7 +44,7 @@ Cada etapa produz artefatos ligados a um ou mais papéis ([mapa de competências
 | 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências, [personas](docs/persona.md), [entrevistas simuladas](docs/pesquisa/entrevistas-simuladas.md) | ✅ Concluída (entrevistas simuladas) |
 | 4 | [Estratégia e mapeamento de oportunidades](docs/etapas/04-estrategia.md) | Visão, Opportunity Solution Tree, PR/FAQ, mapa de jornada | ✅ Concluída |
 | 5 | [Métricas](docs/etapas/05-metricas.md) | North Star, métricas de apoio e proteção, árvore de métricas, OKRs | ✅ Concluída |
-| 6 | Priorização e roadmap | Backlog com RICE, histórias INVEST, DoR/DoD, roadmap | ⚪ Pendente |
+| 6 | [Priorização e roadmap](docs/etapas/06-priorizacao.md) | Backlog com RICE, histórias INVEST, DoR/DoD, roadmap | 🟡 Em andamento |
 | 7 | Business case | Custos, receita hipotética, mercado, go-to-market, stakeholders | ⚪ Pendente |
 | 8 | Arquitetura detalhada e prova de conceito | Diagrama C4; Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
 | 9 | Entrada: importação e cross-device | Wireframes e microcopy da captura; RF-01 a RF-07 | ⚪ Pendente |

@@ -202,7 +202,7 @@ A jornada abaixo mostra a captura **com o produto**, que é o foco do estudo. Ca
 | 8. Vê o envio concluído | Passa para o próximo documento | "Enviado" e o que ainda falta na lista | "Falta só um" | 🙂 | — | — |
 | 9. Termina | Fecha a página | "Tudo enviado. O escritório já recebeu" | "Pronto, não preciso mandar de novo" | 😀 | — | — |
 
-**Ponto em aberto:** se o Roberto não tiver um dos documentos em mãos no momento, a sessão de uso único (RF-03) impede que ele volte depois pelo mesmo link. As entrevistas simuladas indicam que isso é comum (N4). A decisão fica para a priorização da Etapa 6.
+**Documento que o Roberto não tem em mãos (N4):** ele marca o item como "não tenho agora" (RF-34) e envia o restante. A Juliana vê a pendência e, depois, envia um novo link só com o que falta (RF-35). Cada link continua de uso único. Decisão registrada na [Etapa 6](06-priorizacao.md#1-documento-pendente-achado-n4).
 
 ---
 

@@ -67,6 +67,8 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | HU-15 | Como Juliana, quero baixar os arquivos e os dados confirmados do cliente num pacote organizado, para anexar ao sistema do escritório | M |
 | HU-16 | Como Dra. Paula, quero a procuração preenchida com os dados confirmados, para não redigitar a qualificação | W |
 | HU-17 | Como Juliana, quero cadastrar clientes de ações trabalhistas (CTPS, contracheques, TRCT, FGTS) | W |
+| HU-18 | Como Roberto, quero indicar que não tenho um documento agora, para enviar o resto sem travar o cadastro | A definir no RICE |
+| HU-19 | Como Juliana, quero ver quais documentos ficaram pendentes e enviar um novo link só para eles, para completar o cadastro sem pedir tudo de novo | A definir no RICE |
 
 ## 7. Requisitos funcionais
 
@@ -76,6 +78,10 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 |---|---|---|---|
 | RF-01 | Importar arquivo PDF, JPG, PNG ou HEIC no computador | Arquivo de até 20 MB é aceito por arrastar ou selecionar; formato inválido mostra mensagem clara | M |
 | RF-02 | Gerar QR code de sessão para captura pelo celular | QR exibido em até 2 s após clicar em "Capturar pelo celular" | M |
+| RF-33 | Lista de documentos montada pela assistente | Ao gerar o link, a assistente monta a lista de documentos esperados daquele cliente; a página de captura mostra a lista | A definir no RICE |
+| RF-34 | "Não tenho agora" por documento | Cada item da lista pode ser marcado como "não tenho agora"; o item aparece como pendente para a assistente | A definir no RICE |
+| RF-35 | Link complementar | A assistente gera um novo link de uso único só com os itens pendentes, ligado ao mesmo cliente | A definir no RICE |
+| RF-36 | Pacote complementar (estudo) | No estudo, um envio em outro dia gera um pacote só com os itens que faltavam, porque o envio anterior foi removido às 18h ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)) | A definir no RICE |
 | RF-03 | Sessão de uso único e expiração curta | Segundo celular é recusado; sessão não pareada expira em 5 min; QR expirado mostra aviso e opção de gerar outro | M |
 | RF-04 | Página de captura abre no navegador do celular, sem app | Funciona no Safari (iOS) e no Chrome (Android) atuais | M |
 | RF-05 | Captura pela câmera com orientação de enquadramento | Moldura na tela; aviso de imagem escura ou borrada antes do envio | S |
