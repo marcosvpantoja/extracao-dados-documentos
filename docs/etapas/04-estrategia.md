@@ -1,6 +1,6 @@
 # Etapa 4: Estratégia e mapeamento de oportunidades
 
-**Status:** ✅ Concluída · 10/11/2026
+**Status:** ✅ Concluída · 10/11/2026 · revisada em 11/11/2026 (visão, princípios, árvore, PR/FAQ e jornadas)
 **Papéis:** PM, UX
 **Entradas:** [Etapa 3](03-validacao-do-problema.md), [Personas 3.0](../persona.md), [PRD](../requisitos.md)
 
