@@ -32,4 +32,5 @@ O que muda, o que fica mais fácil e o que fica mais difícil.
 | [0004](0004-revisao-humana-e-ciclo-de-aprendizado.md) | Revisão humana: confirmar/recusar por campo; aprendizado só com fictícios, medição com reais | Aceita |
 | [0005](0005-infraestrutura-vercel-supabase-realtime.md) | Infraestrutura: Vercel (frontend) + Supabase Realtime Broadcast (repasse) | Aceita (banco e Storage liberados pelo 0007) |
 | [0006](0006-ocr-apple-vision.md) | OCR: Apple Vision atrás de interface trocável | Aceita |
-| [0007](0007-retencao-temporaria-e-purga-diaria.md) | Retenção temporária cifrada; remoção diária às 18h; nada na nuvem por 24h | Aceita |
+| [0007](0007-retencao-temporaria-e-purga-diaria.md) | Retenção temporária cifrada; remoção diária às 18h; nada na nuvem por 24h | Aceita (só no estudo de caso) |
+| [0008](0008-armazenamento-em-producao.md) | Armazenamento em produção: criptografia com chave por escritório, controle de acesso, auditoria e retenção definida pelo escritório | Aceita como referência (não implementada) |

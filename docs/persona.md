@@ -90,7 +90,7 @@ Os seis tipos do escopo aparecem num **único atendimento**, misturados, e o sis
 | Necessidade | Dados de qualificação corretos e provas organizadas, com os arquivos disponíveis para anexar ao processo **[B1]** |
 | Impacto do produto | Menos devoluções de cadastro e menos retrabalho na petição 🧪 |
 
-**Requisito que ela revela:** o escritório **precisa ficar com os arquivos**. O sistema não retém nada, mas entrega os documentos e os dados ao escritório, que os guarda no próprio ambiente ([Etapa 3, tensões](etapas/03-validacao-do-problema.md#tensões-identificadas)).
+**Requisito que ela revela:** o escritório **precisa ficar com os arquivos**. Em produção, o sistema guarda os documentos cifrados, com acesso controlado e pelo prazo que o escritório definir ([ADR 0008](decisoes/0008-armazenamento-em-producao.md)). No estudo de caso, para proteger quem testa, tudo é removido às 18h e o escritório baixa o que precisa ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)).
 
 ---
 

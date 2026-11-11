@@ -16,9 +16,11 @@ As afirmações seguem as marcações das personas: **[A1]–[B4]** indicam acha
 > **que** perdem tempo digitando documentos e pagam caro por um erro que chega ao processo,
 > **o produto** é um cadastro por documentos que identifica, lê e confere os dados sozinho,
 > **e que**, diferente do cadastro por foto de um documento por vez, cobre identificação, comprovante e provas num único atendimento,
-> **com** retenção mínima: tudo é cifrado e nada sobrevive às 18h.
+> **com** documentos cifrados do celular ao armazenamento e cada acesso registrado.
 
-**Em uma frase:** cadastrar um cliente completo, de forma ágil e precisa, sem digitar e sem guardar o que não precisa.
+**Em uma frase:** cadastrar um cliente completo, de forma ágil e precisa, sem digitar e com os documentos protegidos.
+
+A visão, o PR/FAQ e os mapas de jornada descrevem o **produto em produção** ([ADR 0008](../decisoes/0008-armazenamento-em-producao.md)). A remoção às 18h é uma regra do estudo de caso ([ADR 0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md)) e não aparece como promessa ao cliente.
 
 ### Princípios de produto
 
@@ -26,7 +28,7 @@ As afirmações seguem as marcações das personas: **[A1]–[B4]** indicam acha
 |---|---|---|
 | **Revisão humana sempre** | O sistema sugere e a pessoa confirma. Nenhum dado vai adiante sem confirmação | [ADR 0004](../decisoes/0004-revisao-humana-e-ciclo-de-aprendizado.md) |
 | **Conferir antes de mostrar** | Todo campo com dígito verificador (CPF, chave da NF-e, linha digitável, MRZ) é validado antes da revisão | [Validadores](../../src/extracao/validacoes.py) |
-| **Servidor cego** | O servidor transporta e guarda só conteúdo cifrado | [ADR 0001](../decisoes/0001-transporte-cross-device.md), [ADR 0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md) |
+| **Proteção do início ao fim** | A captura é cifrada ponta a ponta; o armazenamento é cifrado e cada acesso fica registrado | [ADR 0001](../decisoes/0001-transporte-cross-device.md), [ADR 0008](../decisoes/0008-armazenamento-em-producao.md) |
 | **Sem instalar nada** | O cliente usa a câmera pelo navegador, a partir de um link | RF-03, HU-14 |
 | **Recusar é melhor que errar** | Diante da dúvida, o sistema marca "não reconhecido" em vez de inventar um valor | RF-10, RF-15 |
 
@@ -36,7 +38,7 @@ As afirmações seguem as marcações das personas: **[A1]–[B4]** indicam acha
 |---|---|
 | Software de gestão jurídica | O cadastro alimenta essas ferramentas; não as substitui **[B4]** |
 | Verificação de identidade (KYC) | Não faz biometria nem prova de vida; esse mercado já é atendido **[A4]** |
-| Arquivo de documentos | O escritório guarda os arquivos no próprio ambiente; o produto remove tudo às 18h |
+| Gestão eletrônica de documentos | Guarda os documentos do cadastro, mas não organiza processos nem peças; isso é papel do software jurídico |
 | Leitor de qualquer documento | Seis tipos, escolhidos por aparecerem no mesmo atendimento **[B1]** |
 
 ---
@@ -63,8 +65,8 @@ flowchart TB
     O2 --> S2b["Checagem de qualidade<br/>também na importação"]
     O3 --> S3a["Classificação automática<br/>em lote"]
     O4 --> S4a["Extração de NF-e,<br/>fatura e boleto"]
-    O5 --> S5a["Link cifrado e<br/>remoção às 18h"]
-    O5 --> S5b["Tela final que mostra ao cliente<br/>o que foi enviado e quando some"]
+    O5 --> S5a["Link cifrado e<br/>acesso registrado"]
+    O5 --> S5b["Tela final que mostra ao cliente<br/>o que foi enviado e quem pode ver"]
 
     S1a --> E1["E1 · Cronometrar digitação x revisão<br/>com documentos fictícios"]
     S1b --> E1b["E1b · Verificar se o QR traz<br/>todos os campos do cadastro"]
@@ -111,13 +113,13 @@ Formato da Amazon (*Working Backwards*): a comunicação de lançamento é escri
 
 > **Escritórios de direito do consumidor passam a cadastrar clientes completos em uma única interação, sem digitar**
 >
-> *Identificação, comprovante de residência e provas do caso são lidos, conferidos e separados automaticamente, e nada fica guardado depois das 18h*
+> *Identificação, comprovante de residência e provas do caso são lidos, conferidos e separados automaticamente, com os documentos protegidos do celular ao arquivo*
 >
 > Um escritório de advocacia de massa recebe dezenas de clientes por dia. Cada um envia RG ou CNH, uma conta de luz e as provas da cobrança que contesta: notas fiscais, faturas e boletos. Hoje, uma assistente digita esses dados, documento por documento, e um CPF errado na procuração volta da equipe jurídica ou chega ao processo.
 >
 > Com o novo cadastro por documentos, a assistente envia ao cliente um link. Ele fotografa os documentos com o celular, sem instalar nada, e os dados aparecem no computador do escritório já separados por tipo e conferidos: CPF, chave da nota fiscal e linha digitável do boleto passam por validação antes de chegar à tela. A assistente só confirma ou corrige cada campo. Arquivos recebidos pelo WhatsApp podem ser importados da mesma forma.
 >
-> Os documentos trafegam cifrados de ponta a ponta. Durante o dia ficam guardados na nuvem, ainda cifrados e com uma chave que só o escritório tem. Às 18h tudo é removido e a chave é destruída.
+> Os documentos trafegam cifrados de ponta a ponta e ficam guardados cifrados, com uma chave exclusiva de cada escritório. Só pessoas autorizadas acessam, cada acesso é registrado, e os documentos são apagados automaticamente no prazo que o escritório definir.
 >
 > *"Antes eu digitava três documentos por cliente e conferia o CPF duas vezes. Agora eu confiro só o que o sistema marca em dúvida"*, diz Juliana, assistente de cadastro de um escritório fictício usado no estudo.
 
@@ -129,8 +131,8 @@ Formato da Amazon (*Working Backwards*): a comunicação de lançamento é escri
 | O cliente precisa instalar um aplicativo? | Não. O link abre a câmera no navegador do celular. |
 | E se a foto ficar ruim? | A página de captura avisa antes do envio e pede uma nova foto. |
 | O sistema pode errar? | Pode. Por isso nada segue sem a confirmação de uma pessoa, e os campos com dígito verificador são conferidos antes. |
-| Onde ficam os documentos? | Cifrados na nuvem até as 18h do mesmo dia. Depois disso, só no pacote que o escritório baixou e guarda no próprio ambiente. |
-| E se eu esquecer de baixar? | A partir das 17h o sistema avisa e mostra uma contagem regressiva. Às 18h, o que não foi baixado é perdido. |
+| Onde ficam os documentos? | Cifrados na nuvem, com uma chave exclusiva do escritório. Só usuários autorizados acessam, e cada acesso fica registrado. |
+| Por quanto tempo ficam guardados? | Pelo prazo que o escritório definir. Depois são apagados automaticamente, e o cliente pode pedir a exclusão a qualquer momento (LGPD). |
 
 ### Perguntas internas
 
@@ -171,9 +173,9 @@ O mapa mostra a jornada **atual** (sem o produto), com ações, pensamentos, emo
 | **Emoção** | 🙂 | 😐 | 😕 | 😟 | 😐 |
 | **Dor** | — | Lista confusa | Não sabe se a foto serve | Insegurança com os documentos | Não sabe se precisa reenviar |
 | **Oportunidade** | — | O2 | O2 | O5 | O2 |
-| **Com o produto** | — | Recebe um link com a lista | A página guia a foto e avisa se ficou ruim | Envio cifrado; sabe quando os dados somem | Vê a confirmação na tela |
+| **Com o produto** | — | Recebe um link com a lista | A página guia a foto e avisa se ficou ruim | Envio cifrado; sabe quem terá acesso | Vê a confirmação na tela |
 
-**Momento crítico:** a fase 4. O WhatsApp é o hábito. O link precisa ser mais simples que ele, e a promessa de remoção às 18h é o que pode convencer Roberto a trocar (E5).
+**Momento crítico:** a fase 4. O WhatsApp é o hábito. O link precisa ser mais simples que ele, e a garantia de que só o escritório acessa os documentos é o que pode convencer Roberto a trocar (E5).
 
 ---
 
@@ -181,6 +183,7 @@ O mapa mostra a jornada **atual** (sem o produto), com ações, pensamentos, emo
 
 - **A ordem foi invertida.** Na prática, visão e árvore de oportunidades vêm antes do PRD. Aqui o PRD veio primeiro (Etapa 2) e a árvore serviu para conferi-lo. A conferência encontrou um ponto que o PRD não cobria: a checagem de qualidade na importação (S2b).
 - **Oportunidades sem dados primários.** O2, O4 e O5 dependem das entrevistas. A ordem da tabela de oportunidades pode mudar depois delas.
+- **Estudo e produção foram misturados na primeira versão.** A remoção às 18h, regra de proteção do estudo, chegou a aparecer como promessa ao cliente. A correção separou os dois contextos nos ADRs [0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md) e [0008](../decisoes/0008-armazenamento-em-producao.md).
 - **O PR/FAQ é um exercício de clareza, não uma previsão.** Os depoimentos são de personas, não de pessoas reais.
 
 ## Entregáveis

@@ -112,7 +112,7 @@ Exemplo de registro:
 
 | Regra | Como é garantida |
 |---|---|
-| Retenção mínima na nuvem | Dados e fotos salvos só cifrados e removidos às 18h de cada dia, nunca por 24h ([ADR 0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md)); registros de avaliação ficam em arquivo local, sem valores |
+| Retenção mínima na nuvem (estudo) | Dados e fotos salvos só cifrados e removidos às 18h de cada dia, nunca por 24h ([ADR 0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md)); registros de avaliação ficam em arquivo local, sem valores |
 | Documentos reais nunca vão para o repositório | `data/privado/` ignorado pelo git, e PDFs e imagens bloqueados fora de `data/exemplos/` |
 | Prints na documentação usam só documentos fictícios | Revisão antes de cada commit |
 | Nome do arquivo não pode entregar a resposta | Arquivos reais são renomeados para nomes neutros na importação (ex.: `nfe-01.pdf`). O nome padrão de download de uma NF-e é a própria chave de acesso, o que vazaria um campo avaliado e dados do emitente |

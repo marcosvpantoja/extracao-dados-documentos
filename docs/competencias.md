@@ -28,7 +28,8 @@ Legenda: ✅ demonstrado · 🟡 parcial · ⚪ planejado
 
 | Competência | Evidência | Situação |
 |---|---|---|
-| Decisões arquiteturais registradas | ADRs [0001](decisoes/0001-transporte-cross-device.md), [0002](decisoes/0002-motor-de-leitura-e-extracao.md), [0005](decisoes/0005-infraestrutura-vercel-supabase-realtime.md), [0006](decisoes/0006-ocr-apple-vision.md) | ✅ |
+| Decisões arquiteturais registradas | ADRs [0001](decisoes/0001-transporte-cross-device.md), [0002](decisoes/0002-motor-de-leitura-e-extracao.md), [0005](decisoes/0005-infraestrutura-vercel-supabase-realtime.md), [0006](decisoes/0006-ocr-apple-vision.md), [0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md), [0008](decisoes/0008-armazenamento-em-producao.md) | ✅ |
+| Separar o que é construído do que a produção exigiria | Estudo remove tudo às 18h ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)); produção guarda com chave por escritório, auditoria e retenção ([ADR 0008](decisoes/0008-armazenamento-em-producao.md)) | ✅ |
 | Segurança por arquitetura | Criptografia ponta a ponta com chave no fragmento da URL; servidor cego ao conteúdo | ✅ |
 | Diagramas de arquitetura | [Fluxogramas](arquitetura/fluxogramas.md): componentes, sequência, estados | ✅ |
 | Desacoplamento e portabilidade | Interface de OCR trocável | 🟡 Na implementação |

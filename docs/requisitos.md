@@ -6,7 +6,7 @@
 
 ## 1. Resumo
 
-Sistema que recebe documentos por **importação de arquivo** no computador ou por **captura com o celular** (fluxo cross-device via QR code), identifica automaticamente o tipo, extrai os dados e os exibe numa tela de revisão para o usuário confirmar ou recusar cada campo. O que o sistema guarda fica cifrado com uma chave que só o escritório tem e é removido às 18h de cada dia ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)).
+Sistema que recebe documentos por **importação de arquivo** no computador ou por **captura com o celular** (fluxo cross-device via QR code), identifica automaticamente o tipo, extrai os dados e os exibe numa tela de revisão para o usuário confirmar ou recusar cada campo. No estudo de caso, o que o sistema guarda fica cifrado e é removido às 18h de cada dia ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)); em produção, os documentos seriam guardados cifrados pelo prazo que o escritório definir ([ADR 0008](decisoes/0008-armazenamento-em-producao.md)).
 
 ## 2. Problema
 
@@ -24,9 +24,17 @@ Detalhamento, fontes e histórico em [Personas](persona.md).
 
 ## 4. Tese do MVP
 
-> É possível cadastrar um cliente, com identificação, comprovante de residência e provas, numa única interação, de forma **ágil** e **precisa**, capturando os documentos pelo celular do próprio cliente ou importando arquivos, com retenção mínima: tudo o que o sistema guarda é cifrado e removido às 18h de cada dia.
+> É possível cadastrar um cliente, com identificação, comprovante de residência e provas, numa única interação, de forma **ágil** e **precisa**, capturando os documentos pelo celular do próprio cliente ou importando arquivos, com os documentos protegidos do envio ao armazenamento.
 
-**Promessa de privacidade:** o servidor nunca vê o conteúdo, e nada sobrevive às 18h. Dados e fotos podem ficar salvos na nuvem durante o dia, sempre cifrados com uma chave que só o escritório tem; às 18h (Brasília) tudo é removido e a chave é destruída, e nenhum item permanece por 24h ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)). O pacote baixado fica sob responsabilidade do escritório, como controlador dos dados (LGPD).
+**Segurança dos dados, em dois contextos:**
+
+| | Estudo de caso (o que é construído) | Produção (desenho de referência) |
+|---|---|---|
+| Regra | Nada sobrevive às 18h; nenhum item chega a 24h ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)) | Documentos guardados pelo prazo que o escritório definir ([ADR 0008](decisoes/0008-armazenamento-em-producao.md)) |
+| Por quê | Proteger os documentos de quem testa o sistema | O escritório precisa dos documentos durante todo o processo |
+| Criptografia | Chave do dia só no navegador do escritório; servidor não lê | Chave por escritório num KMS; servidor lê só sob controle de acesso e auditoria |
+
+Nos dois contextos, a captura pelo celular é cifrada ponta a ponta e o escritório é o controlador dos dados (LGPD).
 
 ## 5. Escopo
 
@@ -113,10 +121,10 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 
 | ID | Categoria | Requisito | Critério de aceite | Prior. |
 |---|---|---|---|---|
-| RNF-01 | Privacidade | Retenção máxima até as 18h do dia, nunca 24h ou mais; nada persiste no celular | Teste automatizado verifica, após as 18h, tabela e Storage vazios, chave do dia inexistente e nenhum item com mais de 24h; celular sem resíduo após a sessão | M |
+| RNF-01 | Privacidade (estudo) | Retenção máxima até as 18h do dia, nunca 24h ou mais; nada persiste no celular | Teste automatizado verifica, após as 18h, tabela e Storage vazios, chave do dia inexistente e nenhum item com mais de 24h; celular sem resíduo após a sessão | M |
 | RNF-12 | Privacidade | Conteúdo salvo sempre cifrado | Nenhum campo de conteúdo legível no banco ou no Storage; chave do dia nunca enviada ao servidor | M |
 | RNF-02 | Privacidade | Documento real não sai do celular e do computador em texto aberto | Só dados cifrados trafegam pelo canal de repasse; motor de leitura é local | M |
-| RNF-03 | Privacidade | Remoção diária às 18h em três camadas | Destruição da chave, tarefa agendada às 18h e limite de 24h executado de hora em hora, cada uma com registro anônimo ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)) | M |
+| RNF-03 | Privacidade (estudo) | Remoção diária às 18h em três camadas | Destruição da chave, tarefa agendada às 18h e limite de 24h executado de hora em hora, cada uma com registro anônimo ([ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md)) | M |
 | RNF-04 | Segurança | Sessão protegida contra uso indevido | Identificador e chave aleatórios de 128 bits ou mais; uso único; expiração | M |
 | RNF-05 | Desempenho | Rápido o suficiente | Meta de tempo até o resultado completo definida na etapa de métricas a partir da linha de base | M |
 | RNF-06 | Acurácia | Acerto alto por campo | Meta definida a partir da linha de base no conjunto de desenvolvimento | M |
@@ -135,7 +143,7 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | Tempo até o resultado | Da captura ou importação até os campos na tela | A definir na linha de base |
 | Tempo de cadastro por cliente (**ágil**) | Do início da sessão até todos os campos do cliente confirmados | A definir na linha de base |
 | Recapturas por documento | Quantas vezes um documento precisou ser fotografado de novo | A definir na linha de base |
-| Retenção respeitada | % de dias em que nada sobrevive às 18h e nenhum item chega a 24h | 100% |
+| Retenção respeitada (estudo) | % de dias em que nada sobrevive às 18h e nenhum item chega a 24h | 100% |
 | Taxa de "não reconhecido" correto | % de documentos fora do escopo marcados como "não reconhecido" | A definir na linha de base |
 
 ## 10. Premissas e dependências
