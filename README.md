@@ -45,7 +45,7 @@ Cada etapa produz artefatos ligados a um ou mais papéis ([mapa de competências
 | 4 | [Estratégia e mapeamento de oportunidades](docs/etapas/04-estrategia.md) | Visão, Opportunity Solution Tree, PR/FAQ, mapa de jornada | ✅ Concluída |
 | 5 | [Métricas](docs/etapas/05-metricas.md) | North Star, métricas de apoio e proteção, árvore de métricas, OKRs | ✅ Concluída |
 | 6 | [Priorização e roadmap](docs/etapas/06-priorizacao.md) | Backlog, RICE, escopo do MVP, DoR/DoD, roadmap | ✅ Concluída |
-| 7 | Business case | Custos, receita hipotética, mercado, go-to-market, stakeholders | ⚪ Pendente |
+| 7 | [Business case](docs/etapas/07-business-case.md) | Custos, receita hipotética, mercado, go-to-market, stakeholders | 🟡 Em andamento |
 | 8 | Arquitetura detalhada e prova de conceito | Diagrama C4; Broadcast em pedaços; Vercel → `localhost` | ⚪ Pendente |
 | 9 | Incremento 1: captura pelo celular | Wireframes e microcopy da captura; motor simulado; HU-02, 06, 07, 13, 14, 18, 20 | ⚪ Pendente |
 | 10 | Incrementos 2 e 3: motor real | NF-e por importação, depois documentos pessoais e demais tipos; linha de base e metas dos OKRs | ⚪ Pendente |
