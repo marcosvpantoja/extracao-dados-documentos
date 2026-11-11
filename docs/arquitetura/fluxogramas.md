@@ -20,7 +20,7 @@ flowchart LR
   end
 
   subgraph NUVEM["☁️ Nuvem · só dados cifrados"]
-    VERCEL["Vercel<br/>hospeda as páginas"]
+    VERCEL["Vercel<br/>hospeda a página de captura"]
     SUPA["Supabase Realtime Broadcast<br/>canal efêmero por sessão"]
     STORE[("Supabase Storage + tabela<br/>só conteúdo cifrado<br/>removido às 18h")]
     AUD[("Tabela auditoria<br/>só inclusão · sem dados pessoais<br/>não é removida às 18h")]
@@ -46,7 +46,7 @@ flowchart LR
   end
 
   VERCEL -. "entrega HTML/JS" .-> CAP
-  VERCEL -. "entrega HTML/JS" .-> REV
+  MOTOR -. "serve a aplicação<br/>em localhost (ADR 0011)" .-> REV
   QR -- "QR: sessão + chave no #fragmento" --> CAP
   CRIP1 -- "pedaços cifrados" --> SUPA
   SUPA -- "pedaços cifrados" --> CRIP2

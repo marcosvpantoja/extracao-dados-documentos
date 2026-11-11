@@ -2,7 +2,7 @@
 
 Sistema que lê **notas fiscais (NF-e), boletos, faturas de serviço e documentos pessoais (CNH e RG)**, identifica sozinho o tipo de documento, extrai os dados e mostra tudo na tela. Projeto de **estudo de caso e pesquisa**, sem fins comerciais, documentado passo a passo desde a concepção que exercita os papéis de **PM, Arquitetura, PO, Desenvolvimento, Front-end, UX e QA**, com foco em **cadastro ágil e preciso de clientes em escritórios de advocacia de alto volume**.
 
-> **Status:** 🟡 Etapas 0 a 7 concluídas · próxima: Etapa 8, Arquitetura detalhada e prova de conceito
+> **Status:** 🟡 Etapas 0 a 8 concluídas · próxima: Etapa 9, captura pelo celular
 
 ## Objetivo
 
@@ -46,7 +46,7 @@ Cada etapa produz artefatos ligados a um ou mais papéis ([mapa de competências
 | 5 | [Métricas](docs/etapas/05-metricas.md) | North Star, métricas de apoio e proteção, árvore de métricas, OKRs | ✅ Concluída |
 | 6 | [Priorização e roadmap](docs/etapas/06-priorizacao.md) | Backlog, RICE, escopo do MVP, DoR/DoD, roadmap | ✅ Concluída |
 | 7 | [Business case](docs/etapas/07-business-case.md) | Receita, custos, mercado, licenciamento, stakeholders (hipotético) | ✅ Concluída |
-| 8 | [Arquitetura detalhada e prova de conceito](docs/etapas/08-arquitetura-e-poc.md) | Diagrama C4; Broadcast em pedaços; Vercel → `localhost` | 🟡 Em andamento |
+| 8 | [Arquitetura detalhada e prova de conceito](docs/etapas/08-arquitetura-e-poc.md) | [C4](docs/arquitetura/c4.md); envio em pedaços ✅; Vercel → `localhost` ❌ no Safari, resolvido pelo [ADR 0011](docs/decisoes/0011-aplicacao-do-escritorio-servida-pelo-motor.md) | ✅ Concluída |
 | 9 | Incremento 1: captura pelo celular | Wireframes e microcopy da captura; motor simulado; HU-02, 06, 07, 13, 14, 18, 20 | ⚪ Pendente |
 | 10 | Incrementos 2 e 3: motor real | NF-e por importação, depois documentos pessoais e demais tipos; linha de base e metas dos OKRs | ⚪ Pendente |
 | 11 | Tela de revisão e funções do escritório | Wireframes; revisão acessível; pacote, registro de acessos, dado errado (incremento 4) | ⚪ Pendente |

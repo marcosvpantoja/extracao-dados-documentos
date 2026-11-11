@@ -36,3 +36,4 @@ O que muda, o que fica mais fácil e o que fica mais difícil.
 | [0008](0008-armazenamento-em-producao.md) | Armazenamento em produção: criptografia com chave por escritório, controle de acesso, auditoria e retenção definida pelo escritório | Aceita como referência (não implementada) |
 | [0009](0009-registro-de-auditoria-no-estudo.md) | Registro de auditoria no estudo: abrir, baixar e excluir documento, sem dados pessoais, com perfil simulado | Aceita |
 | [0010](0010-motor-em-producao.md) | Motor em produção: servidor próprio na nuvem com PaddleOCR, sem IA de terceiros | Aceita como referência (não implementada) |
+| [0011](0011-aplicacao-do-escritorio-servida-pelo-motor.md) | Aplicação do escritório servida pelo motor local (o Safari bloqueia a página da Vercel chamando o Mac) | Aceita (só no estudo) |

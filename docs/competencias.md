@@ -34,8 +34,8 @@ Legenda: ✅ demonstrado · 🟡 parcial · ⚪ planejado
 | Segurança por arquitetura | Criptografia ponta a ponta com chave no fragmento da URL; servidor cego ao conteúdo | ✅ |
 | Diagramas de arquitetura | [Fluxogramas](arquitetura/fluxogramas.md): componentes, sequência, estados | ✅ |
 | Desacoplamento e portabilidade | Interface de OCR trocável | 🟡 Na implementação |
-| Gestão de riscos técnicos | Prova de conceito antes de construir (Etapa 8) | ⚪ |
-| Modelo C4 (contexto, contêineres, componentes) | — | ⚪ |
+| Gestão de riscos técnicos | [Duas provas de conceito](etapas/08-arquitetura-e-poc.md): uma eliminou o risco, a outra o confirmou e mudou a arquitetura ([ADR 0011](decisoes/0011-aplicacao-do-escritorio-servida-pelo-motor.md)) | ✅ |
+| Modelo C4 (contexto, contêineres, componentes) | [Contexto e contêineres](arquitetura/c4.md), estudo e produção lado a lado | 🟡 Componentes na construção |
 
 ## Product Owner: o que entra em cada entrega
 

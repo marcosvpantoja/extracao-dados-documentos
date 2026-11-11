@@ -1,6 +1,6 @@
 # Etapa 8: Arquitetura detalhada e prova de conceito
 
-**Status:** 🟡 Em andamento · 11/11/2026
+**Status:** ✅ Concluída · 11/11/2026 (o nível de componentes do C4 fica para a construção)
 **Papéis:** Arquiteto, Dev
 
 A etapa tem duas partes:
@@ -64,3 +64,41 @@ Cada pedaço tem 128 KB de conteúdo cifrado, o que dá cerca de 171 KB por mens
 | Folga até o limite documentado de 256 KB | Cerca de 85 KB, contra 16 KB do pedaço de 180 KB |
 | Velocidade | Foto de 2 MB em ~0,4 s, contra ~0,3 s do pedaço maior; diferença imperceptível |
 | Volume de sessões simultâneas | O plano gratuito aceita 100 mensagens por segundo por projeto. Uma foto de 2 MB gera 17 mensagens, então cerca de 5 fotos podem ser enviadas no mesmo segundo. É suficiente para as sessões do estudo; pedaços menores consumiriam essa cota mais rápido |
+
+---
+
+## Prova de conceito 2: a página na internet consegue falar com o motor no Mac?
+
+**Risco:** pelo desenho original, a aplicação do escritório ficaria na Vercel, com conexão segura (`https`), e chamaria o motor no Mac pelo endereço `localhost`, com conexão simples (`http`). Navegadores costumam bloquear esse tipo de chamada.
+
+**Como foi testado** ([`poc/02-localhost/`](../../poc/02-localhost/)):
+- Um **motor simulado** no Mac, na porta 8787, que responde com dados fixos e descarta o que recebe.
+- Uma **página de teste publicada na Vercel**, com três botões: chamar `localhost`, chamar `127.0.0.1` e enviar 1 MB ao motor.
+
+### Resultado (11/11/2026)
+
+| Navegador | `localhost` | `127.0.0.1` | Envio de 1 MB | Observação |
+|---|---|---|---|---|
+| Chrome 156 | ✅ | ✅ 26 ms | ✅ 15 ms | Só depois de o usuário clicar em "Permitir" num aviso de acesso à rede local |
+| Safari 26 | ❌ | ❌ | ❌ | "Load failed": o pedido nem chega ao motor |
+
+**Diagnóstico:** o Safari não deixa uma página segura chamar um endereço não seguro, nem quando é o próprio computador. O Chrome abre uma exceção para o computador, mas só com autorização do usuário, o que exigiria explicar o aviso à Juliana no primeiro uso.
+
+### Prova de conceito 2b: aplicação servida pelo motor
+
+A alternativa escolhida foi servir a aplicação do escritório pelo próprio motor, em `http://localhost:8787`, com a página e o motor no mesmo endereço.
+
+| Verificação | Chrome 156 | Safari 26 |
+|---|---|---|
+| O navegador considera o endereço seguro | ✅ | ✅ |
+| Criptografia do navegador (AES-GCM) disponível | ✅ | ✅ |
+| Envio de 1 MB ao motor | ✅ | ✅ |
+| Conexão com serviço na internet por WebSocket, como o do Supabase | ✅ | ✅ |
+
+Nenhum aviso de permissão apareceu nos dois navegadores.
+
+### Conclusão
+
+- **O risco se confirmou** e mudou a arquitetura do estudo: a Vercel hospeda só a página de captura, e a aplicação do escritório é servida pelo motor ([ADR 0011](../decisoes/0011-aplicacao-do-escritorio-servida-pelo-motor.md)).
+- **Em produção o problema não existe,** porque o motor fica num servidor na nuvem, com conexão segura ([ADR 0010](../decisoes/0010-motor-em-producao.md)).
+- **A prova de conceito cumpriu o papel:** o problema foi descoberto antes de existir código do produto para refazer.

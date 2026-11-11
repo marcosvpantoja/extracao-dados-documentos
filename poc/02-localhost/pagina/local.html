@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prova de conceito 2b</title>
+<style>
+  :root { --bg:#fff; --fg:#111; --ok:#047857; --err:#b91c1c; --line:#e5e7eb; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#111; --fg:#eee; --ok:#34d399; --err:#f87171; --line:#333; } }
+  body { background:var(--bg); color:var(--fg); font:16px/1.5 -apple-system, system-ui, sans-serif; margin:0; padding:16px; max-width:720px; }
+  button { font:inherit; padding:8px 14px; } pre { border:1px solid var(--line); padding:12px; white-space:pre-wrap; }
+  .ok { color:var(--ok); } .err { color:var(--err); }
+</style>
+</head>
+<body>
+<h1>Prova de conceito 2b</h1>
+<p>Esta página é servida pelo próprio motor, no Mac (localhost).</p>
+<button id="t">Rodar os testes</button>
+<pre id="saida">Aguardando…</pre>
+<script>
+  const s = document.getElementById('saida');
+  const log = (t, ok) => { s.innerHTML += `\n<span class="${ok ? 'ok' : 'err'}">${ok ? '✅' : '❌'} ${t}</span>`; };
+  document.getElementById('t').onclick = async () => {
+    s.textContent = navigator.userAgent;
+    log(`Contexto seguro: ${window.isSecureContext}`, window.isSecureContext);
+    try {
+      const k = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, false, ['encrypt']);
+      await crypto.subtle.encrypt({ name: 'AES-GCM', iv: crypto.getRandomValues(new Uint8Array(12)) }, k, new Uint8Array(1024));
+      log('Criptografia do navegador (AES-GCM) disponível', true);
+    } catch (e) { log(`Criptografia: ${e.name}: ${e.message}`, false); }
+    try {
+      const r = await fetch('/processar', { method: 'POST', body: new Uint8Array(1024 * 1024) });
+      log(`Envio de 1 MB ao motor: ${JSON.stringify(await r.json())}`, r.ok);
+    } catch (e) { log(`Envio ao motor: ${e.name}: ${e.message}`, false); }
+    try {
+      const ws = new WebSocket('wss://echo.websocket.org');
+      await new Promise((ok, falha) => { ws.onopen = ok; ws.onerror = falha; setTimeout(falha, 5000); });
+      ws.close();
+      log('Conexão segura com serviço na internet (WebSocket, como o do Supabase)', true);
+    } catch (e) { log('Conexão WebSocket com a internet falhou', false); }
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prova de conceito 2</title>
+<style>
+  :root { --bg:#fff; --fg:#111; --muted:#555; --ok:#047857; --err:#b91c1c; --line:#e5e7eb; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#111; --fg:#eee; --muted:#aaa; --ok:#34d399; --err:#f87171; --line:#333; } }
+  body { background:var(--bg); color:var(--fg); font:16px/1.5 -apple-system, system-ui, sans-serif; margin:0; padding:16px; max-width:720px; }
+  button { font:inherit; padding:8px 14px; margin:4px 4px 4px 0; cursor:pointer; }
+  pre { background:transparent; border:1px solid var(--line); padding:12px; white-space:pre-wrap; word-break:break-word; }
+  .ok { color:var(--ok); } .err { color:var(--err); } small { color:var(--muted); }
+</style>
+</head>
+<body>
+<h1>Prova de conceito 2</h1>
+<p>Esta página está na internet (HTTPS). Ela tenta falar com o motor simulado rodando no seu Mac, na porta 8787.</p>
+<button id="t1">1 · localhost</button>
+<button id="t2">2 · 127.0.0.1</button>
+<button id="t3">3 · enviar 1 MB</button>
+<pre id="saida">Aguardando teste…</pre>
+<small id="nav"></small>
+<script>
+  const saida = document.getElementById('saida');
+  document.getElementById('nav').textContent = navigator.userAgent;
+  const log = (txt, ok) => { saida.innerHTML += `\n<span class="${ok ? 'ok' : 'err'}">${txt}</span>`; };
+  async function testar(rotulo, url, corpo) {
+    const t0 = performance.now();
+    try {
+      const r = await fetch(url, corpo ? { method: 'POST', body: corpo, headers: { 'Content-Type': 'application/octet-stream' } } : {});
+      const j = await r.json();
+      log(`✅ ${rotulo}: ${JSON.stringify(j)} em ${Math.round(performance.now() - t0)} ms`, true);
+    } catch (e) {
+      log(`❌ ${rotulo}: ${e.name}: ${e.message}`, false);
+    }
+  }
+  document.getElementById('t1').onclick = () => testar('localhost', 'http://localhost:8787/saude');
+  document.getElementById('t2').onclick = () => testar('127.0.0.1', 'http://127.0.0.1:8787/saude');
+  document.getElementById('t3').onclick = () => testar('envio de 1 MB', 'http://127.0.0.1:8787/processar', new Uint8Array(1024 * 1024));
+</script>
+</body>
+</html>
