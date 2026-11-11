@@ -49,11 +49,11 @@ A visão, o PR/FAQ e os mapas de jornada descrevem o **produto em produção** (
 
 A árvore (Teresa Torres, *Continuous Discovery Habits*) parte de **um resultado mensurável**, abre as **oportunidades** (dores e necessidades do usuário, não funcionalidades), liga cada oportunidade a **soluções** possíveis e cada solução a um **experimento** que testa a hipótese mais arriscada.
 
-**Resultado:** reduzir o **tempo de cadastro por cliente** sem aumentar os **erros devolvidos pela equipe jurídica**.
+**Resultado:** a North Star, **clientes cadastrados por semana sem nenhuma edição** ([Etapa 5](05-metricas.md#1-north-star)). A primeira versão da árvore usava "menos tempo de cadastro, sem mais erros devolvidos", escrita antes da North Star; a raiz foi alinhada para árvore e métricas falarem a mesma língua.
 
 ```mermaid
 flowchart TB
-    R["🎯 Resultado<br/>Menos tempo de cadastro por cliente,<br/>sem mais erros devolvidos pelo jurídico"]
+    R["⭐ North Star<br/>Clientes cadastrados por semana<br/>sem nenhuma edição"]
 
     R --> O1["O1 · Digitar a identificação<br/>é lento e gera erros [B2]"]
     R --> O2["O2 · Documentos ilegíveis<br/>exigem novo pedido 🧪"]
@@ -63,8 +63,9 @@ flowchart TB
 
     O1 --> S1a["Extração de RG, CIN e CNH<br/>com validação de CPF e MRZ"]
     O1 --> S1b["Leitura do QR code da CNH digital"]
-    O2 --> S2a["Link de captura com guia<br/>e aviso de qualidade"]
+    O2 --> S2a["Link de captura com guia, aviso de qualidade<br/>e nova foto pedida pela extração"]
     O2 --> S2b["Checagem de qualidade<br/>também na importação"]
+    S2b --> E2b["E2b · Arquivos importados recusados<br/>que de fato eram ilegíveis"]
     O3 --> S3a["Classificação automática<br/>em lote"]
     O4 --> S4a["Extração de NF-e,<br/>fatura e boleto"]
     O5 --> S5a["Link cifrado e<br/>acesso registrado"]
@@ -72,7 +73,7 @@ flowchart TB
 
     S1a --> E1["E1 · Cronometrar digitação x revisão<br/>com documentos fictícios"]
     S1b --> E1b["E1b · Verificar se o QR traz<br/>todos os campos do cadastro"]
-    S2a --> E2["E2 · Contar recapturas em<br/>sessões com testers"]
+    S2a --> E2["E2 · % de fotos aceitas na<br/>primeira tentativa (KR4)"]
     S3a --> E3["E3 · Acurácia de classificação<br/>num lote misto"]
     S4a --> E4["E4 · Acurácia por campo<br/>no conjunto fictício"]
     S5a --> E5["E5 · Perguntar a clientes: link<br/>ou WhatsApp? Por quê?"]
@@ -84,7 +85,7 @@ flowchart TB
     class R res
     class O1,O2,O3,O4,O5 opp
     class S1a,S1b,S2a,S2b,S3a,S4a,S5a,S5b sol
-    class E1,E1b,E2,E3,E4,E5 exp
+    class E1,E1b,E2,E2b,E3,E4,E5 exp
 ```
 
 🖼️ [Ver como imagem](img/04-estrategia-01-opportunity-solution-tree.png)
@@ -94,14 +95,14 @@ flowchart TB
 | Oportunidade | Impacto no resultado | Evidência | Coberta pelo MVP? | Hipótese mais arriscada |
 |---|---|---|---|---|
 | **O1** Digitar identificação | Alto: está em todo cadastro | **[B2]** | Sim | Revisar campos extraídos é de fato mais rápido que digitar |
-| **O2** Documentos ilegíveis | Alto: cada novo pedido pode custar horas ou dias de espera 🧪 | 🧪 | Parcial (aviso só na captura) | É uma dor frequente; não sabemos quantas vezes por dia acontece |
+| **O2** Documentos ilegíveis | Alto: cada novo pedido pode custar horas ou dias de espera 🧪 | 🧪 | Sim (captura: RF-05 e RF-31; importação: RF-32) | É uma dor frequente; não sabemos quantas vezes por dia acontece |
 | **O3** Documentos misturados | Médio: separar leva segundos para um humano | **[B1]** | Sim | A classificação erra pouco o suficiente para não atrapalhar |
 | **O4** Dados das provas | Médio: menos campos que a identificação 🧪 | 🧪 | Sim | O escritório cadastra esses dados no início, e não só na petição |
 | **O5** Desconfiança do cliente | Baixo no tempo, alto na adoção | 🧪 | Sim | O cliente troca o hábito do WhatsApp por um link |
 
 ### O que a árvore revelou
 
-1. **O2 pode valer mais que O3.** Separar documentos é rápido para um humano. Pedir de novo um documento ilegível pode travar o cadastro até o cliente responder. Se as entrevistas confirmarem a frequência, o aviso de qualidade deixa de ser detalhe (RF-05) e vira diferencial, e precisa existir também na importação (S2b, hoje fora do MVP).
+1. **O2 pode valer mais que O3.** Separar documentos é rápido para um humano. Pedir de novo um documento ilegível pode travar o cadastro até o cliente responder. Se as entrevistas confirmarem a frequência, o aviso de qualidade deixa de ser detalhe (RF-05) e vira diferencial, e precisa existir também na importação. Na revisão desta etapa, a nova foto pedida pela extração (RF-31) e a checagem na importação (S2b, RF-32) entraram no MVP.
 2. **O5 é risco de adoção, não de tempo.** O cliente já manda tudo pelo WhatsApp. O link de captura só funciona se for mais fácil, ou mais confiável, que o hábito atual. Por isso a importação continua indispensável: ela recebe os arquivos que chegam pelo WhatsApp.
 3. **S1b é uma alternativa barata a testar.** O QR code da CNH digital traz dados assinados que dispensariam OCR. Se trouxer todos os campos do cadastro (E1b), a CNH digital vira o tipo mais preciso do conjunto.
 
@@ -183,7 +184,7 @@ O mapa mostra a jornada **atual** (sem o produto), com ações, pensamentos, emo
 
 ## Limitações
 
-- **A ordem foi invertida.** Na prática, visão e árvore de oportunidades vêm antes do PRD. Aqui o PRD veio primeiro (Etapa 2) e a árvore serviu para conferi-lo. A conferência encontrou um ponto que o PRD não cobria: a checagem de qualidade na importação (S2b).
+- **A ordem foi invertida.** Na prática, visão e árvore de oportunidades vêm antes do PRD. Aqui o PRD veio primeiro (Etapa 2) e a árvore serviu para conferi-lo. A conferência encontrou um ponto que o PRD não cobria: a checagem de qualidade na importação (S2b), que depois entrou no MVP como RF-32.
 - **Oportunidades sem dados primários.** O2, O4 e O5 dependem das entrevistas. A ordem da tabela de oportunidades pode mudar depois delas.
 - **Estudo e produção foram misturados na primeira versão.** A remoção às 18h, regra de proteção do estudo, chegou a aparecer como promessa ao cliente. A correção separou os dois contextos nos ADRs [0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md) e [0008](../decisoes/0008-armazenamento-em-producao.md).
 - **O PR/FAQ é um exercício de clareza, não uma previsão.** Os depoimentos são de personas, não de pessoas reais.
