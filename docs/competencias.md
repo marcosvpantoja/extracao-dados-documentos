@@ -73,8 +73,8 @@ Legenda: ✅ demonstrado · 🟡 parcial · ⚪ planejado
 |---|---|---|
 | Pesquisa e personas | [Personas](persona.md), roteiro e [entrevistas simuladas](pesquisa/entrevistas-simuladas.md) | 🟡 Sem entrevistas reais |
 | Jornada do usuário | [Fluxograma de jornada](arquitetura/fluxogramas.md#2-jornada-completa-do-usuário); [mapas de jornada](etapas/04-estrategia.md#4-mapa-de-jornada) de Juliana e Roberto | ✅ Emoções a confirmar nas entrevistas |
-| Arquitetura de informação e wireframes | Tela de revisão e página de captura | ⚪ |
-| Microcopy e orientação | Textos da página de captura para quem nunca usou o sistema (HU-14) | ⚪ |
+| Arquitetura de informação e wireframes | [Wireframes da captura](ux/captura-wireframes.md): 13 telas no Figma, fluxo das telas e [guia visual](ux/guia-visual.html) | 🟡 Tela de revisão no incremento 2 |
+| Microcopy e orientação | [Textos das 13 telas](ux/captura-wireframes.md#telas) em tom próximo e simples, para quem nunca usou o sistema (HU-14) | ✅ |
 | Teste de usabilidade | Roteiro e sessões com usuários | ⚪ |
 
 ## Tester (QA): a garantia
