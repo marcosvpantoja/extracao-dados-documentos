@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guia visual da captura</title>
+<style>
+  /* ===== Tokens do produto (os mesmos irão para o código) ===== */
+  :root {
+    --cor-primaria: #0F5D5E;      /* verde-petróleo: confiança e calma */
+    --cor-primaria-escura: #0A4445;
+    --cor-primaria-clara: #E6F0F0;
+    --cor-texto: #1A1F24;
+    --cor-texto-suave: #5B6570;
+    --cor-borda: #DDE2E6;
+    --cor-fundo: #FFFFFF;
+    --cor-fundo-suave: #F5F7F8;
+    --cor-sucesso: #1E7B45;
+    --cor-sucesso-clara: #E7F4EC;
+    --cor-alerta: #9A5B00;
+    --cor-alerta-clara: #FDF3E1;
+    --cor-erro: #B42318;
+    --cor-erro-clara: #FDECEA;
+
+    --fonte: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --t-titulo: 26px; --t-subtitulo: 20px; --t-corpo: 17px; --t-apoio: 15px; --t-legenda: 13px;
+
+    --esp-1: 4px; --esp-2: 8px; --esp-3: 12px; --esp-4: 16px; --esp-5: 24px; --esp-6: 32px;
+    --raio: 14px; --raio-pequeno: 8px;
+    --altura-botao: 52px;
+  }
+
+  /* ===== Página do guia ===== */
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #EEF1F3; color: var(--cor-texto); font-family: var(--fonte); line-height: 1.45; }
+  .guia { max-width: 1080px; margin: 0 auto; padding: 32px 16px 64px; }
+  .guia h1 { font-size: 30px; margin: 0 0 4px; }
+  .guia > p { color: var(--cor-texto-suave); margin: 0 0 32px; }
+  section.bloco { background: #fff; border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+  section.bloco h2 { font-size: 18px; margin: 0 0 4px; }
+  section.bloco > p { color: var(--cor-texto-suave); margin: 0 0 20px; font-size: 15px; }
+  .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .cor { border: 1px solid var(--cor-borda); border-radius: 10px; overflow: hidden; font-size: 13px; }
+  .cor div { height: 64px; }
+  .cor span { display: block; padding: 8px 10px; }
+  .cor b { display: block; }
+  .tipo p { margin: 0 0 10px; }
+  .linha { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+  .rotulo { font-size: 12px; color: var(--cor-texto-suave); margin: 8px 0 0; text-transform: uppercase; letter-spacing: .04em; }
+
+  /* ===== Componentes do produto ===== */
+  .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: var(--altura-botao);
+         border: 0; border-radius: var(--raio); font: 600 var(--t-corpo)/1 var(--fonte); cursor: pointer; }
+  .btn-primario { background: var(--cor-primaria); color: #fff; }
+  .btn-primario:active { background: var(--cor-primaria-escura); }
+  .btn-texto { background: transparent; color: var(--cor-primaria); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; }
+  .progresso { display: flex; gap: 6px; align-items: center; font-size: var(--t-legenda); color: var(--cor-texto-suave); }
+  .progresso i { width: 24px; height: 6px; border-radius: 3px; background: var(--cor-borda); }
+  .progresso i.feito { background: var(--cor-primaria); }
+  .privacidade { display: flex; gap: 8px; align-items: flex-start; font-size: var(--t-legenda); color: var(--cor-texto-suave); }
+  .aviso { border-radius: var(--raio-pequeno); padding: var(--esp-3) var(--esp-4); font-size: var(--t-apoio); }
+  .aviso b { display: block; font-size: var(--t-corpo); margin-bottom: 2px; }
+  .aviso-alerta { background: var(--cor-alerta-clara); color: #5C3700; }
+  .aviso-sucesso { background: var(--cor-sucesso-clara); color: #12512C; }
+  .aviso-erro { background: var(--cor-erro-clara); color: #7A1A12; }
+  .status { display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-apoio); }
+  .carregando { width: 40px; height: 40px; border-radius: 50%; border: 4px solid var(--cor-primaria-clara); border-top-color: var(--cor-primaria);
+                animation: gira 1s linear infinite; }
+  @keyframes gira { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .carregando { animation: none; } }
+
+  /* ===== Celular de exemplo ===== */
+  .celular { width: 360px; max-width: 100%; height: 720px; background: var(--cor-fundo); border-radius: 32px; border: 8px solid #1A1F24;
+             padding: var(--esp-6) var(--esp-5) var(--esp-5); display: flex; flex-direction: column; gap: var(--esp-4); overflow: hidden; }
+  .celular h3 { font-size: var(--t-titulo); line-height: 1.2; margin: 0; }
+  .celular p { margin: 0; font-size: var(--t-corpo); }
+  .celular .suave { color: var(--cor-texto-suave); font-size: var(--t-apoio); }
+  .celular .marca { font-size: var(--t-legenda); color: var(--cor-texto-suave); font-weight: 600; }
+  .espaco { flex: 1; }
+  .miniatura { height: 200px; border-radius: var(--raio-pequeno); background: linear-gradient(135deg, #2b3138, #4a525b); position: relative; }
+  .miniatura::after { content: "foto escura"; position: absolute; inset: auto 12px 12px auto; color: #cfd5da; font-size: 12px; }
+  @media (max-width: 760px) { .celular { height: auto; min-height: 640px; } }
+</style>
+</head>
+<body>
+<main class="guia">
+  <h1>Guia visual da página de captura</h1>
+  <p>Versão 0.1 · 11/11/2026 · estudo de caso. Define cores, tipografia, espaçamentos e componentes. As 13 telas seguem os <a href="captura-wireframes.md">wireframes aprovados</a>.</p>
+
+  <section class="bloco">
+    <h2>1. Cores</h2>
+    <p>Verde-petróleo como cor principal: transmite confiança e calma, sem lembrar banco nem alerta. Todas as combinações de texto têm contraste AA ou melhor.</p>
+    <div class="grade">
+      <div class="cor"><div style="background:#0F5D5E"></div><span><b>Primária</b>#0F5D5E · botões, progresso</span></div>
+      <div class="cor"><div style="background:#E6F0F0"></div><span><b>Primária clara</b>#E6F0F0 · fundos de destaque</span></div>
+      <div class="cor"><div style="background:#1A1F24"></div><span><b>Texto</b>#1A1F24 · títulos e corpo</span></div>
+      <div class="cor"><div style="background:#5B6570"></div><span><b>Texto suave</b>#5B6570 · apoio e legendas</span></div>
+      <div class="cor"><div style="background:#DDE2E6"></div><span><b>Borda</b>#DDE2E6 · divisórias</span></div>
+      <div class="cor"><div style="background:#1E7B45"></div><span><b>Sucesso</b>#1E7B45 · enviado</span></div>
+      <div class="cor"><div style="background:#9A5B00"></div><span><b>Alerta</b>#9A5B00 · foto ruim</span></div>
+      <div class="cor"><div style="background:#B42318"></div><span><b>Erro</b>#B42318 · link inválido</span></div>
+    </div>
+  </section>
+
+  <section class="bloco tipo">
+    <h2>2. Tipografia</h2>
+    <p>Fonte do próprio celular (San Francisco no iPhone, Roboto no Android): já instalada, carrega na hora e é a que o Roberto lê todo dia. Corpo de 17 px, maior que o comum, para leitura fácil.</p>
+    <div class="amostras">
+    <p style="font-size:26px;font-weight:700;line-height:1.2">Título · 26 px negrito</p>
+    <p style="font-size:20px;font-weight:600">Subtítulo · 20 px seminegrito</p>
+    <p style="font-size:17px">Corpo · 17 px · Serve para comprovar seu endereço.</p>
+    <p style="font-size:15px;color:#5B6570">Apoio · 15 px · Leva uns 3 minutos.</p>
+    <p style="font-size:13px;color:#5B6570">Legenda · 13 px · Só o escritório vê seus documentos.</p>
+    </div>
+  </section>
+
+  <section class="bloco">
+    <h2>3. Espaçamento e forma</h2>
+    <p>Escala de 4 em 4 px (4, 8, 12, 16, 24, 32). Cantos arredondados de 14 px nos botões. Margem lateral de 24 px no celular.</p>
+    <div class="linha" style="align-items:flex-end">
+      <div><div style="width:4px;height:4px;background:#0F5D5E"></div><p class="rotulo">4</p></div>
+      <div><div style="width:8px;height:8px;background:#0F5D5E"></div><p class="rotulo">8</p></div>
+      <div><div style="width:12px;height:12px;background:#0F5D5E"></div><p class="rotulo">12</p></div>
+      <div><div style="width:16px;height:16px;background:#0F5D5E"></div><p class="rotulo">16</p></div>
+      <div><div style="width:24px;height:24px;background:#0F5D5E"></div><p class="rotulo">24</p></div>
+      <div><div style="width:32px;height:32px;background:#0F5D5E"></div><p class="rotulo">32</p></div>
+    </div>
+  </section>
+
+  <section class="bloco">
+    <h2>4. Componentes</h2>
+    <p>Os mesmos do Figma, agora com o visual final. Botões com 52 px de altura e largura total, para tocar com o polegar.</p>
+    <div class="linha">
+      <div style="width:300px"><button class="btn btn-primario">📷 Fotografar</button><p class="rotulo">Botão principal</p></div>
+      <div style="width:300px"><button class="btn btn-texto">Não tenho agora</button><p class="rotulo">Botão de texto</p></div>
+      <div style="width:300px"><div class="progresso">Documento 2 de 3 <i class="feito"></i><i class="feito"></i><i></i></div><p class="rotulo">Progresso</p></div>
+      <div style="width:300px"><div class="privacidade">🔒 <span>Só o Escritório Exemplo vê seus documentos.</span></div><p class="rotulo">Rodapé de privacidade</p></div>
+      <div style="width:300px"><div class="aviso aviso-alerta"><b>A foto ficou escura</b>Tente perto de uma janela ou com a luz acesa.</div><p class="rotulo">Aviso de alerta</p></div>
+      <div style="width:300px"><div class="aviso aviso-sucesso"><b>✓ Conta de luz enviada</b>Falta 1 documento.</div><p class="rotulo">Aviso de sucesso</p></div>
+      <div style="width:300px"><div class="aviso aviso-erro"><b>Este link não vale mais</b>Peça um novo ao escritório.</div><p class="rotulo">Aviso de erro</p></div>
+      <div style="width:300px"><div class="carregando" role="status" aria-label="Lendo seu documento"></div><p class="rotulo">Carregando (para quem pede menos movimento, fica parado)</p></div>
+    </div>
+  </section>
+
+  <section class="bloco">
+    <h2>5. Duas telas com o visual final</h2>
+    <p>Exemplos para aprovar o resultado. As outras 11 telas seguem o mesmo padrão.</p>
+    <div class="linha">
+      <div>
+        <div class="celular">
+          <span class="marca">Escritório Exemplo</span>
+          <div class="progresso">Documento 2 de 3 <i class="feito"></i><i class="feito"></i><i></i></div>
+          <h3>Conta de luz ou água</h3>
+          <p class="suave">Serve para comprovar seu endereço.</p>
+          <div class="espaco"></div>
+          <button class="btn btn-primario">📷 Fotografar</button>
+          <button class="btn btn-texto">Não tenho agora</button>
+          <div class="privacidade">🔒 <span>Só o Escritório Exemplo vê seus documentos.</span></div>
+        </div>
+        <p class="rotulo">Tela 3 · Documento N de M</p>
+      </div>
+      <div>
+        <div class="celular">
+          <div class="miniatura" role="img" aria-label="Miniatura da foto, escura"></div>
+          <div class="aviso aviso-alerta"><b>A foto ficou escura</b>Tente perto de uma janela ou com a luz acesa.</div>
+          <div class="espaco"></div>
+          <button class="btn btn-primario">Tirar outra</button>
+        </div>
+        <p class="rotulo">Tela 5 · Aviso de qualidade</p>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
