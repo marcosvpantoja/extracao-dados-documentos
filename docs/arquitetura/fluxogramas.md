@@ -100,8 +100,13 @@ flowchart TD
   FACES -->|Não ou já capturado| ENV[Criptografa e envia em pedaços]
   ENV --> CHEGA{Todos os pedaços<br/>chegaram íntegros?}
   CHEGA -->|Não| REENV[Pede reenvio da imagem] --> ENV
-  CHEGA -->|Sim| LIMPC[Celular apaga a imagem da memória<br/>e mostra 'Enviado']
-  LIMPC --> PIPE
+  CHEGA -->|Sim| LENDO[Celular mostra 'Lendo seu documento…'<br/>e aguarda até 30 s]
+  LENDO --> PIPEC[[Pipeline de processamento<br/>ver diagrama 4]]
+  PIPEC --> FALHA{Extração falhou<br/>por causa da imagem?}
+  FALHA -->|Sim, dentro de 30 s| NOVA[Celular pede nova foto<br/>deste documento] --> FOTO
+  FALHA -->|Não| LIMPC[Celular apaga a imagem da memória<br/>e mostra 'Enviado']
+  LENDO -->|Passou de 30 s| LIBERA[Celular libera o cliente;<br/>pedido de nova foto fica com Juliana] --> LIMPC
+  LIMPC --> TIPO
 
   PIPE[[Pipeline de processamento<br/>ver diagrama 4]] --> TIPO{Tipo reconhecido?}
   TIPO -->|Não| NR[Tela: 'Não reconhecido'<br/>sem campos inventados]
@@ -157,12 +162,24 @@ sequenceDiagram
   N->>N: Remonta, verifica integridade e descriptografa
   N->>S: "recebido"
   S->>C: Repassa "recebido"
-  C->>C: Apaga a imagem da memória e mostra "Enviado"
+  C->>C: Mostra "Lendo seu documento…" (espera até 30 s)
 
   N->>M: POST /processar (imagem em memória, localhost)
   M->>M: Pré-processa, OCR, classifica, extrai, valida
   M-->>N: tipo, campos e confiança
   M->>M: Descarta a imagem da memória
+
+  alt Extração falhou por causa da imagem (dentro de 30 s)
+    N->>S: "nova-foto" (só o motivo, sem dados)
+    S->>C: Repassa "nova-foto"
+    C->>C: Pede nova foto deste documento
+  else Extração concluída
+    N->>S: "concluido"
+    S->>C: Repassa "concluido"
+    C->>C: Apaga a imagem da memória e mostra "Enviado"
+  else Passou de 30 s
+    C->>C: Apaga a imagem e libera o cliente, e o pedido de nova foto fica com Juliana
+  end
   N->>N: Cifra foto e dados com a chave do dia
   N->>S: Salva no Storage e na tabela (só conteúdo cifrado)
   N-->>Juliana: Tela de revisão

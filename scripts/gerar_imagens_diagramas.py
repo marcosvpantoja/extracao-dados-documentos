@@ -23,6 +23,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 DOCUMENTOS = [
     RAIZ / "docs/arquitetura/fluxogramas.md",
     RAIZ / "docs/etapas/04-estrategia.md",
+    RAIZ / "docs/etapas/05-metricas.md",
 ]
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 MERMAID = "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"
@@ -91,7 +92,8 @@ def renderizar(codigo: str, destino: Path, tmp: Path) -> None:
                     encoding="utf-8")
     # 1ª passada: descobre o tamanho natural do diagrama
     dom = chrome("--window-size=4000,4000", "--dump-dom", html.as_uri())
-    titulo = re.search(r"<title>(.*?)</title>", dom).group(1)
+    achado = re.search(r"<title>(.*?)</title>", dom)
+    titulo = achado.group(1) if achado else "sem resposta do Chrome"
     if not re.fullmatch(r"\d+x\d+", titulo):
         raise RuntimeError(f"{destino.name}: {titulo}")
     largura, altura = titulo.split("x")

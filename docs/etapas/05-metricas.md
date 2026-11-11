@@ -91,3 +91,65 @@ A conferência fica com o tester, e não com o facilitador: quem revisou não po
 - **North Star otimista:** o facilitador conhece o sistema e não está sob a pressão de uma fila de clientes, então revisa com mais cuidado que a Juliana real. A substituta tende a ficar acima do valor de produção.
 - **Amostra pequena:** com poucos testers, os números mostram direção, não taxas com confiança estatística. Todo resultado é reportado com o tamanho da amostra.
 - **Atenção do tester:** a conferência depende de o tester olhar cada campo com cuidado.
+
+---
+
+## 4. Árvore de métricas
+
+A árvore desdobra a North Star nos fatores que a fazem subir. Cada galho segue o caminho de um documento, do celular do cliente à confirmação da assistente, e cada folha é um número que o time consegue influenciar diretamente.
+
+```mermaid
+flowchart LR
+    NS["⭐ North Star<br/>Clientes cadastrados por semana<br/>sem nenhuma edição"]
+    AP["Apoio<br/>% de documentos confirmados<br/>sem edição"]
+    PR["🛡️ Proteção<br/>% de documentos editados<br/>depois da confirmação"]
+
+    NS --> C["Captura · Roberto"]
+    NS --> L["Leitura · sistema"]
+    NS --> R["Revisão · Juliana"]
+
+    C --> C1["% de fotos aceitas<br/>na primeira tentativa"]
+    C --> C2["Recapturas por documento"]
+    C --> C3["% de clientes que enviam<br/>todos os documentos"]
+
+    L --> L1["% de documentos com texto lido<br/>com confiança suficiente (OCR)"]
+    L1 --> L2["% de documentos<br/>classificados corretamente"]
+    L2 --> L3["% de campos extraídos<br/>corretamente, por tipo"]
+
+    R --> R1["Tempo de revisão<br/>por documento"]
+
+    AP --- NS
+    PR -. "não pode piorar" .- NS
+
+    classDef ns fill:#1f2937,color:#fff,stroke:#111
+    classDef apoio fill:#e5e7eb,stroke:#6b7280,color:#111
+    classDef prot fill:#fee2e2,stroke:#b91c1c,color:#111
+    classDef grupo fill:#fde68a,stroke:#b45309,color:#111
+    classDef folha fill:#bfdbfe,stroke:#1d4ed8,color:#111
+    class NS ns
+    class AP apoio
+    class PR prot
+    class C,L,R grupo
+    class C1,C2,C3,L1,L2,L3,R1 folha
+```
+
+🖼️ [Ver como imagem](img/05-metricas-01-arvore-de-metricas.png)
+
+### Os três galhos
+
+| Galho | O que precisa dar certo | Observação |
+|---|---|---|
+| **Captura** | O cliente envia fotos legíveis de todos os documentos. Se a extração falhar por causa da imagem, o celular pede outra foto na hora, com espera de até 30 s (RF-31) | Foco principal de observação no estudo |
+| **Leitura** | O texto é lido, o tipo é identificado e os campos são extraídos corretamente | Os três elos estão em sequência: se o OCR falha, a classificação e a extração falham junto |
+| **Revisão** | A assistente confere os dados ao lado da foto | Tempo baixo só é bom se a métrica de proteção não piorar |
+
+### Classificação por vários sinais
+
+O título impresso ("Registro Geral", "Carteira Nacional de Habilitação", "DANFE") é o sinal mais forte para identificar o tipo, e por isso o texto precisa ser lido antes da classificação. Ele não basta sozinho:
+
+- RG antigo e CIN trazem o mesmo título, "Carteira de Identidade";
+- a frente do RG antigo, o lado da foto, normalmente não traz o tipo do documento;
+- faturas de serviço não têm título padrão;
+- um reflexo sobre o título apaga o sinal.
+
+Por isso a classificação combina o título com outros sinais: a MRZ (presente na CIN e na CNH, ausente no RG antigo), a linha digitável do boleto e a chave de 44 dígitos da NF-e ([pipeline, diagrama 4](../arquitetura/fluxogramas.md#4-pipeline-de-processamento)).
