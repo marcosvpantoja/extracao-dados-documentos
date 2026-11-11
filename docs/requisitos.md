@@ -117,6 +117,7 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | RF-24 | Relatório de acurácia | Acurácia por campo e por tipo, sempre com tamanho da amostra | S |
 | RF-28 | Registro de auditoria | Abrir, baixar e excluir documento geram um registro com horário, evento, perfil, estação, código do documento e tipo; a tabela só aceita inclusão ([ADR 0009](decisoes/0009-registro-de-auditoria-no-estudo.md)) | M |
 | RF-29 | Perfil simulado | Seletor de perfil (assistente ou advogada) sempre visível; o perfil ativo vai para o registro de auditoria | M |
+| RF-30 | Devolver por dado errado | Em um cadastro confirmado, qualquer perfil marca o campo errado; a marcação alimenta a métrica de proteção ([Etapa 5](etapas/05-metricas.md#2-métrica-de-proteção)) | S |
 | RF-25 | Erros viram testes | Cada erro revisado no modo desenvolvimento pode ser exportado como caso de teste de regressão | C |
 
 ## 8. Requisitos não funcionais

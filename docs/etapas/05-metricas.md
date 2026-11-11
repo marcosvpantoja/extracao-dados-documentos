@@ -40,3 +40,24 @@ A North Star mistura uso e qualidade. A métrica de apoio isola a qualidade: mos
 Alternativas descartadas:
 - **Tempo mediano de cadastro:** mede só o ágil e dá para "melhorar" conferindo menos.
 - **Clientes cadastrados em até X minutos e sem erro:** exigiria um X definido sem dados.
+
+---
+
+## 2. Métrica de proteção
+
+> **% de documentos editados depois da confirmação, por qualquer perfil**
+
+A North Star pode subir por um motivo errado: se a revisão vira um clique automático em "confirmar", as edições somem e o número melhora enquanto os erros passam adiante. A métrica de proteção não pode piorar enquanto a North Star sobe. Se piorar, a subida é falsa.
+
+**Por que ela funciona:** vem de fora da revisão. Quem detecta o erro é outra pessoa (a advogada ou qualquer outro perfil), depois da confirmação. Um descuido de quem revisa engana a North Star, mas não engana essa métrica.
+
+**Como o sistema fica sabendo:** a correção costuma acontecer no software jurídico, fora do produto. Por isso a tela do cadastro tem um botão **"devolver por dado errado"**: quem encontra o erro marca o campo no produto, mesmo que corrija em outro lugar (RF-30).
+
+**Limite conhecido:** a métrica depende de a pessoa lembrar de marcar. Erros corrigidos sem marcação ficam invisíveis, então o número real tende a ser maior que o medido.
+
+| Alternativa | Por que não foi escolhida |
+|---|---|
+| Documentos que precisaram de edição na revisão | Anda junto com a North Star: se a revisão vira clique automático, as duas melhoram ao mesmo tempo |
+| Edição feita dentro do produto | Obriga o jurídico a trocar de ferramenta |
+| Integração com o software jurídico | Fora do escopo do MVP; depende de cada fornecedor |
+| Confirmações rápidas demais como alerta | Indício, não prova; não incluída nesta versão |
