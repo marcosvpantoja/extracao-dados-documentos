@@ -15,10 +15,10 @@ As afirmações seguem as marcações das personas: **[A1]–[B4]** indicam acha
 > **Para** escritórios de direito do consumidor que cadastram muitos clientes por dia,
 > **que** perdem tempo digitando documentos e pagam caro por um erro que chega ao processo,
 > **o produto** é um cadastro por documentos que identifica, lê e confere os dados sozinho,
-> **e que**, diferente do cadastro por foto de um documento por vez, cobre identificação, comprovante e provas num único atendimento,
-> **com** documentos cifrados do celular ao armazenamento e cada acesso registrado.
+> **e que**, diferente do cadastro por foto de um documento por vez, cobre identificação, comprovante e provas num único atendimento, feito pelo próprio cliente no celular, sem instalar nada,
+> **com** dados conferidos antes de chegar à equipe jurídica.
 
-**Em uma frase:** cadastrar um cliente completo, de forma ágil e precisa, sem digitar e com os documentos protegidos.
+**Em uma frase:** cadastrar um cliente completo, de forma ágil e precisa, sem digitar e com os dados conferidos.
 
 A visão, o PR/FAQ e os mapas de jornada descrevem o **produto em produção** ([ADR 0008](../decisoes/0008-armazenamento-em-producao.md)). A remoção às 18h é uma regra do estudo de caso ([ADR 0007](../decisoes/0007-retencao-temporaria-e-purga-diaria.md)) e não aparece como promessa ao cliente.
 
@@ -29,8 +29,10 @@ A visão, o PR/FAQ e os mapas de jornada descrevem o **produto em produção** (
 | **Revisão humana sempre** | O sistema sugere e a pessoa confirma. Nenhum dado vai adiante sem confirmação | [ADR 0004](../decisoes/0004-revisao-humana-e-ciclo-de-aprendizado.md) |
 | **Conferir antes de mostrar** | Todo campo com dígito verificador (CPF, chave da NF-e, linha digitável, MRZ) é validado antes da revisão | [Validadores](../../src/extracao/validacoes.py) |
 | **Proteção do início ao fim** | A captura é cifrada ponta a ponta; o armazenamento é cifrado e cada acesso fica registrado | [ADR 0001](../decisoes/0001-transporte-cross-device.md), [ADR 0008](../decisoes/0008-armazenamento-em-producao.md) |
-| **Sem instalar nada** | O cliente usa a câmera pelo navegador, a partir de um link | RF-03, HU-14 |
+| **Sem instalar nada** | O cliente usa a câmera pelo navegador, a partir de um link | RF-04, HU-14 |
 | **Recusar é melhor que errar** | Diante da dúvida, o sistema marca "não reconhecido" em vez de inventar um valor | RF-10, RF-15 |
+| **Corrigir na origem** | Problema de captura se resolve com o cliente ainda com o documento na mão, e não depois, com um novo pedido | RF-31 |
+| **Quem faz não confere** | Toda medição de qualidade vem de alguém de fora de quem executou | [Métrica de proteção e conferência pelo tester](05-metricas.md#2-métrica-de-proteção) |
 
 ### O que o produto não é
 
