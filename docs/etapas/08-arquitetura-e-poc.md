@@ -54,3 +54,13 @@ Nenhum envio foi recusado, e todas as fotos chegaram idênticas à original depo
 - **O risco foi eliminado:** uma foto de até 2 MB atravessa o canal cifrada, inteira, em menos de meio segundo.
 - **A divisão em pedaços continua no desenho,** mesmo sem o limite aplicado hoje. O limite está documentado e pode passar a valer a qualquer momento, e dividir custa pouco: no pior caso, cerca de 0,3 segundo a mais numa foto de 2 MB.
 - **O tempo do canal é pequeno** perto da espera de até 30 segundos pela leitura (RF-31). O gargalo do fluxo será o motor de extração, e não o envio.
+
+### Decisão: pedaços de 128 KB
+
+Cada pedaço tem 128 KB de conteúdo cifrado, o que dá cerca de 171 KB por mensagem depois da conversão para texto.
+
+| Critério | Por que 128 KB |
+|---|---|
+| Folga até o limite documentado de 256 KB | Cerca de 85 KB, contra 16 KB do pedaço de 180 KB |
+| Velocidade | Foto de 2 MB em ~0,4 s, contra ~0,3 s do pedaço maior; diferença imperceptível |
+| Volume de sessões simultâneas | O plano gratuito aceita 100 mensagens por segundo por projeto. Uma foto de 2 MB gera 17 mensagens, então cerca de 5 fotos podem ser enviadas no mesmo segundo. É suficiente para as sessões do estudo; pedaços menores consumiriam essa cota mais rápido |
