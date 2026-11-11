@@ -12,7 +12,7 @@ Legenda: ✅ demonstrado · 🟡 parcial · ⚪ planejado
 
 | Competência | Evidência | Situação |
 |---|---|---|
-| Discovery orientado a evidência | [Mapa de hipóteses](etapas/00-concepcao.md#mapa-de-hipóteses), [pesquisa e benchmark](etapas/03-validacao-do-problema.md) | 🟡 Entrevistas pendentes |
+| Discovery orientado a evidência | [Mapa de hipóteses](etapas/00-concepcao.md#mapa-de-hipóteses), [pesquisa e benchmark](etapas/03-validacao-do-problema.md), [entrevistas simuladas com síntese](pesquisa/entrevistas-simuladas.md) | 🟡 Método demonstrado; sem entrevistas reais |
 | Personas baseadas em evidência | [Personas 3.0](persona.md) com fonte de cada afirmação, anti-persona e histórico de versões | ✅ |
 | Seleção de segmento por evidência | Pivô de escritório contábil para advocacia de massa, com motivo registrado ([Etapa 3](etapas/03-validacao-do-problema.md#decisão-de-segmento-10112026)) | ✅ |
 | Estratégia e posicionamento | Reposicionamento por evidência ([Etapa 3](etapas/03-validacao-do-problema.md#decisão-10112026)); [visão, princípios e PR/FAQ](etapas/04-estrategia.md) | ✅ |
@@ -71,7 +71,7 @@ Legenda: ✅ demonstrado · 🟡 parcial · ⚪ planejado
 
 | Competência | Evidência | Situação |
 |---|---|---|
-| Pesquisa e personas | [Personas](persona.md), roteiro de entrevistas | 🟡 |
+| Pesquisa e personas | [Personas](persona.md), roteiro e [entrevistas simuladas](pesquisa/entrevistas-simuladas.md) | 🟡 Sem entrevistas reais |
 | Jornada do usuário | [Fluxograma de jornada](arquitetura/fluxogramas.md#2-jornada-completa-do-usuário); [mapas de jornada](etapas/04-estrategia.md#4-mapa-de-jornada) de Juliana e Roberto | ✅ Emoções a confirmar nas entrevistas |
 | Arquitetura de informação e wireframes | Tela de revisão e página de captura | ⚪ |
 | Microcopy e orientação | Textos da página de captura para quem nunca usou o sistema (HU-14) | ⚪ |

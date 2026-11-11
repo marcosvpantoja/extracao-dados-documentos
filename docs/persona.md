@@ -102,6 +102,8 @@ Os seis tipos do escopo aparecem num **único atendimento**, misturados, e o sis
 
 ## Perguntas para as entrevistas
 
+Aplicadas em [cinco entrevistas simuladas](pesquisa/entrevistas-simuladas.md) (🧪 fictícias), por causa do prazo do estudo.
+
 1. Quantos clientes novos o escritório cadastra por dia?
 2. Quanto tempo leva um cadastro completo, do primeiro contato à liberação para a equipe jurídica?
 3. Quais documentos chegam em cada caso, e por qual canal?

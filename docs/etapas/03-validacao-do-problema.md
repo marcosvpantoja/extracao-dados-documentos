@@ -1,7 +1,7 @@
 # Etapa 3 — Validação do problema e benchmark
 
 **Período:** a partir de 10/11/2026
-**Status:** 🟡 Em andamento: evidência indireta coletada; entrevistas pendentes
+**Status:** ✅ Concluída · evidência indireta pública + [entrevistas simuladas](../pesquisa/entrevistas-simuladas.md) (🧪 fictícias, não são evidência)
 
 ## Objetivo
 
@@ -130,6 +130,14 @@ O Projuris ADV lista cadastro via foto da CNH, geração de procuração e colet
 
 ## Próximos passos
 
-- Entrevistas com 3 a 5 profissionais de escritórios de advocacia de consumidor (roteiro em [Personas](../persona.md#perguntas-para-as-entrevistas)).
+- ~~Entrevistas com 3 a 5 profissionais~~ substituídas por **[cinco entrevistas simuladas](../pesquisa/entrevistas-simuladas.md)** (11/11/2026), por causa do prazo do estudo. Elas demonstram o método, mas não validam hipóteses; as hipóteses seguem 🧪.
 - Análise de referência do fluxo de cadastro em suítes jurídicas (Projuris ADV, EasyJur), como comparação de escolhas de produto.
 - Decisão de reposicionamento (persona e proposta de valor) com base nas entrevistas.
+
+## Entrevistas simuladas (11/11/2026)
+
+O prazo do estudo não comporta o recrutamento de profissionais. Em vez de pular a etapa, foram escritas [cinco entrevistas simuladas](../pesquisa/entrevistas-simuladas.md), fictícias e identificadas como tal, coerentes com os achados públicos e com divergências entre os entrevistados.
+
+**O que elas mostram (como ilustração, não como evidência):** o pedido de reenvio aparece como a dor mais cara (O2), o problema some em escritório pequeno com atendimento presencial, e surgem cinco achados novos (N1–N5), entre eles o comprovante em nome de outra pessoa e o cadastro que dura dias.
+
+**Limite:** as hipóteses continuam 🧪. Num uso real, as sete perguntas precisariam ser feitas a profissionais de verdade.

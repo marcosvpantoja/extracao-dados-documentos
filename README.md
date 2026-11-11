@@ -41,7 +41,7 @@ Cada etapa produz artefatos ligados a um ou mais papéis ([mapa de competências
 | 0 | [Concepção e escopo](docs/etapas/00-concepcao.md) | Problema, persona, hipóteses | ✅ Concluída |
 | 1 | [Documentos de exemplo e campos-alvo](docs/etapas/01-documentos-e-campos.md) | Conjunto fictício, gabaritos, validadores | 🟡 Fotos dos impressos pendentes |
 | 2 | [Arquitetura e requisitos](docs/etapas/02-arquitetura-e-requisitos.md) | PRD, fluxogramas, ADRs 0004–0006 | ✅ Concluída |
-| 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências, [personas](docs/persona.md), entrevistas | 🟡 Entrevistas pendentes |
+| 3 | [Validação do problema e benchmark](docs/etapas/03-validacao-do-problema.md) | Evidências, [personas](docs/persona.md), [entrevistas simuladas](docs/pesquisa/entrevistas-simuladas.md) | ✅ Concluída (entrevistas simuladas) |
 | 4 | [Estratégia e mapeamento de oportunidades](docs/etapas/04-estrategia.md) | Visão, Opportunity Solution Tree, PR/FAQ, mapa de jornada | ✅ Concluída |
 | 5 | [Métricas](docs/etapas/05-metricas.md) | North Star, métricas de apoio e proteção, árvore de métricas, OKRs | ✅ Concluída |
 | 6 | Priorização e roadmap | Backlog com RICE, histórias INVEST, DoR/DoD, roadmap | ⚪ Pendente |
