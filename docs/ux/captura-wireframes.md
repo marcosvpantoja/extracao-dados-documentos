@@ -18,6 +18,7 @@
 ## Fluxo das telas
 
 ```mermaid
+%%{init: {"theme": "base", "themeVariables": {"lineColor": "#8a8a8a", "primaryTextColor": "#111111", "edgeLabelBackground": "#f3f4f6", "fontSize": "15px"}}}%%
 flowchart TD
     LINK([Roberto toca no link<br/>recebido pelo WhatsApp]) --> VAL{Link válido?}
     VAL -->|Não| E1["E1 · Este link não vale mais"]
@@ -39,7 +40,7 @@ flowchart TD
     VER -->|Não| T7["7 · Lendo seu documento…<br/>até 30 s"]
 
     T7 --> LEU{Resultado da leitura}
-    LEU -->|Não deu para ler<br/>por causa da foto| T7B["7b · Vamos tentar de novo<br/>com o motivo"]
+    LEU -->|Não deu para ler| T7B["7b · Vamos tentar de novo<br/>com o motivo"]
     T7B --> T4
     LEU -->|Leu| T8["8 · Enviado"]
     LEU -->|Passou de 30 s| E2["E2 · Recebemos sua foto<br/>o escritório avisa se precisar"]
@@ -56,11 +57,13 @@ flowchart TD
     class T1,T2,T3,T4,T5,T6,T7,T7B,T8 tela
     class E1,E2,T2B excecao
     class VAL,PERM,QUAL,VER,LEU,MAIS decisao
+    classDef borda fill:#e5e7eb,stroke:#6b7280,color:#111
+    class LINK,PEND,T9 borda
 ```
 
 🖼️ [Ver como imagem](img/captura-wireframes-01-fluxo-das-telas.png)
 
-**Legenda:** 🟦 tela · 🟥 exceção · 🟨 decisão do sistema
+**Legenda:** 🟦 tela · 🟥 exceção · 🟨 decisão do sistema · ⬜ início, fim e pendência
 
 ---
 
