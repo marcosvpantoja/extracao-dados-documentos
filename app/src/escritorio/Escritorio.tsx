@@ -5,6 +5,7 @@
 import { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
 import Revisao, { type CampoLido, type Decisao } from './Revisao';
+import { DEMO, ITENS_DEMO } from './demo';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { abrirCanal, enviar, inscrever } from '../compartilhado/canal';
 import { decifrar, exportarChave, gerarChave } from '../compartilhado/cripto';
@@ -23,13 +24,13 @@ type Sessao = 'montando' | 'aguardando-celular' | 'expirada' | 'pareada' | 'conc
 export default function Escritorio() {
   const [escritorio, setEscritorio] = useState('Escritório Exemplo');
   const [escolhidos, setEscolhidos] = useState<string[]>(['identidade', 'comprovante', 'fatura']);
-  const [sessao, setSessao] = useState<Sessao>('montando');
+  const [sessao, setSessao] = useState<Sessao>(DEMO ? 'concluida' : 'montando');
   const [link, setLink] = useState('');
   const [qr, setQr] = useState('');
-  const [itens, setItens] = useState<Item[]>([]);
+  const [itens, setItens] = useState<Item[]>(DEMO ? (ITENS_DEMO as unknown as Item[]) : []);
   const [simularFalha, setSimularFalha] = useState(false);
   const [copiado, setCopiado] = useState(false);
-  const [aberto, setAberto] = useState<string | null>(null);
+  const [aberto, setAberto] = useState<string | null>(DEMO === 'revisao' ? 'identidade' : null);
   const canal = useRef<RealtimeChannel | null>(null);
   const falhaRef = useRef(simularFalha);
   falhaRef.current = simularFalha;
@@ -179,7 +180,7 @@ export default function Escritorio() {
                 const antes = i.decisoes ?? {};
                 atualizar(i.doc.id, { decisoes: novas });
                 const mudou = Object.entries(novas).filter(([k, d]) => antes[k] !== d);
-                if (mudou.length) registrarRevisao(i.tipo ?? '', mudou, i.campos ?? {});
+                if (mudou.length && !DEMO) registrarRevisao(i.tipo ?? '', mudou, i.campos ?? {});
               }}
             />
           </div>

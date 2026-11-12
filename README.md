@@ -31,6 +31,7 @@ O usuário **importa um arquivo no computador** ou escaneia um QR code e **fotog
 - [Registro de decisões (ADRs)](docs/decisoes/README.md)
 - [Personas](docs/persona.md)
 - [Competências demonstradas por papel](docs/competencias.md)
+- **[Telas finais do produto](docs/ux/telas-finais.md)**: celular e escritório em alta resolução, com o histórico desde os wireframes
 - **[Evolução do produto](docs/evolucao.md)**: linha do tempo das decisões, mudanças motivadas por testes e números ao longo do tempo
 
 ## Roteiro

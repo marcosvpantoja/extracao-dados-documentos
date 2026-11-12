@@ -25,3 +25,4 @@ data/raw/
 # Supabase CLI (estado local)
 supabase/.temp/
 .vercel/
+!app/public/demo/**

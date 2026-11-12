@@ -10,19 +10,22 @@ import { abrirCamera, avaliarQuadro, fecharCamera, fotografar, ligarLanterna, te
 import { docAtual, inicial, proximoIdx, reduzir } from './fluxo';
 import { MENSAGENS, dicaAoVivo } from './qualidade';
 
-const link: DadosDoLink | null = lerLink(window.location.href);
+import { DEMO, DEMO_LINK, estadoDemo } from './demo';
+
+const link: DadosDoLink | null = DEMO ? DEMO_LINK : lerLink(window.location.href);
 
 export default function Captura() {
-  const [e, despachar] = useReducer(reduzir, inicial(link?.documentos ?? []));
+  const [e, despachar] = useReducer(reduzir, DEMO ? estadoDemo(DEMO) : inicial(link?.documentos ?? []));
   const canal = useRef<RealtimeChannel | null>(null);
   const chave = useRef<CryptoKey | null>(null);
   const fotos = useRef<Partial<Record<Face, Uint8Array>>>({}); // só em memória, até o envio
   const envioAtual = useRef<string>('');
-  const [previa, setPrevia] = useState<string | null>(null);
+  const [previa, setPrevia] = useState<string | null>(DEMO === 'qualidade' ? '/demo/cnh.jpg' : null);
   const titulo = useRef<HTMLHeadingElement>(null);
 
   // Pareamento com o escritório (RF-03): só o primeiro celular é aceito.
   useEffect(() => {
+    if (DEMO) return; // demonstração: sem canal, sem pareamento
     if (!link) { despachar({ tipo: 'LINK_INVALIDO' }); return; }
     // Remove a chave da barra de endereço e do histórico do navegador.
     history.replaceState(null, '', window.location.pathname + window.location.search);
@@ -287,6 +290,7 @@ function Camera({ rotulo, formato, onFoto, onCancelar, onNegada }: {
   useEffect(() => {
     let stream: MediaStream | null = null;
     let vivo = true;
+    if (DEMO) { setDica('✓ Pronto, pode fotografar'); setLanternaDisponivel(true); return; }
     abrirCamera(video.current!).then((s) => {
       if (!vivo) { fecharCamera(s); return; }
       stream = s; fluxo.current = s;
@@ -301,7 +305,7 @@ function Camera({ rotulo, formato, onFoto, onCancelar, onNegada }: {
   // (decisão do teste no celular, 11/11/2026: a moldura fechada ficava pequena).
   return (
     <main className="camera-cheia">
-      <video ref={video} playsInline muted aria-label="Imagem da câmera" />
+      {DEMO ? <img className="demo-camera" src="/demo/cnh.jpg" alt="" /> : <video ref={video} playsInline muted aria-label="Imagem da câmera" />}
       <header className="camera-topo">
         <span>{rotulo}</span>
         <div className="camera-acoes">

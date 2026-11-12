@@ -74,14 +74,14 @@ Visão geral, na ordem da jornada. Os detalhes de cada tela estão nas seções 
 
 | | | | |
 |---|---|---|---|
-| <img src="img/telas/01-abertura.png" alt="1 · Abertura" width="160"><br>**1 · Abertura** | <img src="img/telas/02-permissao-da-camera.png" alt="2 · Permissão da câmera" width="160"><br>**2 · Permissão da câmera** | <img src="img/telas/02b-camera-bloqueada.png" alt="2b · Câmera negada" width="160"><br>**2b · Câmera negada** | <img src="img/telas/03-documento-n-de-m.png" alt="3 · Documento N de M" width="160"><br>**3 · Documento N de M** |
-| <img src="img/telas/04-camera.png" alt="4 · Câmera" width="160"><br>**4 · Câmera** | <img src="img/telas/05-aviso-de-qualidade.png" alt="5 · Aviso de qualidade" width="160"><br>**5 · Aviso de qualidade** | <img src="img/telas/06-verso.png" alt="6 · Verso" width="160"><br>**6 · Verso** | <img src="img/telas/07-lendo-seu-documento.png" alt="7 · Lendo seu documento" width="160"><br>**7 · Lendo seu documento** |
-| <img src="img/telas/07b-vamos-tentar-de-novo.png" alt="7b · Vamos tentar de novo" width="160"><br>**7b · Vamos tentar de novo** | <img src="img/telas/08-enviado.png" alt="8 · Enviado" width="160"><br>**8 · Enviado** | <img src="img/telas/09-tudo-enviado.png" alt="9 · Tudo enviado" width="160"><br>**9 · Tudo enviado** | <img src="img/telas/e1-link-expirado.png" alt="E1 · Link expirado ou já usado" width="160"><br>**E1 · Link expirado ou já usado** |
-| <img src="img/telas/e2-leitura-demorada.png" alt="E2 · Tempo de leitura esgotado" width="160"><br>**E2 · Tempo de leitura esgotado** |  |  |  |
+| <img src="img/telas-v1.0-wireframes/01-abertura.png" alt="1 · Abertura" width="160"><br>**1 · Abertura** | <img src="img/telas-v1.0-wireframes/02-permissao-da-camera.png" alt="2 · Permissão da câmera" width="160"><br>**2 · Permissão da câmera** | <img src="img/telas-v1.0-wireframes/02b-camera-bloqueada.png" alt="2b · Câmera negada" width="160"><br>**2b · Câmera negada** | <img src="img/telas-v1.0-wireframes/03-documento-n-de-m.png" alt="3 · Documento N de M" width="160"><br>**3 · Documento N de M** |
+| <img src="img/telas-v1.0-wireframes/04-camera.png" alt="4 · Câmera" width="160"><br>**4 · Câmera** | <img src="img/telas-v1.0-wireframes/05-aviso-de-qualidade.png" alt="5 · Aviso de qualidade" width="160"><br>**5 · Aviso de qualidade** | <img src="img/telas-v1.0-wireframes/06-verso.png" alt="6 · Verso" width="160"><br>**6 · Verso** | <img src="img/telas-v1.0-wireframes/07-lendo-seu-documento.png" alt="7 · Lendo seu documento" width="160"><br>**7 · Lendo seu documento** |
+| <img src="img/telas-v1.0-wireframes/07b-vamos-tentar-de-novo.png" alt="7b · Vamos tentar de novo" width="160"><br>**7b · Vamos tentar de novo** | <img src="img/telas-v1.0-wireframes/08-enviado.png" alt="8 · Enviado" width="160"><br>**8 · Enviado** | <img src="img/telas-v1.0-wireframes/09-tudo-enviado.png" alt="9 · Tudo enviado" width="160"><br>**9 · Tudo enviado** | <img src="img/telas-v1.0-wireframes/e1-link-expirado.png" alt="E1 · Link expirado ou já usado" width="160"><br>**E1 · Link expirado ou já usado** |
+| <img src="img/telas-v1.0-wireframes/e2-leitura-demorada.png" alt="E2 · Tempo de leitura esgotado" width="160"><br>**E2 · Tempo de leitura esgotado** |  |  |  |
 
 ### 1 · Abertura
 
-<img src="img/telas/01-abertura.png" alt="Tela 1 · Abertura" width="280">
+<img src="img/telas-v1.0-wireframes/01-abertura.png" alt="Tela 1 · Abertura" width="280">
 
 - A lista vem da que a assistente montou ao gerar o link (RF-33).
 - **"Leva uns 3 minutos" é uma promessa** e precisa ser conferida nas sessões com testers (tempo de captura por sessão). Se o tempo medido for maior, o texto muda.
@@ -89,30 +89,30 @@ Visão geral, na ordem da jornada. Os detalhes de cada tela estão nas seções 
 
 ### 2 · Permissão da câmera
 
-<img src="img/telas/02-permissao-da-camera.png" alt="Tela 2 · Permissão da câmera" width="280">
+<img src="img/telas-v1.0-wireframes/02-permissao-da-camera.png" alt="Tela 2 · Permissão da câmera" width="280">
 
 - Explica **antes** do aviso do navegador, para o Roberto não negar por susto.
 
 ### 2b · Câmera negada
 
-<img src="img/telas/02b-camera-bloqueada.png" alt="Tela 2b · Câmera negada" width="280">
+<img src="img/telas-v1.0-wireframes/02b-camera-bloqueada.png" alt="Tela 2b · Câmera negada" width="280">
 
 ### 3 · Documento N de M
 
-<img src="img/telas/03-documento-n-de-m.png" alt="Tela 3 · Documento N de M" width="280">
+<img src="img/telas-v1.0-wireframes/03-documento-n-de-m.png" alt="Tela 3 · Documento N de M" width="280">
 
 - "Não tenho agora" marca o item como pendente e passa ao próximo (RF-34).
 
 ### 4 · Câmera
 
-<img src="img/telas/04-camera.png" alt="Tela 4 · Câmera" width="280">
+<img src="img/telas-v1.0-wireframes/04-camera.png" alt="Tela 4 · Câmera" width="280">
 
 - **Revisto no teste no celular (11/11/2026):** a câmera passou a ocupar a **tela cheia**, com **quatro cantos** indicando a área do documento, no lugar da moldura fechada, que ficava pequena. Os cantos têm formato de cartão deitado (RG, CNH, CIN) ou de folha em pé (fatura, nota, boleto). O Figma ainda mostra a versão anterior.
 - Dicas ao vivo, uma por vez: "Procure mais luz" · "Aproxime o documento" · "Segure firme" · "Pronto, pode fotografar".
 
 ### 5 · Aviso de qualidade
 
-<img src="img/telas/05-aviso-de-qualidade.png" alt="Tela 5 · Aviso de qualidade" width="280">
+<img src="img/telas-v1.0-wireframes/05-aviso-de-qualidade.png" alt="Tela 5 · Aviso de qualidade" width="280">
 
 - Motivos possíveis: escura · tremida · cortada · com reflexo.
 - Quando a foto está boa, a tela é pulada.
@@ -121,37 +121,37 @@ Visão geral, na ordem da jornada. Os detalhes de cada tela estão nas seções 
 
 ### 6 · Verso
 
-<img src="img/telas/06-verso.png" alt="Tela 6 · Verso" width="280">
+<img src="img/telas-v1.0-wireframes/06-verso.png" alt="Tela 6 · Verso" width="280">
 
 - Só para RG, CNH física e CIN (RF-06).
 
 ### 7 · Lendo seu documento
 
-<img src="img/telas/07-lendo-seu-documento.png" alt="Tela 7 · Lendo seu documento" width="280">
+<img src="img/telas-v1.0-wireframes/07-lendo-seu-documento.png" alt="Tela 7 · Lendo seu documento" width="280">
 
 - Espera de até 30 s (RF-31). "Mantenha o documento por perto" prepara para uma possível nova foto.
 
 ### 7b · Vamos tentar de novo
 
-<img src="img/telas/07b-vamos-tentar-de-novo.png" alt="Tela 7b · Vamos tentar de novo" width="280">
+<img src="img/telas-v1.0-wireframes/07b-vamos-tentar-de-novo.png" alt="Tela 7b · Vamos tentar de novo" width="280">
 
 - O motivo vem do motor, sem nenhum dado do documento: só o que faltou ler e a causa provável.
 
 ### 8 · Enviado
 
-<img src="img/telas/08-enviado.png" alt="Tela 8 · Enviado" width="280">
+<img src="img/telas-v1.0-wireframes/08-enviado.png" alt="Tela 8 · Enviado" width="280">
 
 ### 9 · Tudo enviado
 
-<img src="img/telas/09-tudo-enviado.png" alt="Tela 9 · Tudo enviado" width="280">
+<img src="img/telas-v1.0-wireframes/09-tudo-enviado.png" alt="Tela 9 · Tudo enviado" width="280">
 
 ### E1 · Link expirado ou já usado
 
-<img src="img/telas/e1-link-expirado.png" alt="Tela E1 · Link expirado ou já usado" width="280">
+<img src="img/telas-v1.0-wireframes/e1-link-expirado.png" alt="Tela E1 · Link expirado ou já usado" width="280">
 
 ### E2 · Tempo de leitura esgotado
 
-<img src="img/telas/e2-leitura-demorada.png" alt="Tela E2 · Tempo de leitura esgotado" width="280">
+<img src="img/telas-v1.0-wireframes/e2-leitura-demorada.png" alt="Tela E2 · Tempo de leitura esgotado" width="280">
 
 ---
 
