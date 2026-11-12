@@ -43,7 +43,7 @@ describe('cifra e pedaços', () => {
     expect(aberto).toEqual(grande);
     expect(saida!.doc).toBe('identidade');
     expect(saida!.face).toBe('frente');
-  });
+  }, 30_000); // cifrar 1 MB leva ~1,4 s no Mac e mais de 5 s na máquina gratuita da integração contínua
 
   it('chave errada não decifra', async () => {
     const certa = await gerarChave();
