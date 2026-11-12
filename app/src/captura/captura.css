@@ -36,3 +36,6 @@
 .dica { text-align: center; font-weight: 600; background: rgba(0,0,0,.6); border-radius: 999px; padding: 8px 16px; margin: 0; }
 .disparador { width: 76px; height: 76px; border-radius: 50%; border: 5px solid #fff; background: rgba(255,255,255,.25); cursor: pointer; }
 .disparador:disabled { opacity: .5; }
+.camera-acoes { display: flex; gap: 8px; align-items: center; }
+.camera-flash { height: 44px; padding: 0 14px; border-radius: 999px; border: 0; background: rgba(0,0,0,.45); color: #fff; font: 600 15px var(--fonte); cursor: pointer; }
+.camera-flash.ligado { background: #FFD54A; color: #1A1F24; }

@@ -6,7 +6,7 @@ import {
   ESPERA_LEITURA_MS, EVENTOS, dividirEmPedacos, lerLink,
   type DadosDoLink, type Face, type MsgPareado, type MsgResultado,
 } from '../compartilhado/protocolo';
-import { abrirCamera, avaliarQuadro, fecharCamera, fotografar } from './camera';
+import { abrirCamera, avaliarQuadro, fecharCamera, fotografar, ligarLanterna, temLanterna } from './camera';
 import { docAtual, inicial, proximoIdx, reduzir } from './fluxo';
 import { MENSAGENS, dicaAoVivo } from './qualidade';
 
@@ -280,11 +280,18 @@ function Camera({ rotulo, formato, onFoto, onCancelar, onNegada }: {
   const negada = useRef(onNegada);
   const [dica, setDica] = useState('Enquadre o documento na moldura');
   const [ocupado, setOcupado] = useState(false);
+  const fluxo = useRef<MediaStream | null>(null);
+  const [lanternaDisponivel, setLanternaDisponivel] = useState(false);
+  const [lanterna, setLanterna] = useState(false);
 
   useEffect(() => {
     let stream: MediaStream | null = null;
     let vivo = true;
-    abrirCamera(video.current!).then((s) => { if (vivo) stream = s; else fecharCamera(s); }).catch(() => negada.current());
+    abrirCamera(video.current!).then((s) => {
+      if (!vivo) { fecharCamera(s); return; }
+      stream = s; fluxo.current = s;
+      setLanternaDisponivel(temLanterna(s));
+    }).catch(() => negada.current());
     const t = setInterval(() => { const r = video.current && avaliarQuadro(video.current); if (r) setDica(dicaAoVivo(r)); }, 600);
     const v = video.current;
     return () => { vivo = false; clearInterval(t); fecharCamera(stream, v); };
@@ -297,11 +304,22 @@ function Camera({ rotulo, formato, onFoto, onCancelar, onNegada }: {
       <video ref={video} playsInline muted aria-label="Imagem da câmera" />
       <header className="camera-topo">
         <span>{rotulo}</span>
-        <button className="camera-fechar" onClick={onCancelar} aria-label="Cancelar e voltar">✕</button>
+        <div className="camera-acoes">
+          {lanternaDisponivel && (
+            <button
+              className={`camera-flash${lanterna ? ' ligado' : ''}`} aria-pressed={lanterna}
+              aria-label={lanterna ? 'Desligar o flash' : 'Ligar o flash'}
+              onClick={async () => { if (await ligarLanterna(fluxo.current, !lanterna)) setLanterna(!lanterna); }}
+            >⚡ {lanterna ? 'Flash ligado' : 'Flash'}</button>
+          )}
+          <button className="camera-fechar" onClick={onCancelar} aria-label="Cancelar e voltar">✕</button>
+        </div>
       </header>
       <div className={`cantos cantos-${formato}`} aria-hidden="true"><i /><i /><i /><i /></div>
       <footer className="camera-base">
-        <p className="dica" aria-live="polite">{dica}</p>
+        <p className="dica" aria-live="polite">
+          {dica}{lanternaDisponivel && !lanterna && dica.includes('luz') ? ' ou ligue o flash ⚡' : ''}
+        </p>
         <button
           className="disparador" aria-label="Tirar foto" disabled={ocupado}
           onClick={async () => {
