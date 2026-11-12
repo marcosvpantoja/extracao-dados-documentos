@@ -107,6 +107,7 @@ Visão geral, na ordem da jornada. Os detalhes de cada tela estão nas seções 
 
 <img src="img/telas/04-camera.png" alt="Tela 4 · Câmera" width="280">
 
+- **Revisto no teste no celular (11/11/2026):** a câmera passou a ocupar a **tela cheia**, com **quatro cantos** indicando a área do documento, no lugar da moldura fechada, que ficava pequena. Os cantos têm formato de cartão deitado (RG, CNH, CIN) ou de folha em pé (fatura, nota, boleto). O Figma ainda mostra a versão anterior.
 - Dicas ao vivo, uma por vez: "Procure mais luz" · "Aproxime o documento" · "Segure firme" · "Pronto, pode fotografar".
 
 ### 5 · Aviso de qualidade
