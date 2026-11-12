@@ -24,6 +24,7 @@ O histórico completo de alterações está no [Git](https://github.com/marcosvp
 | 11/11/2026 | Motor real: OCR + regras + IA de texto local | [Etapa 10](etapas/10-motor.md) |
 | 11/11/2026 | Tela de revisão com a foto ao lado dos dados | [Wireframe da revisão](ux/revisao-wireframe.md) |
 | 11/11/2026 | Telas finais em alta resolução (versão 1.1) e modo de demonstração para apresentações | [Telas finais](ux/telas-finais.md) |
+| 11/11/2026 | Figma organizado por versão: página "v1.0 · Wireframes" e página "v1.1 · Produto", com nota das mudanças | [Figma](https://www.figma.com/design/SRwA8xYCHp8B8c2QtufKyv) |
 
 ---
 

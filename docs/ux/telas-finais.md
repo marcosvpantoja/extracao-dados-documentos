@@ -11,8 +11,8 @@ As imagens abaixo são do **produto funcionando**, e não de desenho: cada uma f
 
 | Versão | O que é | Onde |
 |---|---|---|
-| 1.0 · wireframes | 13 telas de baixa fidelidade, aprovadas antes do código | [Figma](https://www.figma.com/design/SRwA8xYCHp8B8c2QtufKyv) e [`img/telas-v1.0-wireframes/`](img/telas-v1.0-wireframes/) |
-| 1.1 · produto | Telas reais, depois dos testes no celular | [`img/telas-v1.1-produto/`](img/telas-v1.1-produto/) |
+| 1.0 · wireframes | 13 telas de baixa fidelidade, aprovadas antes do código | [Figma, página "v1.0 · Wireframes"](https://www.figma.com/design/SRwA8xYCHp8B8c2QtufKyv) e [`img/telas-v1.0-wireframes/`](img/telas-v1.0-wireframes/) |
+| 1.1 · produto | Telas reais, depois dos testes no celular | [Figma, página "v1.1 · Produto"](https://www.figma.com/design/SRwA8xYCHp8B8c2QtufKyv) e [`img/telas-v1.1-produto/`](img/telas-v1.1-produto/) |
 
 ### O que mudou do wireframe 1.0 para o produto 1.1
 
