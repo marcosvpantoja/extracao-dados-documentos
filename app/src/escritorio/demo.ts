@@ -1,4 +1,4 @@
-// Modo de demonstração do escritório: ?demo=1 (lista) ou ?demo=revisao (tela de revisão aberta).
+// Modo de demonstração do escritório: ?demo=1 (lista), ?demo=revisao (revisão aberta) ou ?demo=conferencia (conferência do cliente).
 // Dados fictícios, os mesmos dos documentos de exemplo do projeto.
 
 import { CATALOGO } from '../compartilhado/protocolo';

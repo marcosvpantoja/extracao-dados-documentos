@@ -31,7 +31,7 @@ export default function Escritorio() {
   const [simularFalha, setSimularFalha] = useState(false);
   const [copiado, setCopiado] = useState(false);
   const [aberto, setAberto] = useState<string | null>(DEMO === 'revisao' ? 'identidade' : null);
-  const [conferindo, setConferindo] = useState<string | null>(null);
+  const [conferindo, setConferindo] = useState<string | null>(DEMO === 'conferencia' ? 'comprovante' : null);
   const sessaoId = useRef<string>('');
   const canal = useRef<RealtimeChannel | null>(null);
   const falhaRef = useRef(simularFalha);
