@@ -159,16 +159,97 @@ O estudo foi desenhado para rodar **sem custo por documento lido**.
 | Motor | O computador que já existe | R$ 0 |
 | Design | Figma, plano gratuito | R$ 0 |
 
-**Trocas assumidas:** o motor depende de um Mac; o plano gratuito do Supabase documenta mensagens de até 256 KB (por isso os pedaços de 128 KB); IA na nuvem foi comparada só com documentos fictícios e descartada para documentos reais ([ADR 0002](docs/decisoes/0002-motor-de-leitura-e-extracao.md)).
+### Por que o motor roda no computador local
+
+| Motivo | Explicação |
+|---|---|
+| **Privacidade** | Documentos de identificação de terceiros não saem do computador do escritório. Uma API de IA na nuvem receberia cada documento |
+| **Custo zero por documento** | APIs de OCR e de IA cobram por página ou por chamada. Localmente, o custo é o computador que já existe |
+| **Qualidade suficiente** | O Apple Vision lê português com boa precisão e já vem no macOS: o motor por regras sobre ele chegou a 95% de campos certos |
+| **Velocidade** | 0,6 s por documento com regras; a IA local só entra quando falta algum campo |
+| **Custo de desenvolvimento x operação** | Uma IA de visão na nuvem seria mais rápida de montar, mas teria custo recorrente e mandaria os documentos para terceiros. Ela foi comparada só com documentos fictícios ([ADR 0002](docs/decisoes/0002-motor-de-leitura-e-extracao.md)) |
+
+**A troca:** o estudo depende de um Mac. Num produto, o motor iria para um servidor próprio na nuvem, com um OCR de código aberto (PaddleOCR) no lugar do Apple Vision, ainda sem provedores de IA de terceiros ([ADR 0010](docs/decisoes/0010-motor-em-producao.md)).
+
+### Por que a IA é o Qwen 2.5 7B, e por que ela não lê a imagem
+
+| Critério | Qwen 2.5 7B |
+|---|---|
+| Português | Bom desempenho em português, inclusive com nomes e endereços brasileiros |
+| Resposta estruturada | Devolve JSON seguindo um esquema fixo (o Ollama força o formato), sem texto solto |
+| Cabe no computador | ~4,7 GB, roda com folga num Mac M4 de 16 GB |
+| Tempo | De 2 a 5 s por documento, dentro dos 30 s de espera do celular |
+| Custo | Modelo aberto, gratuito, sem chamadas externas |
+
+| Alternativa | Por que não |
+|---|---|
+| Llama 3.2 3B | Mais leve e rápido, mas erra mais em português e em campos específicos |
+| Modelos maiores (13B ou mais) | Não cabem bem em 16 GB ou ficam lentos demais para o celular esperar |
+| IA de visão lendo a foto direto | Mais lenta no Mac e mais propensa a inventar dados que não estão no documento |
+| APIs de IA na nuvem | Mandariam documentos de terceiros para outra empresa |
+
+**Como a IA é usada:** ela recebe **o texto lido pelo OCR, não a imagem**, e só preenche os campos que as regras deixaram em branco. Três travas evitam dado inventado: o valor precisa **aparecer no texto lido**; passa pelas **mesmas validações** das regras (CPF com dígito verificador, número de registro com 9 a 11 dígitos); e **não pode repetir** um nome já usado em outro campo de pessoa. O que vem da IA aparece marcado **"IA · conferir"** na revisão.
+
+**Outras trocas:** o plano gratuito do Supabase documenta mensagens de até 256 KB, por isso a foto viaja em pedaços de 128 KB; o Figma gratuito limita o acesso automatizado, por isso parte das telas foi levada ao Figma pelo navegador.
 
 ---
 
 ## Resultados até aqui
 
-Medidos em **documentos fictícios**. O resultado com pessoas reais é a próxima etapa.
+Todos os números abaixo vêm de **documentos fictícios** gerados para o estudo e de testes técnicos. O resultado com pessoas e documentos reais é a Etapa 13.
+
+### Motor de extração: a evolução
+
+O conjunto de avaliação tem **32 documentos**: os seis tipos, em PDF e em versão para impressão, incluindo **14 com layouts que as regras não conheciam** (RG com rótulos ao lado, CIN bilíngue e no formato de app, CNH antiga sem MRZ). Cada campo extraído é comparado com um gabarito.
+
+| Versão do motor | Conjunto | Tipo certo | Campos extraídos certos | Cobertura¹ |
+|---|---|---|---|---|
+| Regras v1 | 18 documentos de layout conhecido | 18 de 18 | 100% | — |
+| Regras v1 | **14 de layout novo** | **6 de 14** | 82% | **27%** |
+| Regras genéricas | 14 de layout novo | 12 de 14 | 95% | 72% |
+| Regras genéricas + IA | 14 de layout novo | 13 de 14 | 93% | 82% |
+| + detecção da posição da foto | **todos os 32** | **31 de 32** | **95%** | **89%** |
+
+¹ Cobertura: dos campos que o documento tem e que o motor se propõe a extrair, quantos ele encontrou **e** acertou. É a medida mais exigente: um campo não encontrado conta contra.
+
+**O que a tabela conta:** o primeiro 100% estava errado. As regras tinham sido escritas olhando os mesmos documentos em que eram medidas. O número honesto (27%) só apareceu com layouts novos, e cada melhoria seguinte foi medida contra ele ([Etapa 10](docs/etapas/10-motor.md)).
+
+### Motor de extração: por tipo de documento (versão atual, 32 documentos)
+
+| Tipo | Campos extraídos certos | Cobertura | Onde ainda erra |
+|---|---|---|---|
+| Boleto | 100% (10 de 10) | 100% | — |
+| Nota fiscal (NF-e) | 100% (8 de 8) | 100% | — |
+| Fatura de serviço | 100% (8 de 8) | 100% | — |
+| RG antigo | 99% (75 de 76) | 88% | Filiação em layouts sem rótulo; versões de impressão com texto pequeno |
+| CIN | 95% (74 de 78) | 92% | Ordem pai/mãe quando o documento não diz quem é quem |
+| CNH | 89% (51 de 57) | 81% | CNH antiga sem MRZ, que é o que confere nome e data de nascimento |
+
+Os documentos com **dígito verificador** (CPF, CNPJ, chave da NF-e, linha digitável do boleto, MRZ) são os mais confiáveis: quando o motor erra a leitura, a validação percebe sozinha. Os mais frágeis são nomes e filiação, que não têm conferência automática. Por isso eles aparecem primeiro na revisão.
+
+### Desempenho
 
 | Medida | Resultado |
 |---|---|
+| Leitura por regras (OCR + extração) | **0,6 s** por documento, em média |
+| Leitura com IA, quando as regras não acham tudo | **2,8 s** em média; pico de 11 s |
+| Limite de espera no celular | 30 s, com folga |
+| Envio de uma foto de 2 MB, cifrada, em pedaços | **menos de 0,5 s** ([prova de conceito](docs/etapas/08-arquitetura-e-poc.md)) |
+| Detecção da posição da foto | **8 de 8** rotações (0°, 90°, 180° e 270°, em CNH e fatura) |
+
+### Testes com o produto
+
+| Teste | O que mostrou | O que mudou |
+|---|---|---|
+| 1º teste no celular | Fotos boas da tela eram recusadas como "reflexo" | Celular barra só o óbvio; aceita a 3ª tentativa |
+| 2º teste no celular | Leitura correta; chave da NF-e quebrava o layout; moldura da câmera pequena | Formatação brasileira; câmera em tela cheia |
+| Teste com RG de modelo novo | Documento não reconhecido | Regras genéricas + IA |
+| Foto de cabeça para baixo | Leitura correta, mas foto virada na revisão | Detecção automática da posição e botão "Girar" |
+| Atualizar a página | Cadastro perdido | Guarda cifrada até as 18h; teste bem-sucedido |
+
+**Qualidade do código:** 27 testes automatizados na aplicação e 10 no motor, cobrindo o protocolo cifrado, o fluxo das telas, a qualidade da foto, a leitura de PDF, a rotação, a formatação, o pacote do cliente e o relatório dos resultados-chave.
+
+---|---|
 | Cobertura do motor em layouts nunca vistos | **27%** com as primeiras regras → **82%** com regras genéricas e IA |
 | Campos extraídos corretos (32 documentos) | **95%**, com cobertura de **89%** |
 | Classificação do tipo de documento | 31 de 32 |
