@@ -158,7 +158,8 @@ export default function Escritorio() {
                   {Object.entries(i.campos).map(([k, c]) => (
                     <div key={k} className={CAMPOS_LARGOS.has(k) ? 'largo' : ''}>
                       <dt>{NOMES_CAMPOS[k] ?? k.replace(/_/g, ' ')}</dt>
-                      <dd>{formatarValor(k, c.valor)}{c.validado && <span className="validado" title="Conferido por dígito verificador ou MRZ" aria-label="conferido"> ✓</span>}</dd>
+                      <dd>{formatarValor(k, c.valor)}{c.validado && <span className="validado" title="Conferido por dígito verificador ou MRZ" aria-label="conferido"> ✓</span>}
+                        {c.origem === 'ia' && !c.validado && <span className="origem-ia" title="Encontrado pela IA: confira com atenção">IA · conferir</span>}</dd>
                     </div>
                   ))}
                 </dl>

@@ -56,7 +56,7 @@ def rg_v_rotulos_ao_lado(r, i):
     p = pessoa(r); uf = p["uf"]; num, num_fmt = rg_formatado(r)
     exped = g.data_aleatoria(r, dt.date(2006, 1, 1), dt.date(2024, 12, 31))
     campos = {"nome": p["nome"], "filiacao_pai": p["pai"], "filiacao_mae": p["mae"], "data_nascimento": p["nasc"].isoformat(),
-              "naturalidade": f"{p['cidade']}, {uf}", "orgao_expedidor": f"SSP/{uf}", "registro_geral": num,
+              "naturalidade": f"{p['cidade']}, {uf}", "orgao_expedidor": f"SSP/{uf}", "registro_geral": num_fmt,
               "data_expedicao": exped.isoformat(), "cpf": p["cpf"]}
     fundo = "background:repeating-linear-gradient(0deg,#f3eadb 0 3px,#efe3cf 3px 6px);border:10px solid #8a6d3b"
     frente = f"""<div class="c" style="{fundo}">
@@ -98,7 +98,7 @@ def rg_v_ordem_invertida(r, i):
     p = pessoa(r); uf = p["uf"]; num, num_fmt = rg_formatado(r)
     exped = g.data_aleatoria(r, dt.date(2006, 1, 1), dt.date(2024, 12, 31))
     campos = {"nome": p["nome"], "filiacao_pai": p["pai"], "filiacao_mae": p["mae"], "data_nascimento": p["nasc"].isoformat(),
-              "naturalidade": f"{p['cidade']}, {uf}", "orgao_expedidor": f"SSP/{uf}", "registro_geral": num,
+              "naturalidade": f"{p['cidade']}, {uf}", "orgao_expedidor": f"SSP/{uf}", "registro_geral": num_fmt,
               "data_expedicao": exped.isoformat(), "cpf": p["cpf"]}
     corpo = f"""<div class="c" style="background:#eef3f7;border:8px double #4a6a8a">
       <div style="text-align:center;font-weight:700;letter-spacing:3px;margin-bottom:10px">REPÚBLICA FEDERATIVA DO BRASIL · MODELO FICTÍCIO</div>

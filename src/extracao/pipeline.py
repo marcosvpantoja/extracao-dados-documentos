@@ -396,15 +396,72 @@ NOMES_CAMPOS = {"cpf": "o CPF", "nome": "o nome", "registro_geral": "o número d
                 "linha_digitavel": "o código de barras", "valor_total": "o valor", "vencimento": "o vencimento"}
 
 
-def processar(linhas: List[Linha]) -> Resultado:
+# Campos que a IA pode completar, por tipo (os que importam ao cadastro)
+COMPLETAVEIS = {
+    "cnh": ("nome", "cpf", "data_nascimento", "filiacao_pai", "filiacao_mae", "numero_registro", "validade", "categoria"),
+    "cin": ("nome", "cpf", "data_nascimento", "filiacao_pai", "filiacao_mae", "naturalidade", "orgao_expedidor", "validade"),
+    "rg": ("nome", "registro_geral", "data_nascimento", "filiacao_pai", "filiacao_mae", "naturalidade", "orgao_expedidor"),
+    "fatura": ("cliente", "valor_total", "vencimento"),
+}
+
+
+def _normalizar_ia(campo: str, valor: str) -> Optional[str]:
+    if campo in ("data_nascimento", "validade", "data_emissao", "data_expedicao", "vencimento"):
+        return data_iso(valor)
+    if campo == "cpf":
+        d = digitos(valor)
+        return f"{d[:3]}.{d[3:6]}.{d[6:9]}-{d[9:]}" if cpf_valido(d) else None
+    if campo == "valor_total":
+        return valor_decimal("R$ " + valor) or None
+    if campo == "naturalidade":
+        partes = re.split(r"\s*[-/,]\s*", sem_acento(valor).strip())
+        return f"{partes[0]}, {partes[1]}" if len(partes) >= 2 else None
+    # A IA passa pelas mesmas regras de formato que as regras de extração
+    from . import identidade
+    if campo == "numero_registro":
+        return valor.strip() if re.fullmatch(r"\d{9,11}", valor.strip()) else None
+    if campo == "registro_geral":
+        return (sem_acento(valor).strip() if identidade.eh_rg(valor) else None)
+    if campo == "categoria":
+        return valor.strip().upper() if re.fullmatch(r"(ACC|[A-E]{1,2})", valor.strip().upper()) else None
+    if campo == "orgao_expedidor":
+        m = identidade.RE_ORGAO.search(sem_acento(valor))
+        return f"{m.group(1)}/{m.group(2)}" if m else None
+    if campo in ("nome", "filiacao_pai", "filiacao_mae", "cliente"):
+        return sem_acento(valor).strip(" /") if identidade.eh_nome(valor.upper()) else None
+    return sem_acento(valor).strip(" /")
+
+
+def processar(linhas: List[Linha], usar_ia: bool = True) -> Resultado:
     leitura = Leitura(linhas)
     if len("".join(leitura.norm)) < 40:
         return Resultado("nao_reconhecido", 0.0, legivel=False, motivo="Não conseguimos ler o documento")
-    tipo, conf = classificar(leitura)
+    from . import identidade
+    tipo_id = identidade.classificar_identidade(leitura)
+    tipo, conf = (tipo_id, 0.9) if tipo_id else classificar(leitura)
+    if tipo in ("cnh", "cin", "rg") and not tipo_id:
+        tipo, conf = "nao_reconhecido", 0.0  # documento de identidade sem os sinais mínimos
     r = Resultado(tipo, conf)
+    if tipo == "nao_reconhecido" and usar_ia:
+        from . import ia
+        if ia.disponivel() and (tipo_ia := ia.classificar("\n".join(l.texto for l in leitura.linhas))):
+            r = Resultado(tipo_ia, 0.6)
+            tipo = tipo_ia
     if tipo == "nao_reconhecido":
         return r
-    EXTRATORES[tipo](leitura, r)
+    if tipo in ("cnh", "cin", "rg"):
+        identidade.extrair(leitura, r, tipo)
+    else:
+        EXTRATORES[tipo](leitura, r)
+    faltando = [c for c in COMPLETAVEIS.get(tipo, ()) if c not in r.campos]
+    if faltando and usar_ia:
+        from . import ia
+        if ia.disponivel():
+            for campo, valor in ia.completar("\n".join(l.texto for l in leitura.linhas), tipo, faltando).items():
+                v = _normalizar_ia(campo, valor)
+                pessoas = {r.campos[k].valor for k in ("nome", "filiacao_pai", "filiacao_mae") if k in r.campos}
+                if v and not (campo in ("nome", "filiacao_pai", "filiacao_mae") and v in pessoas):
+                    r.campos[campo] = Campo(v, "ia", campo == "cpf")
     faltando = [c for c in ESSENCIAIS[tipo] if c not in r.campos]
     if faltando:
         r.legivel = False

@@ -4,6 +4,7 @@ Para cada documento fictício: renderiza o PDF, lê com o OCR, classifica, extra
 cada campo com o gabarito. Só usa documentos fictícios (data/exemplos), nunca documentos reais.
 
 Uso: .venv/bin/python scripts/avaliar.py [--detalhe] [--variantes]
+   --ia liga a IA de texto local (Ollama) para completar o que as regras não acharam
    --variantes avalia só os layouts novos (gerar_variantes.py), que as regras não viram ao serem escritas.
 """
 
@@ -40,7 +41,7 @@ def norm(v) -> str:
     return re.sub(r"[^A-Z0-9]", "", sem_acento(str(v)))
 
 
-def main(detalhe: bool, so_variantes: bool = False):
+def main(detalhe: bool, so_variantes: bool = False, usar_ia: bool = False):
     ocr = AppleVision()
     por_campo = defaultdict(lambda: [0, 0, 0])  # acertos, errados, ausentes
     classificacao = [0, 0]
@@ -56,7 +57,7 @@ def main(detalhe: bool, so_variantes: bool = False):
             pdfs.append(impressao)
         for pdf in pdfs:
             t0 = time.perf_counter()
-            r = processar(ocr.ler(renderizar_pdf(str(pdf))))
+            r = processar(usar_ia=usar_ia, linhas=ocr.ler(renderizar_pdf(str(pdf), escala=4 if 'impressao' in pdf.name else 2.5)))  # impressão ~ resolução de foto
             tempos.append(time.perf_counter() - t0)
             classificacao[0 if r.tipo == esperado else 1] += 1
             linha = [f"{pdf.name:34} tipo={r.tipo:15} {'✓' if r.tipo == esperado else '✗ esperado ' + esperado}"]
@@ -90,4 +91,4 @@ def main(detalhe: bool, so_variantes: bool = False):
 
 
 if __name__ == "__main__":
-    main("--detalhe" in sys.argv, "--variantes" in sys.argv)
+    main("--detalhe" in sys.argv, "--variantes" in sys.argv, "--ia" in sys.argv)

@@ -56,3 +56,27 @@ O número que vale para as metas dos resultados-chave sai das **fotos dos docume
 | Cobertura: campos esperados encontrados e certos | — | **27%** (28 de 105) |
 
 **Conclusão:** as regras atuais **não generalizam**. Elas funcionam nos layouts para os quais foram escritas e falham em layouts diferentes, inclusive nas versões de impressão, em que o texto fica pequeno. Esta é a medida honesta do motor por regras, e confirma o risco de vício registrado na Etapa 1.
+
+## Regras genéricas e IA de texto (11/11/2026)
+
+**Decisão:** tornar as regras genéricas e usar a IA de texto local (Ollama, modelo Qwen 2.5 7B, ~4,7 GB, só no Mac) para o que as regras não acharem, como o ADR 0002 previa.
+
+**Regras genéricas** ([`src/extracao/identidade.py`](../../src/extracao/identidade.py)): cada campo tem rótulos sinônimos, inclusive bilíngues ("Nome / Name", "Filho(a) de", "Pai:"), e o valor é procurado na própria linha, ao lado, abaixo ou acima do rótulo. A classificação passou a usar sinais mais robustos (por exemplo, o RG antigo não tem validade; a CIN tem).
+
+**IA de texto** ([`src/extracao/ia.py`](../../src/extracao/ia.py)): recebe o texto do OCR, não a imagem, e só preenche os campos em branco. Três proteções contra dado inventado:
+1. o valor precisa **aparecer no texto do OCR**;
+2. passa pelas **mesmas validações de formato** das regras (CPF com dígito verificador, número de registro com 9 a 11 dígitos, RG que não seja um CPF);
+3. não pode repetir um nome já usado em outro campo de pessoa.
+
+Na tela do escritório, o campo que veio da IA aparece marcado **"IA · conferir"**.
+
+| Conjunto | Tipo certo | Campos extraídos certos | Cobertura |
+|---|---|---|---|
+| Layouts novos, regras v1 | 6 de 14 | 82% | 27% |
+| Layouts novos, regras genéricas | 12 de 14 | 95% | 72% |
+| Layouts novos, regras genéricas + IA | 13 de 14 | 93% | 82% |
+| Todos os 32 documentos, regras genéricas + IA | 31 de 32 | 94% | 87% |
+
+**Custo:** o tempo médio passa de 0,6 s para cerca de 2,6 s por documento, com picos de 8 s quando a IA entra. Cabe nos 30 s de espera do celular (RF-31).
+
+**Limites que continuam:** as variantes também foram usadas para ajustar as regras genéricas, então deixaram de ser um conjunto "nunca visto". A medição de generalização daqui para frente depende de documentos novos: as fotos dos impressos e as sessões com testers.

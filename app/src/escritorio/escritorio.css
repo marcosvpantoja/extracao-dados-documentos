@@ -27,3 +27,4 @@ body { background: var(--cor-fundo-suave); }
 .item > div:last-child { flex: 1; min-width: 0; }
 .validado { color: var(--cor-sucesso); }
 .item { align-items: flex-start; }
+.origem-ia { margin-left: 8px; font-size: 11px; font-weight: 700; color: var(--cor-alerta); background: var(--cor-alerta-clara); border-radius: 999px; padding: 2px 8px; }
