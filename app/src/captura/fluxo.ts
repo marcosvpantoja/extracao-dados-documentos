@@ -29,6 +29,7 @@ export interface Estado {
   face: Face;
   situacao: Record<string, SituacaoDoc>;
   recusas: number; // fotos recusadas seguidas na face atual
+  fotosDoc: number; // fotos tiradas no documento atual, para medir o KR4 (aceita de primeira)
   motivoQualidade?: MotivoQualidade;
   motivoLeitura?: string;
 }
@@ -53,7 +54,7 @@ export type Acao =
   | { tipo: 'CANCELAR' };
 
 export function inicial(docs: DocumentoPedido[]): Estado {
-  return { tela: 'conectando', docs, idx: 0, face: 'frente', situacao: {}, recusas: 0 };
+  return { tela: 'conectando', docs, idx: 0, face: 'frente', situacao: {}, recusas: 0, fotosDoc: 0 };
 }
 
 export function docAtual(e: Estado): DocumentoPedido {
@@ -70,7 +71,7 @@ function avancar(e: Estado, situacao: Record<string, SituacaoDoc>): Estado {
   const prox = proximoIdx(e, situacao);
   return prox === null
     ? { ...e, situacao, tela: 'fim' }
-    : { ...e, situacao, idx: prox, face: 'frente', tela: 'documento', recusas: 0 };
+    : { ...e, situacao, idx: prox, face: 'frente', tela: 'documento', recusas: 0, fotosDoc: 0 };
 }
 
 export function reduzir(e: Estado, a: Acao): Estado {
@@ -87,10 +88,12 @@ export function reduzir(e: Estado, a: Acao): Estado {
       // Na 3ª recusa seguida, a última foto segue para o motor, que ainda pode pedir outra.
       return e.recusas + 1 >= TENTATIVAS_MAXIMAS
         ? reduzir({ ...e, recusas: 0 }, { tipo: 'FOTO_BOA' })
-        : { ...e, tela: 'qualidade', motivoQualidade: a.motivo, recusas: e.recusas + 1 };
+        : { ...e, tela: 'qualidade', motivoQualidade: a.motivo, recusas: e.recusas + 1, fotosDoc: e.fotosDoc + 1 };
     case 'TIRAR_OUTRA': return { ...e, tela: 'camera' };
-    case 'FOTO_BOA':
-      return docAtual(e).temVerso && e.face === 'frente' ? { ...e, tela: 'verso', recusas: 0 } : { ...e, tela: 'lendo', recusas: 0 };
+    case 'FOTO_BOA': {
+      const n = e.fotosDoc + 1;
+      return docAtual(e).temVerso && e.face === 'frente' ? { ...e, tela: 'verso', recusas: 0, fotosDoc: n } : { ...e, tela: 'lendo', recusas: 0, fotosDoc: n };
+    }
     case 'FOTOGRAFAR_VERSO': return { ...e, tela: 'camera', face: 'verso' };
     case 'LIDO': return e.tela === 'lendo' ? { ...e, tela: 'enviado', situacao: { ...e.situacao, [docAtual(e).id]: 'enviado' } } : e;
     case 'NOVA_FOTO': return e.tela === 'lendo' ? { ...e, tela: 'nova-foto', motivoLeitura: a.motivo, face: 'frente' } : e;

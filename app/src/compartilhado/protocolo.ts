@@ -65,7 +65,7 @@ export type Face = 'frente' | 'verso';
 
 export interface MsgPareamento { celular: string }
 export interface MsgPareado { celular: string; aceito: boolean }
-export interface MsgPedaco { envio: string; doc: string; face: Face; i: number; n: number; iv: string; dados: string }
+export interface MsgPedaco { envio: string; doc: string; face: Face; i: number; n: number; iv: string; dados: string; fotos?: number }
 export interface MsgPendente { doc: string }
 export interface MsgResultado { envio: string; doc: string; status: 'lido' | 'nova-foto'; motivo?: string }
 export interface MsgConcluido { pendentes: string[] }
@@ -80,11 +80,11 @@ export const EVENTOS = {
 } as const;
 
 /** Divide o conteúdo cifrado em mensagens de até 128 KB (antes do base64). */
-export function dividirEmPedacos(envio: string, doc: string, face: Face, iv: Uint8Array, dados: Uint8Array): MsgPedaco[] {
+export function dividirEmPedacos(envio: string, doc: string, face: Face, iv: Uint8Array, dados: Uint8Array, fotos?: number): MsgPedaco[] {
   const n = Math.max(1, Math.ceil(dados.length / TAMANHO_PEDACO));
   const ivTexto = paraBase64Url(iv);
   return Array.from({ length: n }, (_, i) => ({
-    envio, doc, face, i, n, iv: ivTexto,
+    envio, doc, face, i, n, iv: ivTexto, fotos,
     dados: paraBase64Url(dados.subarray(i * TAMANHO_PEDACO, (i + 1) * TAMANHO_PEDACO)),
   }));
 }

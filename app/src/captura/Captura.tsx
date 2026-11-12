@@ -64,6 +64,7 @@ export default function Captura() {
   useEffect(() => {
     if (e.tela !== 'lendo' || !canal.current || !chave.current) return;
     const doc = docAtual(e);
+    const fotosDoc = e.fotosDoc; // nº de fotos tiradas neste documento (sem dado pessoal)
     const envio = crypto.randomUUID();
     envioAtual.current = envio;
     const relogio = setTimeout(() => despachar({ tipo: 'TEMPO_ESGOTADO' }), ESPERA_LEITURA_MS);
@@ -72,7 +73,7 @@ export default function Captura() {
         const bytes = fotos.current[face];
         if (!bytes) continue;
         const { iv, dados } = await cifrar(chave.current!, bytes);
-        for (const p of dividirEmPedacos(envio, doc.id, face, iv, dados)) await enviar(canal.current!, EVENTOS.pedaco, p);
+        for (const p of dividirEmPedacos(envio, doc.id, face, iv, dados, fotosDoc)) await enviar(canal.current!, EVENTOS.pedaco, p);
       }
       fotos.current = {}; // a foto deixa de existir no celular depois de enviada
     })().catch(() => despachar({ tipo: 'TEMPO_ESGOTADO' }));

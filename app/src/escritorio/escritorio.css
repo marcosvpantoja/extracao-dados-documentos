@@ -58,3 +58,8 @@ body { background: var(--cor-fundo-suave); }
 .decidir.ok.marcado { background: var(--cor-sucesso); border-color: var(--cor-sucesso); color: #fff; }
 .decidir.nao.marcado { background: var(--cor-erro); border-color: var(--cor-erro); color: #fff; }
 @media (max-width: 860px) { .revisao-corpo { grid-template-columns: 1fr; } .revisao-foto { max-height: 45vh; } }
+.btn-errado { min-height: 40px; padding: 0 14px; border-radius: 10px; border: 1.5px solid var(--cor-borda); background: #fff; font: 600 14px var(--fonte); color: var(--cor-erro); cursor: pointer; white-space: nowrap; }
+.btn-errado.marcado { background: var(--cor-erro); border-color: var(--cor-erro); color: #fff; }
+.acoes-item { display: flex; gap: 8px; margin-left: auto; }
+.acoes-item .btn { width: auto; min-height: 44px; }
+.btn-secundario { background: #fff; color: var(--cor-primaria); border: 1.5px solid var(--cor-primaria); }

@@ -49,3 +49,23 @@ def test_registro_de_revisao_descarta_valores(tmp_path, monkeypatch):
     assert r == {"gravados": 1}
     conteudo = destino.read_text()
     assert "644.836" not in conteudo and '"campo": "cpf"' in conteudo
+
+
+def test_relatorio_calcula_krs_a_partir_do_registro(tmp_path, capsys):
+    import importlib.util, json as _json
+    reg = tmp_path / "r.jsonl"
+    linhas = [
+        {"etapa": "sessao", "sessao": "s1", "evento": "link_gerado", "quando": "2026-11-11T10:00:00+00:00"},
+        {"etapa": "captura", "sessao": "s1", "evento": "documento_lido", "fotos": 1, "faces": 1, "status": "lido", "quando": "2026-11-11T10:01:00+00:00"},
+        {"etapa": "captura", "sessao": "s1", "evento": "documento_lido", "fotos": 3, "faces": 2, "status": "lido", "quando": "2026-11-11T10:02:00+00:00"},
+        {"etapa": "sessao", "sessao": "s1", "evento": "revisao_concluida", "sem_edicao": True, "quando": "2026-11-11T10:03:00+00:00"},
+        {"etapa": "sessao", "sessao": "s1", "evento": "conferencia_concluida", "erros": 1, "quando": "2026-11-11T10:04:00+00:00"},
+    ]
+    reg.write_text("\n".join(_json.dumps(l) for l in linhas))
+    spec = importlib.util.spec_from_file_location("relatorio", "scripts/relatorio.py")
+    mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+    mod.main(reg)
+    saida = capsys.readouterr().out
+    assert "KR4 · documentos aceitos com a primeira foto:       50% (1 de 2)" in saida
+    assert "mediana 4.0 min" in saida
+    assert "Proteção · documentos com erro depois da revisão:   100% (1 de 1)" in saida

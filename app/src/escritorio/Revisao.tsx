@@ -8,10 +8,57 @@ import { NOMES_CAMPOS, formatarValor } from './formatar';
 
 export interface CampoLido { valor: string; origem: string; validado: boolean }
 export type Decisao = 'confirmado' | 'recusado';
+export type Conferencia = 'certo' | 'errado';
 
 export function ordenarParaRevisao(campos: Record<string, CampoLido>): [string, CampoLido][] {
   const peso = (c: CampoLido) => (c.origem === 'ia' ? 0 : c.validado ? 2 : 1);
   return Object.entries(campos).sort(([, a], [, b]) => peso(a) - peso(b));
+}
+
+/**
+ * Conferência pelo cliente (HU-23, métrica de proteção): depois da revisão, o tester vê na tela do
+ * escritório os dados JÁ CONFIRMADOS e marca o que estiver errado. Fica no Mac, e não no celular,
+ * para nenhum dado voltar ao aparelho do cliente.
+ */
+export function Conferir({ titulo, faces, campos, decisoes, conferencia, onConferir, onFechar }: {
+  titulo: string;
+  faces: Partial<Record<Face, string>>;
+  campos: Record<string, CampoLido>;
+  decisoes: Record<string, Decisao>;
+  conferencia: Record<string, Conferencia>;
+  onConferir: (c: Record<string, Conferencia>, concluir: boolean) => void;
+  onFechar: () => void;
+}) {
+  const confirmados = Object.entries(campos).filter(([k]) => decisoes[k] === 'confirmado');
+  const [marcados, setMarcados] = useState<Record<string, Conferencia>>(conferencia);
+  const foto = faces.frente ?? faces.verso;
+  return (
+    <section className="revisao conferencia" aria-label={`Conferência do cliente: ${titulo}`}>
+      <header className="revisao-topo">
+        <div><h2>Confira seus dados · {titulo}</h2><span className="situacao">Para o cliente: marque o que estiver errado. O que não for marcado será considerado certo.</span></div>
+        <button className="btn btn-texto" onClick={onFechar}>Fechar</button>
+      </header>
+      <div className="revisao-corpo">
+        <div className="revisao-foto"><div className="foto-area">{foto && <img src={foto} alt={titulo} style={{ width: '100%' }} />}</div></div>
+        <div className="revisao-campos">
+          <ul>
+            {confirmados.map(([k, c]) => (
+              <li key={k} className={`campo-rev${marcados[k] === 'errado' ? ' recusado' : ''}`}>
+                <div className="campo-texto"><span className="campo-nome">{NOMES_CAMPOS[k] ?? k}</span><span className="campo-valor">{formatarValor(k, c.valor)}</span></div>
+                <button className={`btn-errado${marcados[k] === 'errado' ? ' marcado' : ''}`} aria-pressed={marcados[k] === 'errado'}
+                  onClick={() => setMarcados((m) => ({ ...m, [k]: m[k] === 'errado' ? 'certo' : 'errado' }))}>
+                  {marcados[k] === 'errado' ? '✗ Está errado' : 'Está errado?'}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <button className="btn btn-primario" onClick={() => onConferir(Object.fromEntries(confirmados.map(([k]) => [k, marcados[k] ?? 'certo'])), true)}>
+            Concluir conferência
+          </button>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default function Revisao({ titulo, tipo, faces, campos, decisoes, onDecidir, onFechar }: {

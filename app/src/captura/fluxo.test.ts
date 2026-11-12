@@ -36,7 +36,7 @@ describe('fluxo da captura (espelho do fluxograma das telas)', () => {
     let e = rodar([...ate3, { tipo: 'FOTOGRAFAR' }, { tipo: 'FOTO_RUIM', motivo: 'escura' }, { tipo: 'TIRAR_OUTRA' }, { tipo: 'FOTO_RUIM', motivo: 'escura' }]);
     expect(e).toMatchObject({ tela: 'qualidade', recusas: 2 });
     e = rodar([{ tipo: 'TIRAR_OUTRA' }, { tipo: 'FOTO_RUIM', motivo: 'tremida' }], e);
-    expect(e).toMatchObject({ tela: 'verso', recusas: 0 }); // identidade tem verso
+    expect(e).toMatchObject({ tela: 'verso', recusas: 0, fotosDoc: 3 }); // identidade tem verso; 3 fotos contadas
   });
 
   it('leitura que falha pede nova foto desde a frente (7b)', () => {

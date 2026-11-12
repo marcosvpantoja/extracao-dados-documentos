@@ -81,7 +81,10 @@ async def processar(request: Request, doc: str, simular: Optional[str] = None) -
 
 
 REGISTRO_REVISAO = RAIZ / "data" / "privado" / "registro-revisao.jsonl"
-CHAVES_REVISAO = {"tipo", "campo", "origem", "validado", "resultado"}
+# Só estas chaves entram no registro: eventos, contagens e tempos. Nunca valores nem imagens.
+CHAVES_REVISAO = {"etapa", "sessao", "evento", "tipo", "campo", "origem", "validado", "resultado",
+                  "doc", "docs", "fotos", "faces", "status", "ms", "sem_edicao", "erros"}
+RESULTADOS = {"confirmado", "recusado", "certo", "errado"}
 
 
 @app.post("/revisao")
@@ -94,9 +97,12 @@ async def revisao(eventos: list = Body(...)) -> dict:
     gravados = 0
     with REGISTRO_REVISAO.open("a", encoding="utf-8") as f:
         for e in eventos[:100]:
-            if not isinstance(e, dict) or e.get("resultado") not in ("confirmado", "recusado"):
+            if not isinstance(e, dict) or ("resultado" in e and e["resultado"] not in RESULTADOS):
                 continue
-            limpo = {k: e[k] for k in CHAVES_REVISAO if k in e and isinstance(e[k], (str, bool))}
+            if "resultado" not in e and "evento" not in e:
+                continue
+            limpo = {k: e[k] for k in CHAVES_REVISAO
+                     if k in e and isinstance(e[k], (str, bool, int)) and (not isinstance(e[k], str) or len(e[k]) <= 60)}
             limpo["quando"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
             f.write(json.dumps(limpo, ensure_ascii=False) + "\n")
             gravados += 1

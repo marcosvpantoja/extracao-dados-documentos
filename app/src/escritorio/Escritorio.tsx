@@ -4,7 +4,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
-import Revisao, { type CampoLido, type Decisao } from './Revisao';
+import Revisao, { Conferir, type CampoLido, type Conferencia, type Decisao } from './Revisao';
 import { DEMO, ITENS_DEMO } from './demo';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { abrirCanal, enviar, inscrever } from '../compartilhado/canal';
@@ -18,7 +18,7 @@ const URL_CAPTURA = (import.meta.env.VITE_URL_CAPTURA as string) || `${location.
 const URL_MOTOR = (import.meta.env.VITE_URL_MOTOR as string) || '';
 
 type Situacao = 'aguardando' | 'recebendo' | 'lendo' | 'lido' | 'nova-foto' | 'pendente';
-interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; tipo?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao> }
+interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; tipo?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao>; conferencia?: Record<string, Conferencia>; conferido?: boolean }
 type Sessao = 'montando' | 'aguardando-celular' | 'expirada' | 'pareada' | 'concluida';
 
 export default function Escritorio() {
@@ -31,6 +31,8 @@ export default function Escritorio() {
   const [simularFalha, setSimularFalha] = useState(false);
   const [copiado, setCopiado] = useState(false);
   const [aberto, setAberto] = useState<string | null>(DEMO === 'revisao' ? 'identidade' : null);
+  const [conferindo, setConferindo] = useState<string | null>(null);
+  const sessaoId = useRef<string>('');
   const canal = useRef<RealtimeChannel | null>(null);
   const falhaRef = useRef(simularFalha);
   falhaRef.current = simularFalha;
@@ -41,6 +43,8 @@ export default function Escritorio() {
   async function gerar() {
     const docs = CATALOGO.filter((d) => escolhidos.includes(d.id));
     const id = crypto.randomUUID();
+    sessaoId.current = crypto.randomUUID(); // id só para medir tempo; não se liga a nenhuma pessoa
+    registrar([{ etapa: 'sessao', sessao: sessaoId.current, evento: 'link_gerado', docs: docs.length }]);
     const chave = await gerarChave();
     const url = montarLink(URL_CAPTURA, { sessao: id, chave: await exportarChave(chave), escritorio, documentos: docs });
     setItens(docs.map((doc) => ({ doc, situacao: 'aguardando', faces: {} })));
@@ -57,7 +61,7 @@ export default function Escritorio() {
     c.on('broadcast', { event: EVENTOS.pareamento }, async ({ payload }) => {
       const p = payload as MsgPareamento;
       const aceito = celular === null || celular === p.celular;
-      if (aceito && !celular) { celular = p.celular; clearTimeout(expira); setSessao('pareada'); }
+      if (aceito && !celular) { celular = p.celular; clearTimeout(expira); setSessao('pareada'); registrar([{ etapa: 'sessao', sessao: sessaoId.current, evento: 'celular_pareado' }]); }
       await enviar(c, EVENTOS.pareado, { celular: p.celular, aceito });
     });
 
@@ -75,7 +79,10 @@ export default function Escritorio() {
       if (doc.temVerso && !(faces.frente && faces.verso)) return; // espera as duas faces
       recebidas.delete(pronto.envio);
       atualizar(doc.id, { situacao: 'lendo' });
+      const t0 = performance.now();
       const r = await ler(doc, faces, falhaRef.current);
+      registrar([{ etapa: 'captura', sessao: sessaoId.current, evento: 'documento_lido', doc: doc.id, tipo: r.tipo ?? '', fotos: m.fotos ?? 0,
+        faces: Object.keys(faces).length, status: r.status, ms: Math.round(performance.now() - t0) }]);
       atualizar(doc.id, { situacao: r.status === 'lido' ? 'lido' : 'nova-foto', detalhe: r.motivo ?? TIPOS[r.tipo ?? ''] ?? r.tipo, tipo: r.tipo, campos: r.campos, decisoes: {} });
       await enviar(c, EVENTOS.resultado, { envio: pronto.envio, doc: doc.id, status: r.status, motivo: r.motivo });
     });
@@ -164,11 +171,35 @@ export default function Escritorio() {
                   </span>
                 )}
               </div>
-              {total > 0 && <button className="btn btn-primario btn-revisar" onClick={() => setAberto(i.doc.id)}>{decididos < total ? 'Revisar' : 'Ver revisão'}</button>}
+              {total > 0 && (
+                <div className="acoes-item">
+                  <button className="btn btn-primario" onClick={() => setAberto(i.doc.id)}>{decididos < total ? 'Revisar' : 'Ver revisão'}</button>
+                  {decididos === total && (
+                    <button className="btn btn-secundario" onClick={() => setConferindo(i.doc.id)}>{i.conferido ? 'Conferido ✓' : 'Conferência do cliente'}</button>
+                  )}
+                </div>
+              )}
             </li>
           );
         })}
       </ul>
+      {conferindo && (() => {
+        const i = itens.find((x) => x.doc.id === conferindo)!;
+        return (
+          <div className="sobreposicao" role="dialog" aria-modal="true">
+            <Conferir titulo={i.doc.rotulo} faces={i.faces} campos={i.campos ?? {}} decisoes={i.decisoes ?? {}} conferencia={i.conferencia ?? {}}
+              onFechar={() => setConferindo(null)}
+              onConferir={(c) => {
+                atualizar(i.doc.id, { conferencia: c, conferido: true });
+                registrar(Object.entries(c).map(([campo, resultado]) => ({ etapa: 'conferencia', sessao: sessaoId.current, tipo: i.tipo ?? '', campo,
+                  origem: i.campos?.[campo]?.origem, resultado })));
+                registrar([{ etapa: 'sessao', sessao: sessaoId.current, evento: 'conferencia_concluida', doc: i.doc.id,
+                  erros: Object.values(c).filter((x) => x === 'errado').length }]);
+                setConferindo(null);
+              }} />
+          </div>
+        );
+      })()}
       {aberto && (() => {
         const i = itens.find((x) => x.doc.id === aberto)!;
         return (
@@ -180,7 +211,11 @@ export default function Escritorio() {
                 const antes = i.decisoes ?? {};
                 atualizar(i.doc.id, { decisoes: novas });
                 const mudou = Object.entries(novas).filter(([k, d]) => antes[k] !== d);
-                if (mudou.length && !DEMO) registrarRevisao(i.tipo ?? '', mudou, i.campos ?? {});
+                if (mudou.length && !DEMO) registrarRevisao(i.tipo ?? '', mudou, i.campos ?? {}, sessaoId.current);
+                const total = Object.keys(i.campos ?? {}).length;
+                if (Object.keys(novas).length === total && Object.keys(antes).length < total && !DEMO)
+                  registrar([{ etapa: 'sessao', sessao: sessaoId.current, evento: 'revisao_concluida', doc: i.doc.id,
+                    sem_edicao: Object.values(novas).every((d) => d === 'confirmado') }]);
               }}
             />
           </div>
@@ -199,8 +234,13 @@ const ROTULOS: Record<Situacao, string> = {
 };
 
 /** Registro de revisão (RF-22): só tipo, campo, origem e resultado. Nunca valores nem imagem. */
-function registrarRevisao(tipo: string, mudancas: [string, Decisao][], campos: Record<string, CampoLido>) {
-  const eventos = mudancas.map(([campo, resultado]) => ({ tipo, campo, origem: campos[campo]?.origem, validado: campos[campo]?.validado, resultado }));
+function registrarRevisao(tipo: string, mudancas: [string, Decisao][], campos: Record<string, CampoLido>, sessao: string) {
+  registrar(mudancas.map(([campo, resultado]) => ({ etapa: 'revisao', sessao, tipo, campo, origem: campos[campo]?.origem, validado: campos[campo]?.validado, resultado })));
+}
+
+/** Registro local de medição (RF-22): só eventos, contagens e tempos. Nunca valores nem imagens. */
+function registrar(eventos: object[]) {
+  if (DEMO) return;
   fetch(`${URL_MOTOR}/revisao`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(eventos) }).catch(() => {});
 }
 
