@@ -49,33 +49,27 @@ class AppleVision:
         pedido.setRecognitionLanguages_(["pt-BR", "en-US"])
         pedido.setUsesLanguageCorrection_(False)  # nomes e números não devem ser "corrigidos"
 
-        # Orientação: o Vision lida com rotação de 90°/180° quando informada; tentamos as quatro
-        # e ficamos com a que lê mais texto com mais confiança (o RG escaneado vem rotacionado).
+        # Orientação: primeiro descobre a posição em pé (modo rápido, ver _rotacao_pela_direcao_do_texto)
+        # e só então lê no modo preciso, uma única vez, já na posição certa. Ler nas quatro posições
+        # no modo preciso não serve: ele lê até texto virado, e as posições das linhas se invertem.
+        rotacao = _rotacao_pela_direcao_do_texto(cg)
+        orientacao = {0: 1, 90: 6, 180: 3, 270: 8}[rotacao]
         melhor: List[Linha] = []
-        rotacao = 0
-        graus = {1: 0, 6: 90, 3: 180, 8: 270}
-        for orientacao in (1, 6, 3, 8):  # cima, 90° horário, 180°, 90° anti-horário (EXIF)
-            tratador = Vision.VNImageRequestHandler.alloc().initWithCGImage_orientation_options_(cg, orientacao, None)
-            ok, _ = tratador.performRequests_error_([pedido], None)
-            if not ok:
+        tratador = Vision.VNImageRequestHandler.alloc().initWithCGImage_orientation_options_(cg, orientacao, None)
+        ok, _ = tratador.performRequests_error_([pedido], None)
+        for obs in (pedido.results() or []) if ok else []:
+            cand = obs.topCandidates_(1)
+            if not cand:
                 continue
-            linhas = []
-            for obs in pedido.results() or []:
-                cand = obs.topCandidates_(1)
-                if not cand:
-                    continue
-                c = cand[0]
-                caixa = obs.boundingBox()
-                linhas.append(Linha(
-                    texto=str(c.string()), confianca=float(c.confidence()),
-                    x=float(caixa.origin.x), y=float(1 - caixa.origin.y - caixa.size.height),
-                    largura=float(caixa.size.width), altura=float(caixa.size.height),
-                ))
-            if _pontuacao(linhas) > _pontuacao(melhor):
-                melhor = linhas
-                rotacao = graus[orientacao]
+            c = cand[0]
+            caixa = obs.boundingBox()
+            melhor.append(Linha(
+                texto=str(c.string()), confianca=float(c.confidence()),
+                x=float(caixa.origin.x), y=float(1 - caixa.origin.y - caixa.size.height),
+                largura=float(caixa.size.width), altura=float(caixa.size.height),
+            ))
         melhor.sort(key=lambda l: (round(l.y, 2), l.x))
-        return melhor, _rotacao_pela_direcao_do_texto(cg)
+        return melhor, rotacao
 
 
 def _pontuacao(linhas: List[Linha]) -> float:

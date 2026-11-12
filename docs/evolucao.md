@@ -77,6 +77,7 @@ Decisões que mudaram depois de tomadas. Nenhuma foi apagada: o documento origin
 | Regras genéricas | 14 layouts novos | 12 de 14 | 95% | 72% |
 | Regras genéricas + IA | 14 layouts novos | 13 de 14 | 93% | 82% |
 | Regras genéricas + IA | 32 documentos | 31 de 32 | 94% | 87% |
+| + detecção da posição da foto | 32 documentos | 31 de 32 | 95% | 89% |
 
 O 100% inicial era **vício de dados**: as regras tinham sido escritas olhando aqueles mesmos documentos. Os layouts novos mostraram o número real, e as melhorias seguintes partiram dele.
 
