@@ -57,18 +57,17 @@ export async function fotografar(video: HTMLVideoElement): Promise<Foto> {
 
 // Lanterna (flash contínuo). Nem todo navegador oferece: no Chrome do Android funciona;
 // no iPhone depende da versão do Safari. Sem suporte, o botão simplesmente não aparece.
-type TrilhaComLanterna = MediaStreamTrack & { getCapabilities?: () => MediaTrackCapabilities & { torch?: boolean } };
-
 export function temLanterna(stream: MediaStream | null): boolean {
-  const trilha = stream?.getVideoTracks()[0] as TrilhaComLanterna | undefined;
-  return !!trilha?.getCapabilities?.().torch;
+  const trilha = stream?.getVideoTracks()[0];
+  const capacidades = trilha?.getCapabilities?.() as (MediaTrackCapabilities & { torch?: boolean }) | undefined;
+  return !!capacidades?.torch;
 }
 
 export async function ligarLanterna(stream: MediaStream | null, ligada: boolean): Promise<boolean> {
   const trilha = stream?.getVideoTracks()[0];
   if (!trilha) return false;
   try {
-    await trilha.applyConstraints({ advanced: [{ torch: ligada } as MediaTrackConstraintSet] });
+    await trilha.applyConstraints({ advanced: [{ torch: ligada } as unknown as MediaTrackConstraintSet] });
     return true;
   } catch {
     return false;
