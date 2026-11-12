@@ -31,7 +31,8 @@ flowchart TD
     PERM -->|Sim| T3["3 · Documento N de M"]
 
     T3 -->|Não tenho agora| PEND["Item marcado como pendente"]
-    T3 -->|Fotografar| T4["4 · Câmera com moldura<br/>e dica de luz ao vivo"]
+    T3 -->|Fotografar| T4["4 · Câmera em tela cheia<br/>com cantos e flash"]
+    T3 -->|Importar dos arquivos<br/>galeria ou PDF| T7
     T4 --> QUAL{Foto boa?<br/>luz, nitidez, enquadramento}
     QUAL -->|Não| T5["5 · Aviso de qualidade<br/>só Tirar outra"]
     T5 --> T4

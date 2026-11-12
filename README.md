@@ -62,6 +62,15 @@ Cada fase respondeu a uma pergunta antes de passar à seguinte. Toda decisão re
 | **Experiência** | Como o cliente e a assistente usam? | Wireframes aprovados antes do código; mudanças guiadas por testes no celular | [Wireframes](docs/ux/captura-wireframes.md), [guia visual](docs/ux/guia-visual.html), [telas finais](docs/ux/telas-finais.md) |
 | **Construção** | O motor generaliza? | Medição honesta antes de ajustar; regras genéricas e IA local com trava contra dado inventado | [Motor de extração](docs/etapas/10-motor.md), [requisitos](docs/requisitos.md) |
 
+
+**Árvore de oportunidades: do resultado às dores, soluções e experimentos**
+
+<img src="docs/etapas/img/04-estrategia-01-opportunity-solution-tree.png" alt="Árvore de oportunidades: do resultado às dores, soluções e experimentos" width="720">
+
+**Árvore de métricas: North Star, apoio, proteção e alavancas**
+
+<img src="docs/etapas/img/05-metricas-01-arvore-de-metricas.png" alt="Árvore de métricas: North Star, apoio, proteção e alavancas" width="720">
+
 ---
 
 ## Decisões que mudaram o rumo
@@ -95,6 +104,11 @@ As decisões revistas ficam lado a lado com as originais. É nelas que o projeto
 
 → [Todas as telas e o que mudou entre as versões](docs/ux/telas-finais.md) · [Fluxo das telas](docs/ux/captura-wireframes.md#fluxo-das-telas) · [Fluxogramas do sistema](docs/arquitetura/fluxogramas.md)
 
+
+**Fluxo das telas do celular, com as exceções**
+
+<img src="docs/ux/img/captura-wireframes-01-fluxo-das-telas.png" alt="Fluxo das telas do celular, com as exceções" width="520">
+
 ---
 
 ## Como uma sessão funciona
@@ -111,6 +125,15 @@ As decisões revistas ficam lado a lado com as originais. É nelas que o projeto
 8. **Guarda e entrega.** O cadastro fica cifrado no Supabase até as 18h, com uma chave que só o navegador do escritório tem, e pode ser baixado como pacote (.zip).
 
 → [Sequência completa das mensagens](docs/arquitetura/fluxogramas.md#3-sequência-de-mensagens-no-cross-device) · [Estados da sessão](docs/arquitetura/fluxogramas.md#5-estados-da-sessão)
+
+
+**Sequência de mensagens entre celular, canal, escritório e motor**
+
+<img src="docs/arquitetura/img/fluxogramas-03-sequencia-de-mensagens-no-cross-device.png" alt="Sequência de mensagens entre celular, canal, escritório e motor" width="600">
+
+**Pipeline do motor: da imagem aos campos validados**
+
+<img src="docs/arquitetura/img/fluxogramas-04-pipeline-de-processamento.png" alt="Pipeline do motor: da imagem aos campos validados" width="420">
 
 ---
 
@@ -290,6 +313,15 @@ O estudo constrói uma versão mais restritiva e mais barata; a produção foi d
 
 **A principal troca:** em produção, o operador do sistema passa a conseguir ler os documentos, sob controle de acesso e auditoria. É o preço de permitir várias pessoas no mesmo cadastro e de não perder documentos se uma chave se perder.
 
+
+**Onde o documento existe: em aberto, cifrado e nunca**
+
+<img src="docs/arquitetura/img/fluxogramas-07-garantias-de-privacidade-onde-o-documento-existe.png" alt="Onde o documento existe: em aberto, cifrado e nunca" width="720">
+
+**Remoção diária às 18h em três camadas**
+
+<img src="docs/arquitetura/img/fluxogramas-08-remocao-diaria-as-18h.png" alt="Remoção diária às 18h em três camadas" width="480">
+
 ---
 
 ## Se fosse um produto
@@ -307,6 +339,15 @@ Business case **hipotético**, construído com dados públicos ([Etapa 7](docs/e
 | Maior risco | Ciclo de venda longo: parceiros exigem prova de acurácia e de segurança antes de assinar |
 
 O produto seria **parceiro** dos softwares de gestão jurídica, e não concorrente: o cadastro alimenta o sistema que o escritório já usa.
+
+
+**Stakeholders: quem decide a compra e quem pode vetar**
+
+<img src="docs/etapas/img/07-business-case-01-stakeholders.png" alt="Stakeholders: quem decide a compra e quem pode vetar" width="520">
+
+**Arquitetura de produção (C4, contêineres)**
+
+<img src="docs/arquitetura/img/c4-04-conteineres-producao.png" alt="Arquitetura de produção (C4, contêineres)" width="720">
 
 ---
 

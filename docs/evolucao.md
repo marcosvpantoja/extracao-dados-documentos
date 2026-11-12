@@ -31,6 +31,7 @@ O histórico completo de alterações está no [Git](https://github.com/marcosvp
 | 12/11/2026 | README reorganizado para apresentação: problema, forma de pensar por fase, decisões que mudaram o rumo, produto, resultados honestos e privacidade por desenho | [README](../README.md) |
 | 12/11/2026 | README ampliado: como uma sessão funciona, tecnologias e APIs, custo do estudo, segurança estudo × produção e proposta de negócio | [README](../README.md) |
 | 12/11/2026 | README: resultados detalhados (evolução do motor, por tipo de documento, desempenho, testes com o produto) e motivos do motor local e da escolha do Qwen 2.5 7B | [README](../README.md) |
+| 12/11/2026 | README com 9 diagramas nas seções que explicam; fluxo das telas atualizado com "Importar dos arquivos" | [README](../README.md) |
 | 11/11/2026 | Incremento 4, medição: conferência do cliente na tela do escritório, registro de tempos e fotos por documento, relatório dos resultados-chave (`scripts/relatorio.py`) | [Etapa 5](etapas/05-metricas.md) |
 
 ---
