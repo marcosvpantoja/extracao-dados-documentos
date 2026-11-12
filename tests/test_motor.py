@@ -1,4 +1,14 @@
-"""Testes do motor simulado (incremento 1)."""
+"""Testes do motor.
+
+Os testes marcados com `precisa_mac` usam o Apple Vision (OCR do macOS) e são pulados em
+outros sistemas, como na integração contínua no Linux.
+"""
+
+import sys
+
+import pytest
+
+precisa_mac = pytest.mark.skipif(sys.platform != "darwin", reason="usa o Apple Vision, disponível só no macOS")
 
 from fastapi.testclient import TestClient
 
@@ -14,6 +24,7 @@ def _enviar(doc, simular=None, faces=("frente",)):
     return cliente.post(url, files=arquivos).json()
 
 
+@precisa_mac
 def test_cnh_ficticia_e_lida_com_cpf_validado():
     from src.extracao.ocr import renderizar_pdf
     img = renderizar_pdf("data/exemplos/cnh/cnh-ficticio-01.pdf")
@@ -23,6 +34,7 @@ def test_cnh_ficticia_e_lida_com_cpf_validado():
     assert r["campos"]["cpf"] == {"valor": "644.836.782-99", "origem": "padrão", "validado": True}
 
 
+@precisa_mac
 def test_imagem_que_nao_abre_pede_nova_foto():
     r = _enviar("identidade")
     assert r["status"] == "nova-foto"
@@ -34,6 +46,7 @@ def test_falha_simulada_pede_nova_foto_com_motivo():
     assert "ler" in r["motivo"]
 
 
+@precisa_mac
 def test_resposta_nao_devolve_conteudo_da_imagem():
     r = _enviar("fatura")
     assert "ficticia" not in str(r)
@@ -71,6 +84,7 @@ def test_relatorio_calcula_krs_a_partir_do_registro(tmp_path, capsys):
     assert "Proteção · documentos com erro depois da revisão:   100% (1 de 1)" in saida
 
 
+@precisa_mac
 def test_pdf_importado_e_lido_e_devolve_previa():
     pdf = open("data/exemplos/nfe/nfe-ficticio-01.pdf", "rb").read()
     r = cliente.post("/processar?doc=nota", files={"frente": ("nota.pdf", pdf, "application/pdf")}).json()
@@ -78,6 +92,7 @@ def test_pdf_importado_e_lido_e_devolve_previa():
     assert r["previa"].startswith("data:image/jpeg;base64,")
 
 
+@precisa_mac
 def test_foto_de_cabeca_para_baixo_e_lida_e_informa_a_rotacao():
     import io
     from PIL import Image

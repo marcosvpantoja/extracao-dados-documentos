@@ -1,0 +1,40 @@
+# Integração contínua: roda os testes em todo pull request e em todo envio para a main.
+# Os testes que dependem do Apple Vision (OCR do macOS) são pulados no Linux e rodam no Mac,
+# antes de abrir o pull request.
+name: Testes
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  aplicacao:
+    name: Aplicação (React + TypeScript)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - run: npx tsc -b
+      - run: npx vitest run
+
+  motor:
+    name: Motor, regras e validadores (Python)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python tests/test_gabaritos.py
+      - run: python -m pytest -q tests/

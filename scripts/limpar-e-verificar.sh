@@ -28,12 +28,12 @@ achados=$(find . -type f \
 if [ -n "$achados" ]; then echo "   ENCONTRADO:"; echo "$achados" | sed 's/^/     /'; falhas=1; else echo "   nenhum"; fi
 
 echo "== 3. Arquivos não rastreados ou modificados que não sejam código/documentação"
-pendentes=$(git status --porcelain --ignored --untracked-files=all | grep -vE '\.(md|sh|py|ts|tsx|js|json|css|html|toml|yml|yaml)$|\.gitignore$|data/privado/LEIAME|data/privado/$|data/privado/entrada/$|data/privado/entrada/|data/exemplos/|data/privado/[^/]+\.jsonl$|node_modules|\.venv|__pycache__|\.DS_Store' || true)
+pendentes=$(git status --porcelain --ignored --untracked-files=all | grep -vE '\.(md|sh|py|ts|tsx|js|json|css|html|toml|yml|yaml)$|\.gitignore$|data/privado/LEIAME|data/privado/$|data/privado/entrada/$|data/privado/entrada/|data/exemplos/|data/privado/[^/]+\.jsonl$|node_modules|\.venv|__pycache__|\.DS_Store|\.env(\.[a-z]+)?\.local$|\.pytest_cache/|app/dist(-captura)?/|\.vercel/|supabase/\.temp/' || true)  # chaves, caches e builds: ignorados pelo Git, sem documentos reais
 if [ -n "$pendentes" ]; then echo "   VERIFICAR:"; echo "$pendentes" | sed 's/^/     /'; falhas=1; else echo "   nenhum"; fi
 
 echo "== 4. Histórico do git: algum PDF/imagem fora de data/exemplos/ e docs/ já foi commitado?"
 hist=$(git log --all --diff-filter=A --name-only --pretty=format: 2>/dev/null \
-  | grep -iE '\.(pdf|jpe?g|png|heic|webp|tiff?)$' | grep -vE '^(data/exemplos|docs)/' | sort -u || true)
+  | grep -iE '\.(pdf|jpe?g|png|heic|webp|tiff?)$' | grep -vE '^(data/exemplos|docs|app/public/demo)/' | sort -u || true)
 if [ -n "$hist" ]; then echo "   ENCONTRADO NO HISTÓRICO:"; echo "$hist" | sed 's/^/     /'; falhas=1; else echo "   nenhum"; fi
 
 echo "== 5. Registros de avaliação (só métricas anônimas)"
