@@ -398,7 +398,46 @@ scripts/iniciar-motor.sh          # IA local + motor; abra http://localhost:8787
 
 Modo de demonstração, sem celular: `captura.html?demo=camera` e `escritorio.html?demo=revisao`.
 
-**Com um assistente de IA:** abra o repositório no Claude Code e peça *"instale e rode o teste"*; o passo a passo está em [`CLAUDE.md`](CLAUDE.md). O servidor MCP do projeto ([`.mcp.json`](.mcp.json)) expõe o motor como ferramentas: ler um documento fictício, avaliar o motor e calcular os resultados-chave. Por segurança, ele **só lê documentos fictícios**.
+### Com um assistente de IA
+
+Abra o repositório no Claude Code e peça *"instale e rode o teste"*. O passo a passo que o assistente segue está em [`CLAUDE.md`](CLAUDE.md): dependências, IA local, testes e modo de demonstração.
+
+### Pelo servidor MCP
+
+O projeto tem um servidor [MCP](https://modelcontextprotocol.io) que expõe o motor como ferramentas para assistentes de IA (Claude Code, Claude Desktop e outros clientes MCP).
+
+**Requisitos:** macOS (o OCR é o Apple Vision), Node 22 ou mais novo e o motor rodando.
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+(cd mcp && npm ci)
+scripts/iniciar-motor.sh            # deixe rodando em outro terminal
+```
+
+**No Claude Code:** abra o projeto na pasta do repositório. O arquivo [`.mcp.json`](.mcp.json) já registra o servidor `extracao-documentos`; o Claude Code pergunta se você autoriza e passa a usá-lo.
+
+**No Claude Desktop ou em outro cliente:** adicione à configuração de servidores MCP, trocando o caminho:
+
+```json
+{
+  "mcpServers": {
+    "extracao-documentos": {
+      "command": "node",
+      "args": ["/caminho/para/extracao-dados-documentos/mcp/servidor.mjs"]
+    }
+  }
+}
+```
+
+| Ferramenta | O que faz | Exemplo de pedido |
+|---|---|---|
+| `estado` | Verifica se o motor e a IA local estão rodando | *"O motor está rodando?"* |
+| `listar_documentos_ficticios` | Lista os documentos de teste | *"Quais documentos fictícios existem?"* |
+| `ler_documento_ficticio` | Lê um documento e devolve o tipo e os campos, com origem e conferência | *"Leia a CNH fictícia 03"* |
+| `avaliar_motor` | Roda a avaliação nos 32 documentos fictícios (com ou sem IA) | *"Avalie o motor com IA nos layouts novos"* |
+| `resultados_chave` | Calcula os resultados-chave a partir do registro de medição | *"Mostre os resultados-chave"* |
+
+**Segurança:** a leitura aceita **só arquivos de `data/exemplos/`** (documentos fictícios). Qualquer caminho fora dessa pasta é recusado, para que nenhum documento real passe por um assistente de IA.
 
 ---
 
