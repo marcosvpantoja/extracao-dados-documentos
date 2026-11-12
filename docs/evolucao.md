@@ -32,6 +32,8 @@ O histórico completo de alterações está no [Git](https://github.com/marcosvp
 | 12/11/2026 | README ampliado: como uma sessão funciona, tecnologias e APIs, custo do estudo, segurança estudo × produção e proposta de negócio | [README](../README.md) |
 | 12/11/2026 | README: resultados detalhados (evolução do motor, por tipo de documento, desempenho, testes com o produto) e motivos do motor local e da escolha do Qwen 2.5 7B | [README](../README.md) |
 | 12/11/2026 | README com 9 diagramas nas seções que explicam; fluxo das telas atualizado com "Importar dos arquivos" | [README](../README.md) |
+| 12/11/2026 | **Fluxo de trabalho:** 15 tags nos marcos passados; integração contínua (GitHub Actions) com os testes da aplicação e do motor; branch e pull request por entrega, com a definição de pronto e o aceite do PO | [Pull requests](https://github.com/marcosvpantoja/extracao-dados-documentos/pulls) |
+| 12/11/2026 | Pronto para assistentes de IA: `CLAUDE.md` com instalação e teste, e servidor MCP com o motor como ferramentas, restrito a documentos fictícios | [CLAUDE.md](../CLAUDE.md) |
 | 11/11/2026 | Incremento 4, medição: conferência do cliente na tela do escritório, registro de tempos e fotos por documento, relatório dos resultados-chave (`scripts/relatorio.py`) | [Etapa 5](etapas/05-metricas.md) |
 
 ---
@@ -47,6 +49,7 @@ Decisões que mudaram depois de tomadas. Nenhuma foi apagada: o documento origin
 | Remoção às 18h como promessa do produto | Regra só do estudo; produção guarda com segurança reforçada | Correção do autor: a regra protege os testers, não descreve o produto | [ADR 0008](decisoes/0008-armazenamento-em-producao.md) |
 | Entrevistas com escritórios | Entrevistas simuladas, marcadas como fictícias | Prazo do estudo | [Entrevistas simuladas](pesquisa/entrevistas-simuladas.md) |
 | Link de uso único resolve tudo | Lista de documentos, "não tenho agora" e link complementar | Achado N4: o cadastro espera dias pelo último documento | [Etapa 6](etapas/06-priorizacao.md#1-documento-pendente-achado-n4) |
+| Commits direto na `main` | Branch e pull request por entrega, com integração contínua e aceite do PO | O projeto vai ser apresentado; o processo também é parte do que se mostra | [CLAUDE.md](../CLAUDE.md) |
 | Venda direta a escritórios | Licenciamento para softwares jurídicos | Business case: venda direta exigiria 14% a 28% do mercado alcançável | [Etapa 7](etapas/07-business-case.md) |
 | Motor no Mac também em produção | Servidor próprio na nuvem | Business case: cada escritório precisaria de um Mac | [ADR 0010](decisoes/0010-motor-em-producao.md) |
 | As duas páginas na Vercel | Aplicação do escritório servida pelo motor no Mac | Prova de conceito: o Safari bloqueia a página da Vercel chamando o Mac | [ADR 0011](decisoes/0011-aplicacao-do-escritorio-servida-pelo-motor.md) |

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "extracao-documentos": {
+      "command": "node",
+      "args": ["mcp/servidor.mjs"]
+    }
+  }
+}

@@ -385,7 +385,8 @@ O produto seria **parceiro** dos softwares de gestão jurídica, e não concorre
 | [`src/`](src/) | Motor local: OCR (Apple Vision), classificação, extração, validação e IA (Ollama) |
 | [`supabase/`](supabase/) | Banco: armazenamento cifrado, auditoria e remoção agendada |
 | [`scripts/`](scripts/) | Documentos fictícios, avaliação do motor, relatório dos resultados-chave e imagens dos diagramas |
-| [`tests/`](tests/), `app/src/**/*.test.ts` | Testes automatizados |
+| [`tests/`](tests/), `app/src/**/*.test.ts` | Testes automatizados, rodados também pela integração contínua (GitHub Actions) |
+| [`mcp/`](mcp/) | Servidor MCP: o motor como ferramentas para assistentes de IA |
 
 ### Como rodar
 
@@ -396,6 +397,8 @@ scripts/iniciar-motor.sh          # IA local + motor; abra http://localhost:8787
 ```
 
 Modo de demonstração, sem celular: `captura.html?demo=camera` e `escritorio.html?demo=revisao`.
+
+**Com um assistente de IA:** abra o repositório no Claude Code e peça *"instale e rode o teste"*; o passo a passo está em [`CLAUDE.md`](CLAUDE.md). O servidor MCP do projeto ([`.mcp.json`](.mcp.json)) expõe o motor como ferramentas: ler um documento fictício, avaliar o motor e calcular os resultados-chave. Por segurança, ele **só lê documentos fictícios**.
 
 ---
 
