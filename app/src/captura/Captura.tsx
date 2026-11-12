@@ -22,6 +22,7 @@ export default function Captura() {
   const envioAtual = useRef<string>('');
   const [previa, setPrevia] = useState<string | null>(DEMO === 'qualidade' ? '/demo/cnh.jpg' : null);
   const titulo = useRef<HTMLHeadingElement>(null);
+  const [avisoArquivo, setAvisoArquivo] = useState<string | null>(null);
 
   // Pareamento com o escritório (RF-03): só o primeiro celular é aceito.
   useEffect(() => {
@@ -162,6 +163,20 @@ export default function Captura() {
           <p className="suave">{doc.ajuda}</p>
           <Espaco />
           <button className="btn btn-primario" onClick={() => despachar({ tipo: 'FOTOGRAFAR' })}>📷 Fotografar</button>
+          <label className="btn btn-secundario-claro">
+            📁 Importar dos arquivos
+            <input type="file" accept="image/*,application/pdf" className="visualmente-oculto"
+              onChange={async (ev) => {
+                const arq = ev.target.files?.[0];
+                ev.target.value = '';
+                if (!arq) return;
+                if (arq.size > 15 * 1024 * 1024) { setAvisoArquivo('O arquivo é grande demais (máximo de 15 MB).'); return; }
+                setAvisoArquivo(null);
+                fotos.current = { frente: new Uint8Array(await arq.arrayBuffer()) };
+                despachar({ tipo: 'IMPORTADO' });
+              }} />
+          </label>
+          {avisoArquivo && <div className="aviso aviso-alerta" role="alert">{avisoArquivo}</div>}
           <button className="btn btn-texto" onClick={naoTenho}>Não tenho agora</button>
           <Privacidade />
         </Tela>

@@ -83,6 +83,7 @@ export default function Escritorio() {
       const r = await ler(doc, faces, falhaRef.current);
       registrar([{ etapa: 'captura', sessao: sessaoId.current, evento: 'documento_lido', doc: doc.id, tipo: r.tipo ?? '', fotos: m.fotos ?? 0,
         faces: Object.keys(faces).length, status: r.status, ms: Math.round(performance.now() - t0) }]);
+      if (r.previa) atualizar(doc.id, { faces: { frente: r.previa } }); // PDF importado: prévia renderizada pelo motor
       atualizar(doc.id, { situacao: r.status === 'lido' ? 'lido' : 'nova-foto', detalhe: r.motivo ?? TIPOS[r.tipo ?? ''] ?? r.tipo, tipo: r.tipo, campos: r.campos, decisoes: {} });
       await enviar(c, EVENTOS.resultado, { envio: pronto.envio, doc: doc.id, status: r.status, motivo: r.motivo });
     });
@@ -248,5 +249,5 @@ async function ler(doc: DocumentoPedido, faces: Partial<Record<Face, Uint8Array>
   const corpo = new FormData();
   for (const [face, bytes] of Object.entries(faces)) corpo.append(face, new Blob([bytes!], { type: 'image/jpeg' }), `${face}.jpg`);
   const r = await fetch(`${URL_MOTOR}/processar?doc=${doc.id}${falhar ? '&simular=falha' : ''}`, { method: 'POST', body: corpo });
-  return (await r.json()) as { status: 'lido' | 'nova-foto'; motivo?: string; tipo?: string; campos?: Record<string, CampoLido> };
+  return (await r.json()) as { status: 'lido' | 'nova-foto'; motivo?: string; tipo?: string; campos?: Record<string, CampoLido>; previa?: string };
 }

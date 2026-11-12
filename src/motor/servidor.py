@@ -29,7 +29,7 @@ RAIZ = Path(__file__).resolve().parents[2]
 DIST = RAIZ / "app" / "dist"
 ESPERA_SIMULADA_S = 1.5
 
-from src.extracao.ocr import AppleVision, Linha  # noqa: E402
+from src.extracao.ocr import AppleVision, Linha, reduzir, renderizar_pdf_bytes  # noqa: E402
 from src.extracao.pipeline import processar as extrair  # noqa: E402
 
 ocr = AppleVision()
@@ -58,6 +58,15 @@ async def processar(request: Request, doc: str, simular: Optional[str] = None) -
 
     t0 = time.perf_counter()
     linhas: list = []
+    previa = None
+    # Arquivo importado em PDF (ex.: CNH digital, fatura baixada): lê a primeira página como imagem
+    for f in faces:
+        if imagens[f][:4] == b"%PDF":
+            try:
+                imagens[f] = await asyncio.to_thread(renderizar_pdf_bytes, imagens[f])
+            except Exception:
+                return {"status": "nova-foto", "motivo": "Não conseguimos abrir o PDF"}
+            previa = "data:image/jpeg;base64," + __import__("base64").b64encode(await asyncio.to_thread(reduzir, imagens[f])).decode()
     try:
         for i, f in enumerate(faces):
             # o verso vem "embaixo" da frente, para as regras de posição não misturarem as faces
@@ -75,6 +84,8 @@ async def processar(request: Request, doc: str, simular: Optional[str] = None) -
         "campos": {k: asdict(v) for k, v in r.campos.items() if not k.startswith("_")},
         "tempo_ms": round((time.perf_counter() - t0) * 1000),
     }
+    if previa:
+        resposta["previa"] = previa  # o escritório não consegue mostrar PDF numa <img>
     if not r.legivel or r.tipo == "nao_reconhecido":
         return {**resposta, "status": "nova-foto", "motivo": r.motivo or "Não reconhecemos este documento"}
     return {**resposta, "status": "lido"}

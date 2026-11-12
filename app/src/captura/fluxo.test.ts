@@ -39,6 +39,11 @@ describe('fluxo da captura (espelho do fluxograma das telas)', () => {
     expect(e).toMatchObject({ tela: 'verso', recusas: 0, fotosDoc: 3 }); // identidade tem verso; 3 fotos contadas
   });
 
+  it('arquivo importado vai direto para a leitura, mesmo em documento com verso', () => {
+    const e = rodar([...ate3, { tipo: 'IMPORTADO' }]);
+    expect(e).toMatchObject({ tela: 'lendo', fotosDoc: 1 });
+  });
+
   it('leitura que falha pede nova foto desde a frente (7b)', () => {
     const e = rodar([...ate3, { tipo: 'FOTOGRAFAR' }, { tipo: 'FOTO_BOA' }, { tipo: 'FOTOGRAFAR_VERSO' }, { tipo: 'FOTO_BOA' },
       { tipo: 'NOVA_FOTO', motivo: 'reflexo no número' }]);

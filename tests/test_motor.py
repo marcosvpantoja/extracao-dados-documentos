@@ -69,3 +69,10 @@ def test_relatorio_calcula_krs_a_partir_do_registro(tmp_path, capsys):
     assert "KR4 · documentos aceitos com a primeira foto:       50% (1 de 2)" in saida
     assert "mediana 4.0 min" in saida
     assert "Proteção · documentos com erro depois da revisão:   100% (1 de 1)" in saida
+
+
+def test_pdf_importado_e_lido_e_devolve_previa():
+    pdf = open("data/exemplos/nfe/nfe-ficticio-01.pdf", "rb").read()
+    r = cliente.post("/processar?doc=nota", files={"frente": ("nota.pdf", pdf, "application/pdf")}).json()
+    assert r["status"] == "lido" and r["tipo"] == "nfe"
+    assert r["previa"].startswith("data:image/jpeg;base64,")

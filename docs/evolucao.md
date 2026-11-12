@@ -60,6 +60,7 @@ Decisões que mudaram depois de tomadas. Nenhuma foi apagada: o documento origin
 | 11/11 | Pedido do autor | Fotos escuras | Sem flash | Botão de flash quando o celular oferece | [Captura](../app/src/captura/camera.ts) |
 | 11/11 | Teste com RG de modelo novo | Motor não reconheceu o documento | Regras de layout fixo | Regras genéricas + IA local, com checagem contra o OCR | [Etapa 10](etapas/10-motor.md) |
 | 11/11 | 3º teste no celular | Conferência dos dados feita "de outra forma" | Lista de campos sem a foto | Tela de revisão com a foto ao lado, ✓/✗ por campo | [Wireframe da revisão](ux/revisao-wireframe.md) |
+| 11/11 | Pedido do autor | O cliente pode já ter o documento no celular | Só fotografar ou "não tenho agora" | Também "Importar dos arquivos" (galeria ou PDF); o motor passou a ler PDF | [Wireframes, tela 3](ux/captura-wireframes.md) |
 
 ---
 

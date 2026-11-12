@@ -19,6 +19,7 @@ As imagens abaixo são do **produto funcionando**, e não de desenho: cada uma f
 | Tela | Mudança | Motivo |
 |---|---|---|
 | Todas | Visual do [guia visual](guia-visual.html): verde-petróleo, fonte do celular, botões de 52 px | Guia aprovado em 11/11/2026 |
+| 3 · Documento N de M | Botão "Importar dos arquivos" (galeria ou PDF) entre "Fotografar" e "Não tenho agora" | Pedido do autor: o cliente pode já ter o documento no celular (CNH digital, fatura em PDF) |
 | 4 · Câmera | Tela cheia com cantos no lugar da moldura fechada; botão de flash | 2º teste no celular: moldura pequena; pedido de flash |
 | 5 · Aviso de qualidade | Na 3ª foto recusada, a última segue para o motor; o reflexo deixou de bloquear | 1º teste no celular: toda foto da tela era recusada |
 | 7b · Nova foto | O motivo vem do motor real ("Não conseguimos ler o CPF do documento") | Motor real ligado |

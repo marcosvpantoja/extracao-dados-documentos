@@ -46,6 +46,7 @@ export type Acao =
   | { tipo: 'FOTO_RUIM'; motivo: MotivoQualidade }
   | { tipo: 'TIRAR_OUTRA' }
   | { tipo: 'FOTO_BOA' }
+  | { tipo: 'IMPORTADO' } // arquivo da galeria ou PDF: vai direto para a leitura
   | { tipo: 'FOTOGRAFAR_VERSO' }
   | { tipo: 'LIDO' }
   | { tipo: 'NOVA_FOTO'; motivo: string }
@@ -94,6 +95,7 @@ export function reduzir(e: Estado, a: Acao): Estado {
       const n = e.fotosDoc + 1;
       return docAtual(e).temVerso && e.face === 'frente' ? { ...e, tela: 'verso', recusas: 0, fotosDoc: n } : { ...e, tela: 'lendo', recusas: 0, fotosDoc: n };
     }
+    case 'IMPORTADO': return { ...e, tela: 'lendo', face: 'frente', recusas: 0, fotosDoc: e.fotosDoc + 1 };
     case 'FOTOGRAFAR_VERSO': return { ...e, tela: 'camera', face: 'verso' };
     case 'LIDO': return e.tela === 'lendo' ? { ...e, tela: 'enviado', situacao: { ...e.situacao, [docAtual(e).id]: 'enviado' } } : e;
     case 'NOVA_FOTO': return e.tela === 'lendo' ? { ...e, tela: 'nova-foto', motivoLeitura: a.motivo, face: 'frente' } : e;

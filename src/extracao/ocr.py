@@ -98,3 +98,41 @@ def renderizar_pdf(caminho: str, escala: float = 2.5, pagina: int = 1) -> bytes:
     Quartz.CGImageDestinationAddImage(dest, img, None)
     Quartz.CGImageDestinationFinalize(dest)
     return bytes(saida)
+
+
+def renderizar_pdf_bytes(dados: bytes, escala: float = 2.5) -> bytes:
+    """Como renderizar_pdf, mas a partir do PDF na memória (arquivo importado pelo celular)."""
+    import Quartz
+    from Foundation import NSData, NSMutableData
+
+    prov = Quartz.CGDataProviderCreateWithCFData(NSData.dataWithBytes_length_(dados, len(dados)))
+    doc = Quartz.CGPDFDocumentCreateWithProvider(prov)
+    if doc is None or Quartz.CGPDFDocumentGetNumberOfPages(doc) == 0:
+        raise ValueError("PDF ilegível")
+    pag = Quartz.CGPDFDocumentGetPage(doc, 1)
+    caixa = Quartz.CGPDFPageGetBoxRect(pag, Quartz.kCGPDFMediaBox)
+    w, h = int(caixa.size.width * escala), int(caixa.size.height * escala)
+    ctx = Quartz.CGBitmapContextCreate(None, w, h, 8, 0, Quartz.CGColorSpaceCreateDeviceRGB(),
+                                       Quartz.kCGImageAlphaPremultipliedLast)
+    Quartz.CGContextSetRGBFillColor(ctx, 1, 1, 1, 1)
+    Quartz.CGContextFillRect(ctx, Quartz.CGRectMake(0, 0, w, h))
+    Quartz.CGContextScaleCTM(ctx, escala, escala)
+    Quartz.CGContextDrawPDFPage(ctx, pag)
+    img = Quartz.CGBitmapContextCreateImage(ctx)
+    saida = NSMutableData.data()
+    dest = Quartz.CGImageDestinationCreateWithData(saida, "public.png", 1, None)
+    Quartz.CGImageDestinationAddImage(dest, img, None)
+    Quartz.CGImageDestinationFinalize(dest)
+    return bytes(saida)
+
+
+def reduzir(png: bytes, lado: int = 1400) -> bytes:
+    """Versão menor da página, só para a prévia na tela de revisão."""
+    import io
+    from PIL import Image
+
+    im = Image.open(io.BytesIO(png)).convert("RGB")
+    im.thumbnail((lado, lado))
+    out = io.BytesIO()
+    im.save(out, "JPEG", quality=82)
+    return out.getvalue()

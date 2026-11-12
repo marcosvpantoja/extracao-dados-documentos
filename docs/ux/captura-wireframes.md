@@ -102,6 +102,7 @@ Visão geral, na ordem da jornada. Os detalhes de cada tela estão nas seções 
 <img src="img/telas-v1.0-wireframes/03-documento-n-de-m.png" alt="Tela 3 · Documento N de M" width="280">
 
 - "Não tenho agora" marca o item como pendente e passa ao próximo (RF-34).
+- **Revisto em 11/11/2026, a pedido do autor:** entrou o botão **"📁 Importar dos arquivos"**, entre "Fotografar" e "Não tenho agora". Aceita foto da galeria ou PDF (por exemplo, CNH digital ou fatura baixada), até 15 MB. O arquivo vai direto para a leitura, sem a verificação de luz e nitidez; se faltar um dado, o motor pede outro arquivo (RF-31).
 
 ### 4 · Câmera
 
