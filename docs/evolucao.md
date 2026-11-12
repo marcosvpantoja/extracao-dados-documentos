@@ -29,6 +29,7 @@ O histórico completo de alterações está no [Git](https://github.com/marcosvp
 | 11/11/2026 | Pacote do cliente (HU-15, RF-26): .zip gerado no navegador com os arquivos originais, dados em JSON e CSV (com a situação de cada campo) e LEIA-ME; nomes de arquivo neutros | [Etapa 6, roadmap](etapas/06-priorizacao.md#6-roadmap) |
 | 11/11/2026 | Armazenamento cifrado no Supabase até as 18h (o cadastro sobrevive a uma atualização da página), aviso das 17h, remoção às 18h nas três camadas e auditoria no Supabase | [ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md), [ADR 0009](decisoes/0009-registro-de-auditoria-no-estudo.md) |
 | 12/11/2026 | README reorganizado para apresentação: problema, forma de pensar por fase, decisões que mudaram o rumo, produto, resultados honestos e privacidade por desenho | [README](../README.md) |
+| 12/11/2026 | README ampliado: como uma sessão funciona, tecnologias e APIs, custo do estudo, segurança estudo × produção e proposta de negócio | [README](../README.md) |
 | 11/11/2026 | Incremento 4, medição: conferência do cliente na tela do escritório, registro de tempos e fotos por documento, relatório dos resultados-chave (`scripts/relatorio.py`) | [Etapa 5](etapas/05-metricas.md) |
 
 ---

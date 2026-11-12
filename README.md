@@ -97,6 +97,72 @@ As decisões revistas ficam lado a lado com as originais. É nelas que o projeto
 
 ---
 
+## Como uma sessão funciona
+
+<p><img src="docs/arquitetura/img/c4-03-conteineres-estudo-de-caso.png" alt="Contêineres do estudo de caso" width="720"></p>
+
+1. **O escritório monta o pedido.** A assistente escolhe os documentos esperados daquele cliente. O navegador gera um **identificador de sessão** e uma **chave AES-256** aleatórios.
+2. **O link carrega a chave no fragmento.** O endereço tem a forma `captura.html?s=<sessão>#k=<chave>&d=<documentos>`. O que vem depois do `#` **nunca é enviado a servidor nenhum**: nem a Vercel nem o Supabase veem a chave. O link vai por QR code ou WhatsApp.
+3. **Pareamento.** O celular abre o link, apaga a chave da barra de endereço e entra no canal `sessao:<id>`. O escritório aceita **só o primeiro celular**; um link não aberto em 5 minutos expira.
+4. **Captura.** O cliente fotografa ou importa cada documento. O celular checa luz e nitidez, cifra a imagem (AES-GCM) e a envia em **pedaços de 128 KB**.
+5. **Leitura.** O escritório remonta e decifra a imagem e a manda ao **motor local**, que detecta a posição da foto, lê o texto (OCR), classifica o documento, extrai e valida os campos.
+6. **Resposta em até 30 segundos.** Se faltar um dado essencial, o celular pede outra foto na hora, com o motivo ("Não conseguimos ler o CPF").
+7. **Revisão e conferência.** A assistente confirma ou recusa cada campo com a foto ao lado; no fim, o cliente confere os próprios dados.
+8. **Guarda e entrega.** O cadastro fica cifrado no Supabase até as 18h, com uma chave que só o navegador do escritório tem, e pode ser baixado como pacote (.zip).
+
+→ [Sequência completa das mensagens](docs/arquitetura/fluxogramas.md#3-sequência-de-mensagens-no-cross-device) · [Estados da sessão](docs/arquitetura/fluxogramas.md#5-estados-da-sessão)
+
+---
+
+## Tecnologias
+
+| Camada | Tecnologia | Papel |
+|---|---|---|
+| Página de captura (celular) | React 19, TypeScript, Vite | Câmera, checagem de qualidade, cifra e envio |
+| Aplicação do escritório | React 19, TypeScript, servida pelo motor local | Link e QR code, revisão, conferência, pacote |
+| Hospedagem da captura | Vercel | Página estática com HTTPS (exigido para usar a câmera) |
+| Canal em tempo real | Supabase Realtime (Broadcast) | Repassa mensagens cifradas entre celular e computador, sem gravar |
+| Banco | Supabase Postgres, Row Level Security, pg_cron | Cadastros cifrados, auditoria só de inclusão e remoção agendada |
+| Motor de extração | Python, FastAPI | Orquestra OCR, regras, validação e IA |
+| Leitura de texto (OCR) | Apple Vision (via PyObjC) | OCR do próprio macOS, em português, sem custo |
+| IA de texto | Ollama + Qwen 2.5 7B, local | Completa campos que as regras não acharam |
+| Criptografia | Web Crypto API (AES-GCM 256) | Cifra no celular e no navegador; chaves não exportáveis |
+| Bibliotecas de apoio | `qrcode`, `fflate`, Pillow | QR code, pacote .zip no navegador, imagens |
+| Testes | Vitest, Testing Library, pytest | 27 testes na aplicação e 10 no motor |
+| Design e documentação | Figma, Mermaid | Wireframes e telas por versão; diagramas versionados no repositório |
+
+### APIs utilizadas
+
+| API | Para quê |
+|---|---|
+| **Supabase Realtime Broadcast** (WebSocket) | Pareamento, pedaços cifrados, resultado da leitura e pendências |
+| **Supabase REST** (PostgREST) | Gravar e ler os cadastros cifrados e a auditoria |
+| **Web Crypto** | Gerar chaves, cifrar e decifrar (AES-GCM) |
+| **MediaDevices / getUserMedia** | Câmera dentro da página, com restrição de lanterna (flash) quando o aparelho oferece |
+| **File API** e **IndexedDB** | Importar arquivos no celular; guardar só a chave do dia no navegador do escritório |
+| **Apple Vision** (`VNRecognizeTextRequest`) | Leitura de texto nas fotos e PDFs |
+| **Ollama** (`/api/chat` com esquema JSON) | IA local, em `localhost`, com resposta estruturada |
+| **Motor local** (`POST /processar`, `POST /revisao`) | Leitura dos documentos e registro de medição, só no próprio computador |
+
+---
+
+## Custo do estudo: perto de zero
+
+O estudo foi desenhado para rodar **sem custo por documento lido**.
+
+| Recurso | Escolha | Custo |
+|---|---|---|
+| Hospedagem da captura | Vercel, plano gratuito | R$ 0 |
+| Canal e banco | Supabase, plano gratuito | R$ 0 |
+| OCR | Apple Vision, nativo do macOS | R$ 0 |
+| IA | Modelo aberto rodando no próprio Mac | R$ 0 por documento |
+| Motor | O computador que já existe | R$ 0 |
+| Design | Figma, plano gratuito | R$ 0 |
+
+**Trocas assumidas:** o motor depende de um Mac; o plano gratuito do Supabase documenta mensagens de até 256 KB (por isso os pedaços de 128 KB); IA na nuvem foi comparada só com documentos fictícios e descartada para documentos reais ([ADR 0002](docs/decisoes/0002-motor-de-leitura-e-extracao.md)).
+
+---
+
 ## Resultados até aqui
 
 Medidos em **documentos fictícios**. O resultado com pessoas reais é a próxima etapa.
@@ -125,7 +191,41 @@ O primeiro número do motor foi 100%, e ele estava errado: as regras tinham sido
 | Registros sem dados pessoais | Medição e auditoria guardam só eventos, códigos e tempos; o banco recusa texto livre |
 | Quem revisa não confere | A métrica de proteção vem do cliente, não de quem fez a revisão |
 
-A separação entre o que o estudo constrói e o que um produto real exigiria também está documentada: em produção, os documentos ficariam guardados com chave por escritório, controle de acesso e auditoria ([ADR 0008](docs/decisoes/0008-armazenamento-em-producao.md)).
+### Segurança: estudo de caso × produção
+
+O estudo constrói uma versão mais restritiva e mais barata; a produção foi desenhada, mas não construída ([ADR 0008](docs/decisoes/0008-armazenamento-em-producao.md), [ADR 0010](docs/decisoes/0010-motor-em-producao.md)).
+
+| Camada | Estudo de caso (construído) | Produção (desenho de referência) |
+|---|---|---|
+| Transporte celular → computador | Cifra ponta a ponta (AES-GCM), chave no fragmento do link | Igual |
+| Armazenamento | Cifrado com a **chave do dia**, que só o navegador do escritório tem; o servidor não lê | Cifrado em repouso pelo provedor e por **envelope, com chave por escritório** num cofre de chaves (KMS) |
+| Quem consegue ler | Só o navegador que gerou a chave | Usuários autorizados do escritório, via aplicação |
+| Retenção | **Tudo removido às 18h** em três camadas; nada passa de 24h | Prazo definido pelo escritório, com exclusão automática e a pedido do titular (LGPD) |
+| Acesso | Perfil simulado, sem login | Login com perfis (assistente, advogada, administrador) e segundo fator |
+| Isolamento | Uma estação por vez | Row Level Security e chaves separadas por escritório |
+| Auditoria | Abrir, baixar e excluir, só com códigos; tabela só de inclusão | Todos os acessos, com prestação de contas |
+| Motor e IA | No Mac do escritório; nada sai do computador | Servidor próprio na nuvem (PaddleOCR + modelo aberto); sem provedores de IA de terceiros |
+| Backups | Ilegíveis depois que a chave do dia é destruída | Cifrados, com prazo próprio |
+
+**A principal troca:** em produção, o operador do sistema passa a conseguir ler os documentos, sob controle de acesso e auditoria. É o preço de permitir várias pessoas no mesmo cadastro e de não perder documentos se uma chave se perder.
+
+---
+
+## Se fosse um produto
+
+Business case **hipotético**, construído com dados públicos ([Etapa 7](docs/etapas/07-business-case.md)).
+
+| Pergunta | Resposta |
+|---|---|
+| Quanto vale para o escritório? | Cerca de 8 minutos poupados por cadastro, ou ~R$ 4 com o custo da hora de uma assistente. Hipótese a medir nas sessões |
+| Quanto custaria operar? | ~R$ 28 mil por mês: duas pessoas e servidores |
+| Qual o tamanho do mercado? | De 2 a 4 milhões de ações de consumidor por ano ([CNJ](https://www.cnj.jus.br/judiciario-inicia-2026-com-o-menor-estoque-de-processos-pendentes-em-seis-anos/)); metade com advogado |
+| Venda direta se paga? | **Não.** Com preço pelo valor gerado (de R$ 149 a R$ 2.990 por mês, em quatro faixas), exigiria de 14% a 28% do mercado alcançável |
+| Qual o caminho? | **Licenciar para softwares jurídicos**, como componente: R$ 40 mil por ano por parceiro mais R$ 0,30 por cadastro. Com cerca de 8 parceiros, a parte fixa cobre o custo |
+| Quem decide a compra? | O líder de produto do software parceiro; o encarregado de dados pode vetar |
+| Maior risco | Ciclo de venda longo: parceiros exigem prova de acurácia e de segurança antes de assinar |
+
+O produto seria **parceiro** dos softwares de gestão jurídica, e não concorrente: o cadastro alimenta o sistema que o escritório já usa.
 
 ---
 
