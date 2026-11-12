@@ -34,6 +34,7 @@ O histórico completo de alterações está no [Git](https://github.com/marcosvp
 | 12/11/2026 | README com 9 diagramas nas seções que explicam; fluxo das telas atualizado com "Importar dos arquivos" | [README](../README.md) |
 | 12/11/2026 | **Fluxo de trabalho:** 15 tags nos marcos passados; integração contínua (GitHub Actions) com os testes da aplicação e do motor; branch e pull request por entrega, com a definição de pronto e o aceite do PO | [Pull requests](https://github.com/marcosvpantoja/extracao-dados-documentos/pulls) |
 | 12/11/2026 | Pronto para assistentes de IA: `CLAUDE.md` com instalação e teste, e servidor MCP com o motor como ferramentas, restrito a documentos fictícios | [CLAUDE.md](../CLAUDE.md) |
+| 12/11/2026 | A integração contínua pegou dois problemas na primeira semana de uso: um teste de OCR sem marcação de macOS e um teste lento demais para a máquina gratuita do GitHub (tempo limite ajustado) | [PR #1](https://github.com/marcosvpantoja/extracao-dados-documentos/pull/1), [PR #2](https://github.com/marcosvpantoja/extracao-dados-documentos/pull/2) |
 | 11/11/2026 | Incremento 4, medição: conferência do cliente na tela do escritório, registro de tempos e fotos por documento, relatório dos resultados-chave (`scripts/relatorio.py`) | [Etapa 5](etapas/05-metricas.md) |
 
 ---
