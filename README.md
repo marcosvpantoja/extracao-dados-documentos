@@ -21,7 +21,7 @@ Estudo de caso de produto, do problema ao software funcionando: um sistema que i
 
 ## Em 30 segundos
 
-| | |
+| Tema | Resumo |
 |---|---|
 | **Problema** | Escritórios de direito do consumidor cadastram dezenas de clientes por dia. Os documentos chegam misturados pelo WhatsApp, são digitados à mão, e um CPF errado chega à procuração e ao processo |
 | **Para quem** | A assistente de cadastro (usuária principal), o cliente que envia os documentos e a advogada que recebe o cadastro |
