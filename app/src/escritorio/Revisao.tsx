@@ -61,10 +61,11 @@ export function Conferir({ titulo, faces, campos, decisoes, conferencia, onConfe
   );
 }
 
-export default function Revisao({ titulo, tipo, faces, campos, decisoes, onDecidir, onFechar }: {
+export default function Revisao({ titulo, tipo, faces, rotacao = {}, campos, decisoes, onDecidir, onFechar }: {
   titulo: string;
   tipo: string;
   faces: Partial<Record<Face, string>>;
+  rotacao?: Partial<Record<Face, number>>;
   campos: Record<string, CampoLido>;
   decisoes: Record<string, Decisao>;
   onDecidir: (novas: Record<string, Decisao>) => void;
@@ -73,6 +74,10 @@ export default function Revisao({ titulo, tipo, faces, campos, decisoes, onDecid
   const disponiveis = (['frente', 'verso'] as Face[]).filter((f) => faces[f]);
   const [face, setFace] = useState<Face>(disponiveis[0] ?? 'frente');
   const [zoom, setZoom] = useState(1);
+  // rotação automática (vinda do OCR) + giros manuais de 90°
+  const [giro, setGiro] = useState<Partial<Record<Face, number>>>({});
+  const graus = ((rotacao[face] ?? 0) + (giro[face] ?? 0)) % 360;
+  const deitada = graus % 180 !== 0;
   const lista = ordenarParaRevisao(campos);
   const pendentes = lista.filter(([k]) => !decisoes[k]).length;
 
@@ -85,13 +90,18 @@ export default function Revisao({ titulo, tipo, faces, campos, decisoes, onDecid
       <div className="revisao-corpo">
         <div className="revisao-foto">
           <div className="foto-area">
-            {faces[face] && <img src={faces[face]} alt={`${titulo}, ${face}`} style={{ width: `${zoom * 100}%` }} />}
+            {faces[face] && (
+              <img src={faces[face]} alt={`${titulo}, ${face}`}
+                style={{ width: deitada ? 'auto' : `${zoom * 100}%`, height: deitada ? `${zoom * 100}%` : 'auto', transform: `rotate(${graus}deg)`, transition: 'transform .2s' }} />
+            )}
           </div>
           <div className="foto-controles">
             {disponiveis.length > 1 && disponiveis.map((f) => (
               <button key={f} className={`aba${f === face ? ' ativa' : ''}`} aria-pressed={f === face} onClick={() => setFace(f)}>{f}</button>
             ))}
             <span className="espaco-h" />
+            <button className="aba" aria-label="Girar a foto 90 graus" title="Girar a foto"
+              onClick={() => setGiro((g) => ({ ...g, [face]: ((g[face] ?? 0) + 90) % 360 }))}>↻ Girar</button>
             <button className="aba" aria-label="Diminuir zoom" onClick={() => setZoom((z) => Math.max(1, z - 0.5))}>－</button>
             <span className="zoom">{Math.round(zoom * 100)}%</span>
             <button className="aba" aria-label="Aumentar zoom" onClick={() => setZoom((z) => Math.min(4, z + 0.5))}>＋</button>

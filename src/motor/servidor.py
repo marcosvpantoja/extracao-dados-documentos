@@ -67,10 +67,12 @@ async def processar(request: Request, doc: str, simular: Optional[str] = None) -
             except Exception:
                 return {"status": "nova-foto", "motivo": "Não conseguimos abrir o PDF"}
             previa = "data:image/jpeg;base64," + __import__("base64").b64encode(await asyncio.to_thread(reduzir, imagens[f])).decode()
+    rotacoes = {}
     try:
         for i, f in enumerate(faces):
             # o verso vem "embaixo" da frente, para as regras de posição não misturarem as faces
-            for l in await asyncio.to_thread(ocr.ler, imagens[f]):
+            lidas, rotacoes[f] = await asyncio.to_thread(ocr.ler_com_orientacao, imagens[f])
+            for l in lidas:
                 linhas.append(Linha(l.texto, l.confianca, l.x, l.y + i * 1.5, l.largura, l.altura))
     except ValueError:
         return {"status": "nova-foto", "motivo": "Não conseguimos abrir a foto"}
@@ -83,6 +85,8 @@ async def processar(request: Request, doc: str, simular: Optional[str] = None) -
         "confianca_tipo": r.confianca_tipo,
         "campos": {k: asdict(v) for k, v in r.campos.items() if not k.startswith("_")},
         "tempo_ms": round((time.perf_counter() - t0) * 1000),
+        # rotação que deixa cada face em pé (o OCR testa as quatro): a revisão mostra a foto já virada
+        "rotacao": {f: g for f, g in rotacoes.items() if not (previa and f == "frente")},
     }
     if previa:
         resposta["previa"] = previa  # o escritório não consegue mostrar PDF numa <img>

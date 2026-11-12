@@ -80,3 +80,11 @@ Na tela do escritório, o campo que veio da IA aparece marcado **"IA · conferir
 **Custo:** o tempo médio passa de 0,6 s para cerca de 2,6 s por documento, com picos de 8 s quando a IA entra. Cabe nos 30 s de espera do celular (RF-31).
 
 **Limites que continuam:** as variantes também foram usadas para ajustar as regras genéricas, então deixaram de ser um conjunto "nunca visto". A medição de generalização daqui para frente depende de documentos novos: as fotos dos impressos e as sessões com testers.
+
+## Detecção da posição da foto (11/11/2026)
+
+**Origem:** no teste, uma foto chegou de cabeça para baixo e apareceu assim na revisão.
+
+**Primeira tentativa, que falhou:** escolher a orientação em que o OCR lê mais texto. Não funciona, porque no modo preciso o Apple Vision lê até texto de cabeça para baixo, com resultado quase igual nas quatro posições.
+
+**Solução:** no modo rápido, texto virado sai como letras sem sentido. O motor lê a foto nas quatro orientações no modo rápido e escolhe aquela com mais palavras e números de documento de verdade (rótulos como NOME e CPF, datas, CPF e CNPJ formatados). Nos testes, acertou **8 de 8** combinações (CNH e fatura, cada uma em 0°, 90°, 180° e 270°), com custo de cerca de 0,5 s a mais por foto.

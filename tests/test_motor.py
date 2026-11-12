@@ -76,3 +76,14 @@ def test_pdf_importado_e_lido_e_devolve_previa():
     r = cliente.post("/processar?doc=nota", files={"frente": ("nota.pdf", pdf, "application/pdf")}).json()
     assert r["status"] == "lido" and r["tipo"] == "nfe"
     assert r["previa"].startswith("data:image/jpeg;base64,")
+
+
+def test_foto_de_cabeca_para_baixo_e_lida_e_informa_a_rotacao():
+    import io
+    from PIL import Image
+    from src.extracao.ocr import renderizar_pdf
+    img = Image.open(io.BytesIO(renderizar_pdf("data/exemplos/cnh/cnh-ficticio-01.pdf"))).rotate(180)
+    buf = io.BytesIO(); img.save(buf, "PNG")
+    r = cliente.post("/processar?doc=identidade", files={"frente": ("f.png", buf.getvalue(), "image/png")}).json()
+    assert r["tipo"] == "cnh"
+    assert r["rotacao"]["frente"] == 180

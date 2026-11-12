@@ -30,6 +30,7 @@
 ## Regras
 
 - A foto tem **zoom** (100% a 400%) e abas **frente / verso** quando houver duas faces.
+- **Rotação (revisto em 11/11/2026, teste do autor com foto de cabeça para baixo):** a foto aparece **já em pé**, porque o motor detecta a posição pela leitura do texto nas quatro orientações; o botão **"↻ Girar"** gira 90° para ajustes manuais.
 - "Confirmar os demais" **não altera** o que já foi recusado.
 - Cada decisão vai para o **registro de revisão** local (RF-22), só com tipo, campo, origem e resultado. Nenhum valor do documento entra no registro ([ADR 0004](../decisoes/0004-revisao-humana-e-ciclo-de-aprendizado.md)).
 - Em telas estreitas, a foto fica em cima e os campos embaixo.

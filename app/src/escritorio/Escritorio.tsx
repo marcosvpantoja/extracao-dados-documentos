@@ -18,7 +18,7 @@ const URL_CAPTURA = (import.meta.env.VITE_URL_CAPTURA as string) || `${location.
 const URL_MOTOR = (import.meta.env.VITE_URL_MOTOR as string) || '';
 
 type Situacao = 'aguardando' | 'recebendo' | 'lendo' | 'lido' | 'nova-foto' | 'pendente';
-interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; tipo?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao>; conferencia?: Record<string, Conferencia>; conferido?: boolean }
+interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; tipo?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao>; conferencia?: Record<string, Conferencia>; conferido?: boolean; rotacao?: Partial<Record<Face, number>> }
 type Sessao = 'montando' | 'aguardando-celular' | 'expirada' | 'pareada' | 'concluida';
 
 export default function Escritorio() {
@@ -84,6 +84,7 @@ export default function Escritorio() {
       registrar([{ etapa: 'captura', sessao: sessaoId.current, evento: 'documento_lido', doc: doc.id, tipo: r.tipo ?? '', fotos: m.fotos ?? 0,
         faces: Object.keys(faces).length, status: r.status, ms: Math.round(performance.now() - t0) }]);
       if (r.previa) atualizar(doc.id, { faces: { frente: r.previa } }); // PDF importado: prévia renderizada pelo motor
+      if (r.rotacao) atualizar(doc.id, { rotacao: r.rotacao });
       atualizar(doc.id, { situacao: r.status === 'lido' ? 'lido' : 'nova-foto', detalhe: r.motivo ?? TIPOS[r.tipo ?? ''] ?? r.tipo, tipo: r.tipo, campos: r.campos, decisoes: {} });
       await enviar(c, EVENTOS.resultado, { envio: pronto.envio, doc: doc.id, status: r.status, motivo: r.motivo });
     });
@@ -206,7 +207,7 @@ export default function Escritorio() {
         return (
           <div className="sobreposicao" role="dialog" aria-modal="true">
             <Revisao
-              titulo={i.doc.rotulo} tipo={TIPOS[i.tipo ?? ''] ?? ''} faces={i.faces} campos={i.campos ?? {}} decisoes={i.decisoes ?? {}}
+              titulo={i.doc.rotulo} tipo={TIPOS[i.tipo ?? ''] ?? ''} faces={i.faces} rotacao={i.rotacao} campos={i.campos ?? {}} decisoes={i.decisoes ?? {}}
               onFechar={() => setAberto(null)}
               onDecidir={(novas) => {
                 const antes = i.decisoes ?? {};
@@ -249,5 +250,5 @@ async function ler(doc: DocumentoPedido, faces: Partial<Record<Face, Uint8Array>
   const corpo = new FormData();
   for (const [face, bytes] of Object.entries(faces)) corpo.append(face, new Blob([bytes!], { type: 'image/jpeg' }), `${face}.jpg`);
   const r = await fetch(`${URL_MOTOR}/processar?doc=${doc.id}${falhar ? '&simular=falha' : ''}`, { method: 'POST', body: corpo });
-  return (await r.json()) as { status: 'lido' | 'nova-foto'; motivo?: string; tipo?: string; campos?: Record<string, CampoLido>; previa?: string };
+  return (await r.json()) as { status: 'lido' | 'nova-foto'; motivo?: string; tipo?: string; campos?: Record<string, CampoLido>; previa?: string; rotacao?: Partial<Record<Face, number>> };
 }

@@ -30,6 +30,10 @@ class AppleVision:
     """OCR do macOS (Vision framework), em português, no modo preciso."""
 
     def ler(self, imagem: bytes) -> List[Linha]:
+        return self.ler_com_orientacao(imagem)[0]
+
+    def ler_com_orientacao(self, imagem: bytes) -> tuple:
+        """Lê e devolve também a rotação (graus, sentido horário) que deixa o documento em pé."""
         import Quartz
         import Vision
         from Foundation import NSData
@@ -48,6 +52,8 @@ class AppleVision:
         # Orientação: o Vision lida com rotação de 90°/180° quando informada; tentamos as quatro
         # e ficamos com a que lê mais texto com mais confiança (o RG escaneado vem rotacionado).
         melhor: List[Linha] = []
+        rotacao = 0
+        graus = {1: 0, 6: 90, 3: 180, 8: 270}
         for orientacao in (1, 6, 3, 8):  # cima, 90° horário, 180°, 90° anti-horário (EXIF)
             tratador = Vision.VNImageRequestHandler.alloc().initWithCGImage_orientation_options_(cg, orientacao, None)
             ok, _ = tratador.performRequests_error_([pedido], None)
@@ -67,10 +73,9 @@ class AppleVision:
                 ))
             if _pontuacao(linhas) > _pontuacao(melhor):
                 melhor = linhas
-            if _pontuacao(melhor) > 400:  # leitura boa o bastante; evita girar à toa
-                break
+                rotacao = graus[orientacao]
         melhor.sort(key=lambda l: (round(l.y, 2), l.x))
-        return melhor
+        return melhor, _rotacao_pela_direcao_do_texto(cg)
 
 
 def _pontuacao(linhas: List[Linha]) -> float:
@@ -136,3 +141,31 @@ def reduzir(png: bytes, lado: int = 1400) -> bytes:
     out = io.BytesIO()
     im.save(out, "JPEG", quality=82)
     return out.getvalue()
+
+
+def _rotacao_pela_direcao_do_texto(cg) -> int:
+    """Graus (sentido horário) que deixam o documento em pé.
+
+    No modo preciso, o Vision lê até texto de cabeça para baixo, então "qual orientação lê mais"
+    não distingue as posições. No modo rápido, texto virado sai como letras sem sentido. O sinal
+    usado é: em qual das quatro orientações o modo rápido encontra mais palavras e números de
+    documento de verdade (rótulos comuns, datas, CPF/CNPJ).
+    """
+    import re
+    import Vision
+
+    padrao = re.compile(r"NOME|DATA|CPF|CNPJ|VALIDADE|REGISTRO|CARTEIRA|NASCIMENTO|FILIA|TOTAL|VENCIMENTO|"
+                        r"BRASIL|IDENTIDADE|HABILITA|EMISS|VALOR|ENDERE|NOTA|FATURA|\d{2}/\d{2}/\d{4}|"
+                        r"\d{3}\.\d{3}\.\d{3}-\d{2}", re.I)
+    graus = {1: 0, 6: 90, 3: 180, 8: 270}
+    pontos = {}
+    for orientacao in (1, 6, 3, 8):
+        pedido = Vision.VNRecognizeTextRequest.alloc().init()
+        pedido.setRecognitionLevel_(Vision.VNRequestTextRecognitionLevelFast)
+        pedido.setUsesLanguageCorrection_(False)
+        tratador = Vision.VNImageRequestHandler.alloc().initWithCGImage_orientation_options_(cg, orientacao, None)
+        ok, _ = tratador.performRequests_error_([pedido], None)
+        textos = [str(o.topCandidates_(1)[0].string()) for o in (pedido.results() or []) if ok and o.topCandidates_(1)]
+        pontos[graus[orientacao]] = sum(len(padrao.findall(s)) for s in textos)
+    melhor = max(pontos, key=pontos.get)
+    return melhor if pontos[melhor] > pontos[0] else 0
