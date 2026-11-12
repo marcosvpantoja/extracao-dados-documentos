@@ -4,7 +4,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
-import { CAMPOS_LARGOS, NOMES_CAMPOS, formatarValor } from './formatar';
+import Revisao, { type CampoLido, type Decisao } from './Revisao';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { abrirCanal, enviar, inscrever } from '../compartilhado/canal';
 import { decifrar, exportarChave, gerarChave } from '../compartilhado/cripto';
@@ -17,8 +17,7 @@ const URL_CAPTURA = (import.meta.env.VITE_URL_CAPTURA as string) || `${location.
 const URL_MOTOR = (import.meta.env.VITE_URL_MOTOR as string) || '';
 
 type Situacao = 'aguardando' | 'recebendo' | 'lendo' | 'lido' | 'nova-foto' | 'pendente';
-interface CampoLido { valor: string; origem: string; validado: boolean }
-interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; campos?: Record<string, CampoLido> }
+interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; tipo?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao> }
 type Sessao = 'montando' | 'aguardando-celular' | 'expirada' | 'pareada' | 'concluida';
 
 export default function Escritorio() {
@@ -30,6 +29,7 @@ export default function Escritorio() {
   const [itens, setItens] = useState<Item[]>([]);
   const [simularFalha, setSimularFalha] = useState(false);
   const [copiado, setCopiado] = useState(false);
+  const [aberto, setAberto] = useState<string | null>(null);
   const canal = useRef<RealtimeChannel | null>(null);
   const falhaRef = useRef(simularFalha);
   falhaRef.current = simularFalha;
@@ -75,7 +75,7 @@ export default function Escritorio() {
       recebidas.delete(pronto.envio);
       atualizar(doc.id, { situacao: 'lendo' });
       const r = await ler(doc, faces, falhaRef.current);
-      atualizar(doc.id, { situacao: r.status === 'lido' ? 'lido' : 'nova-foto', detalhe: r.motivo ?? TIPOS[r.tipo ?? ''] ?? r.tipo, campos: r.campos });
+      atualizar(doc.id, { situacao: r.status === 'lido' ? 'lido' : 'nova-foto', detalhe: r.motivo ?? TIPOS[r.tipo ?? ''] ?? r.tipo, tipo: r.tipo, campos: r.campos, decisoes: {} });
       await enviar(c, EVENTOS.resultado, { envio: pronto.envio, doc: doc.id, status: r.status, motivo: r.motivo });
     });
 
@@ -145,29 +145,46 @@ export default function Escritorio() {
       </label>
 
       <ul className="itens">
-        {itens.map((i) => (
-          <li key={i.doc.id} className={`item item-${i.situacao}`}>
-            <div className="miniaturas">
-              {(['frente', 'verso'] as Face[]).map((f) => i.faces[f] && <img key={f} src={i.faces[f]} alt={`${i.doc.rotulo}, ${f}`} />)}
-            </div>
-            <div>
-              <b>{i.doc.rotulo}</b>
-              <span className="situacao">{ROTULOS[i.situacao]}{i.detalhe ? ` · ${i.detalhe}` : ''}</span>
-              {i.campos && Object.keys(i.campos).length > 0 && (
-                <dl className="campos">
-                  {Object.entries(i.campos).map(([k, c]) => (
-                    <div key={k} className={CAMPOS_LARGOS.has(k) ? 'largo' : ''}>
-                      <dt>{NOMES_CAMPOS[k] ?? k.replace(/_/g, ' ')}</dt>
-                      <dd>{formatarValor(k, c.valor)}{c.validado && <span className="validado" title="Conferido por dígito verificador ou MRZ" aria-label="conferido"> ✓</span>}
-                        {c.origem === 'ia' && !c.validado && <span className="origem-ia" title="Encontrado pela IA: confira com atenção">IA · conferir</span>}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
-            </div>
-          </li>
-        ))}
+        {itens.map((i) => {
+          const total = Object.keys(i.campos ?? {}).length;
+          const decididos = Object.keys(i.decisoes ?? {}).length;
+          const recusados = Object.values(i.decisoes ?? {}).filter((d) => d === 'recusado').length;
+          return (
+            <li key={i.doc.id} className={`item item-${i.situacao}`}>
+              <div className="miniaturas">
+                {(['frente', 'verso'] as Face[]).map((f) => i.faces[f] && <img key={f} src={i.faces[f]} alt={`${i.doc.rotulo}, ${f}`} />)}
+              </div>
+              <div>
+                <b>{i.doc.rotulo}</b>
+                <span className="situacao">{ROTULOS[i.situacao]}{i.detalhe ? ` · ${i.detalhe}` : ''}</span>
+                {total > 0 && (
+                  <span className="situacao">
+                    {decididos < total ? ` · ${decididos} de ${total} campos revisados` : recusados ? ` · revisado, ${recusados} recusado(s)` : ' · revisado ✓'}
+                  </span>
+                )}
+              </div>
+              {total > 0 && <button className="btn btn-primario btn-revisar" onClick={() => setAberto(i.doc.id)}>{decididos < total ? 'Revisar' : 'Ver revisão'}</button>}
+            </li>
+          );
+        })}
       </ul>
+      {aberto && (() => {
+        const i = itens.find((x) => x.doc.id === aberto)!;
+        return (
+          <div className="sobreposicao" role="dialog" aria-modal="true">
+            <Revisao
+              titulo={i.doc.rotulo} tipo={TIPOS[i.tipo ?? ''] ?? ''} faces={i.faces} campos={i.campos ?? {}} decisoes={i.decisoes ?? {}}
+              onFechar={() => setAberto(null)}
+              onDecidir={(novas) => {
+                const antes = i.decisoes ?? {};
+                atualizar(i.doc.id, { decisoes: novas });
+                const mudou = Object.entries(novas).filter(([k, d]) => antes[k] !== d);
+                if (mudou.length) registrarRevisao(i.tipo ?? '', mudou, i.campos ?? {});
+              }}
+            />
+          </div>
+        );
+      })()}
       <button className="btn btn-texto" onClick={encerrar}>Encerrar sessão (apaga as imagens da tela e da memória)</button>
     </main>
   );
@@ -179,6 +196,12 @@ const ROTULOS: Record<Situacao, string> = {
   aguardando: 'Aguardando', recebendo: 'Recebendo…', lendo: 'Lendo…', lido: '✓ Lido',
   'nova-foto': 'Nova foto pedida ao cliente', pendente: '⏸ Cliente não tem agora',
 };
+
+/** Registro de revisão (RF-22): só tipo, campo, origem e resultado. Nunca valores nem imagem. */
+function registrarRevisao(tipo: string, mudancas: [string, Decisao][], campos: Record<string, CampoLido>) {
+  const eventos = mudancas.map(([campo, resultado]) => ({ tipo, campo, origem: campos[campo]?.origem, validado: campos[campo]?.validado, resultado }));
+  fetch(`${URL_MOTOR}/revisao`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(eventos) }).catch(() => {});
+}
 
 async function ler(doc: DocumentoPedido, faces: Partial<Record<Face, Uint8Array>>, falhar: boolean) {
   const corpo = new FormData();

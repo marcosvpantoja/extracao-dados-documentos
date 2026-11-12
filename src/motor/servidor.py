@@ -20,7 +20,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Optional
 
-from fastapi import FastAPI, Request
+from fastapi import Body, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -40,7 +40,7 @@ app = FastAPI(title="Motor local de extração", docs_url=None, redoc_url=None)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-    allow_methods=["POST"],
+    allow_methods=["POST"],  # /processar e /revisao
     allow_headers=["*"],
 )
 
@@ -78,6 +78,29 @@ async def processar(request: Request, doc: str, simular: Optional[str] = None) -
     if not r.legivel or r.tipo == "nao_reconhecido":
         return {**resposta, "status": "nova-foto", "motivo": r.motivo or "Não reconhecemos este documento"}
     return {**resposta, "status": "lido"}
+
+
+REGISTRO_REVISAO = RAIZ / "data" / "privado" / "registro-revisao.jsonl"
+CHAVES_REVISAO = {"tipo", "campo", "origem", "validado", "resultado"}
+
+
+@app.post("/revisao")
+async def revisao(eventos: list = Body(...)) -> dict:
+    """Registro local de revisão (RF-22, ADR 0004): só tipo, campo, origem e resultado.
+    Qualquer outra chave é descartada, para nenhum valor do documento entrar no registro."""
+    import json
+    from datetime import datetime, timezone
+    REGISTRO_REVISAO.parent.mkdir(parents=True, exist_ok=True)
+    gravados = 0
+    with REGISTRO_REVISAO.open("a", encoding="utf-8") as f:
+        for e in eventos[:100]:
+            if not isinstance(e, dict) or e.get("resultado") not in ("confirmado", "recusado"):
+                continue
+            limpo = {k: e[k] for k in CHAVES_REVISAO if k in e and isinstance(e[k], (str, bool))}
+            limpo["quando"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+            f.write(json.dumps(limpo, ensure_ascii=False) + "\n")
+            gravados += 1
+    return {"gravados": gravados}
 
 
 @app.get("/")

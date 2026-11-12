@@ -1,0 +1,85 @@
+// Tela de revisão (HU-03, HU-04, HU-05; RF-16, RF-17): foto à esquerda, campos à direita.
+// Cada campo tem ✓ e ✗; "Confirmar os demais" fecha os que não foram marcados.
+// Campos que pedem atenção (vindos da IA ou sem conferência automática) aparecem primeiro.
+
+import { useState } from 'react';
+import type { Face } from '../compartilhado/protocolo';
+import { NOMES_CAMPOS, formatarValor } from './formatar';
+
+export interface CampoLido { valor: string; origem: string; validado: boolean }
+export type Decisao = 'confirmado' | 'recusado';
+
+export function ordenarParaRevisao(campos: Record<string, CampoLido>): [string, CampoLido][] {
+  const peso = (c: CampoLido) => (c.origem === 'ia' ? 0 : c.validado ? 2 : 1);
+  return Object.entries(campos).sort(([, a], [, b]) => peso(a) - peso(b));
+}
+
+export default function Revisao({ titulo, tipo, faces, campos, decisoes, onDecidir, onFechar }: {
+  titulo: string;
+  tipo: string;
+  faces: Partial<Record<Face, string>>;
+  campos: Record<string, CampoLido>;
+  decisoes: Record<string, Decisao>;
+  onDecidir: (novas: Record<string, Decisao>) => void;
+  onFechar: () => void;
+}) {
+  const disponiveis = (['frente', 'verso'] as Face[]).filter((f) => faces[f]);
+  const [face, setFace] = useState<Face>(disponiveis[0] ?? 'frente');
+  const [zoom, setZoom] = useState(1);
+  const lista = ordenarParaRevisao(campos);
+  const pendentes = lista.filter(([k]) => !decisoes[k]).length;
+
+  return (
+    <section className="revisao" aria-label={`Revisão: ${titulo}`}>
+      <header className="revisao-topo">
+        <div><h2>{titulo}</h2><span className="situacao">{tipo}</span></div>
+        <button className="btn btn-texto" onClick={onFechar}>Fechar</button>
+      </header>
+      <div className="revisao-corpo">
+        <div className="revisao-foto">
+          <div className="foto-area">
+            {faces[face] && <img src={faces[face]} alt={`${titulo}, ${face}`} style={{ width: `${zoom * 100}%` }} />}
+          </div>
+          <div className="foto-controles">
+            {disponiveis.length > 1 && disponiveis.map((f) => (
+              <button key={f} className={`aba${f === face ? ' ativa' : ''}`} aria-pressed={f === face} onClick={() => setFace(f)}>{f}</button>
+            ))}
+            <span className="espaco-h" />
+            <button className="aba" aria-label="Diminuir zoom" onClick={() => setZoom((z) => Math.max(1, z - 0.5))}>－</button>
+            <span className="zoom">{Math.round(zoom * 100)}%</span>
+            <button className="aba" aria-label="Aumentar zoom" onClick={() => setZoom((z) => Math.min(4, z + 0.5))}>＋</button>
+          </div>
+        </div>
+        <div className="revisao-campos">
+          <ul>
+            {lista.map(([k, c]) => {
+              const d = decisoes[k];
+              return (
+                <li key={k} className={`campo-rev${d ? ` ${d}` : ''}`}>
+                  <div className="campo-texto">
+                    <span className="campo-nome">
+                      {NOMES_CAMPOS[k] ?? k}
+                      {c.validado && <span className="validado" title="Conferido por dígito verificador ou MRZ"> ✓ conferido</span>}
+                      {c.origem === 'ia' && !c.validado && <span className="origem-ia">IA · conferir</span>}
+                    </span>
+                    <span className="campo-valor">{formatarValor(k, c.valor)}</span>
+                  </div>
+                  <div className="campo-acoes" role="group" aria-label={`Decisão sobre ${NOMES_CAMPOS[k] ?? k}`}>
+                    <button className={`decidir ok${d === 'confirmado' ? ' marcado' : ''}`} aria-pressed={d === 'confirmado'}
+                      aria-label={`Confirmar ${NOMES_CAMPOS[k] ?? k}`} onClick={() => onDecidir({ ...decisoes, [k]: 'confirmado' })}>✓</button>
+                    <button className={`decidir nao${d === 'recusado' ? ' marcado' : ''}`} aria-pressed={d === 'recusado'}
+                      aria-label={`Recusar ${NOMES_CAMPOS[k] ?? k}`} onClick={() => onDecidir({ ...decisoes, [k]: 'recusado' })}>✗</button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <button className="btn btn-primario" disabled={pendentes === 0}
+            onClick={() => onDecidir(Object.fromEntries(lista.map(([k]) => [k, decisoes[k] ?? 'confirmado'])))}>
+            {pendentes === lista.length ? 'Confirmar todos' : pendentes > 0 ? `Confirmar os demais (${pendentes})` : 'Revisão concluída ✓'}
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}

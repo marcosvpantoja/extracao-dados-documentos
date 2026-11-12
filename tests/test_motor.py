@@ -37,3 +37,15 @@ def test_falha_simulada_pede_nova_foto_com_motivo():
 def test_resposta_nao_devolve_conteudo_da_imagem():
     r = _enviar("fatura")
     assert "ficticia" not in str(r)
+
+
+def test_registro_de_revisao_descarta_valores(tmp_path, monkeypatch):
+    destino = tmp_path / "registro.jsonl"
+    monkeypatch.setattr(servidor, "REGISTRO_REVISAO", destino)
+    r = cliente.post("/revisao", json=[
+        {"tipo": "cnh", "campo": "cpf", "origem": "padrão", "validado": True, "resultado": "confirmado", "valor": "644.836.782-99"},
+        {"tipo": "cnh", "campo": "nome", "resultado": "talvez"},
+    ]).json()
+    assert r == {"gravados": 1}
+    conteudo = destino.read_text()
+    assert "644.836" not in conteudo and '"campo": "cpf"' in conteudo
