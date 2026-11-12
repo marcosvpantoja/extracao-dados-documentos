@@ -1,0 +1,17 @@
+{
+  "arquivo": "rg-antigo/rg-antigo-ficticio-05.pdf",
+  "tipo": "RG",
+  "ficticio": true,
+  "variante": "rg_v_ordem_invertida",
+  "campos": {
+    "nome": "LARISSA APARECIDA GOMES LIMA",
+    "filiacao_pai": "BRUNO HENRIQUE NASCIMENTO LIMA",
+    "filiacao_mae": "PRISCILA BEATRIZ OLIVEIRA BARBOSA",
+    "data_nascimento": "1988-12-06",
+    "naturalidade": "CURITIBA, PR",
+    "orgao_expedidor": "SSP/PR",
+    "registro_geral": "28761462",
+    "data_expedicao": "2018-06-14",
+    "cpf": "220.610.401-60"
+  }
+}

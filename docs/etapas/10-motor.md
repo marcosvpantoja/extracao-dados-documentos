@@ -44,3 +44,15 @@
 - **Cobertura parcial:** o motor extrai os campos essenciais e parte do catálogo. Campos como local de emissão, categoria da CNH em todos os casos e os itens da NF-e ainda não são extraídos.
 
 O número que vale para as metas dos resultados-chave sai das **fotos dos documentos fictícios impressos** (documentos que as regras não viram como foto) e, depois, das sessões com testers ([Etapa 5](05-metricas.md#como-as-metas-serão-definidas)).
+
+## Teste de generalização: layouts novos (11/11/2026)
+
+**Origem:** no teste no celular, um RG de modelo novo não foi reconhecido. Para medir o problema sem vício, foram gerados 7 documentos fictícios com **layouts que as regras nunca viram** ([`scripts/gerar_variantes.py`](../../scripts/gerar_variantes.py)): 3 RG antigos (rótulos ao lado do valor, face única com sigla da UF, ordem invertida), 2 CIN (rótulos bilíngues e formato de app) e 2 CNH (modelo antigo sem MRZ e formato de app). A medição foi feita **antes** de qualquer ajuste nas regras.
+
+| Medida | Layouts conhecidos | **Layouts novos** |
+|---|---|---|
+| Classificação correta | 18 de 18 | **6 de 14** |
+| Campos extraídos corretos | 100% | **82%** |
+| Cobertura: campos esperados encontrados e certos | — | **27%** (28 de 105) |
+
+**Conclusão:** as regras atuais **não generalizam**. Elas funcionam nos layouts para os quais foram escritas e falham em layouts diferentes, inclusive nas versões de impressão, em que o texto fica pequeno. Esta é a medida honesta do motor por regras, e confirma o risco de vício registrado na Etapa 1.

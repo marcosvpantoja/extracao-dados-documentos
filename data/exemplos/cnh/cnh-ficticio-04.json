@@ -1,0 +1,17 @@
+{
+  "arquivo": "cnh/cnh-ficticio-04.pdf",
+  "tipo": "CNH",
+  "ficticio": true,
+  "variante": "cnh_app",
+  "campos": {
+    "nome": "RAFAEL HENRIQUE ROCHA OLIVEIRA",
+    "data_nascimento": "1961-12-21",
+    "filiacao_pai": "HUGO ROBERTO NASCIMENTO OLIVEIRA",
+    "filiacao_mae": "GABRIELA MARIA PEREIRA VIEIRA",
+    "cpf": "094.679.060-40",
+    "numero_registro": "94647799057",
+    "categoria": "AB",
+    "validade": "2033-03-13",
+    "data_emissao": "2023-03-13"
+  }
+}

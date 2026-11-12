@@ -1,0 +1,18 @@
+{
+  "arquivo": "cin/cin-ficticio-04.pdf",
+  "tipo": "CIN",
+  "ficticio": true,
+  "variante": "cin_app",
+  "campos": {
+    "nome": "RAFAEL EDUARDO ROCHA ROCHA",
+    "sexo": "M",
+    "data_nascimento": "1994-12-18",
+    "naturalidade": "MANAUS, AM",
+    "filiacao_pai": "RAFAEL HENRIQUE DUARTE ROCHA",
+    "filiacao_mae": "ANA BEATRIZ BARBOSA LIMA",
+    "cpf": "429.164.177-02",
+    "registro_geral": "42916417702",
+    "orgao_expedidor": "SSP/AM",
+    "validade": "2035-09-18"
+  }
+}

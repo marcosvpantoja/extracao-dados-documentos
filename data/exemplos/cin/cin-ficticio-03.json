@@ -1,0 +1,19 @@
+{
+  "arquivo": "cin/cin-ficticio-03.pdf",
+  "tipo": "CIN",
+  "ficticio": true,
+  "variante": "cin_bilingue",
+  "campos": {
+    "nome": "LARISSA MARIA RIBEIRO NASCIMENTO",
+    "sexo": "F",
+    "data_nascimento": "1991-08-18",
+    "naturalidade": "PORTO ALEGRE, RS",
+    "filiacao_pai": "FABIO ROBERTO GOMES NASCIMENTO",
+    "filiacao_mae": "PRISCILA VITORIA LIMA PEREIRA",
+    "cpf": "682.188.220-70",
+    "registro_geral": "68218822070",
+    "orgao_expedidor": "SSP/RS",
+    "data_emissao": "2024-01-26",
+    "validade": "2034-01-26"
+  }
+}

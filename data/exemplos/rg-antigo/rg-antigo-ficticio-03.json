@@ -1,0 +1,17 @@
+{
+  "arquivo": "rg-antigo/rg-antigo-ficticio-03.pdf",
+  "tipo": "RG",
+  "ficticio": true,
+  "variante": "rg_v_rotulos_ao_lado",
+  "campos": {
+    "nome": "GABRIELA HELENA BARBOSA ROCHA",
+    "filiacao_pai": "HUGO LUIZ FERREIRA ROCHA",
+    "filiacao_mae": "NATALIA BEATRIZ FERREIRA LIMA",
+    "data_nascimento": "1972-04-26",
+    "naturalidade": "CUIABA, MT",
+    "orgao_expedidor": "SSP/MT",
+    "registro_geral": "37382088",
+    "data_expedicao": "2018-06-07",
+    "cpf": "196.934.505-58"
+  }
+}

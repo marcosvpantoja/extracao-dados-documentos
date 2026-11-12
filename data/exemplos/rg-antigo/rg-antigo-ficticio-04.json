@@ -1,0 +1,16 @@
+{
+  "arquivo": "rg-antigo/rg-antigo-ficticio-04.pdf",
+  "tipo": "RG",
+  "ficticio": true,
+  "variante": "rg_v_verso_unico",
+  "campos": {
+    "nome": "MATEUS CARLOS GOMES MOREIRA",
+    "filiacao_pai": "FABIO EDUARDO SANTOS MOREIRA",
+    "filiacao_mae": "ANA CRISTINA DUARTE GOMES",
+    "data_nascimento": "1960-01-01",
+    "naturalidade": "GOIANIA, GO",
+    "orgao_expedidor": "SSP/GO",
+    "registro_geral": "38755225",
+    "data_expedicao": "2024-10-11"
+  }
+}

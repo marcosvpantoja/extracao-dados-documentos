@@ -1,0 +1,18 @@
+{
+  "arquivo": "cnh/cnh-ficticio-03.pdf",
+  "tipo": "CNH",
+  "ficticio": true,
+  "variante": "cnh_antiga",
+  "campos": {
+    "nome": "LARISSA MARIA NASCIMENTO GOMES",
+    "data_nascimento": "1968-04-16",
+    "filiacao_pai": "JOAO LUIZ ALMEIDA GOMES",
+    "filiacao_mae": "LARISSA HELENA VIEIRA ROCHA",
+    "cpf": "198.537.436-63",
+    "numero_registro": "45912038846",
+    "categoria": "B",
+    "validade": "2029-04-17",
+    "primeira_habilitacao": "1996-02-29",
+    "documento_identidade": "8235363 SSP MG"
+  }
+}
