@@ -21,7 +21,9 @@ body { background: var(--cor-fundo-suave); }
 .miniaturas { display: flex; gap: var(--esp-2); }
 .miniaturas img { width: 72px; height: 54px; object-fit: cover; border-radius: 6px; }
 .campos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px 16px; margin: 10px 0 0; font-size: var(--t-apoio); }
-.campos dt { color: var(--cor-texto-suave); font-size: var(--t-legenda); text-transform: capitalize; }
-.campos dd { margin: 0; font-weight: 600; }
+.campos dt { color: var(--cor-texto-suave); font-size: var(--t-legenda); }
+.campos dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.campos .largo { grid-column: 1 / -1; }
+.item > div:last-child { flex: 1; min-width: 0; }
 .validado { color: var(--cor-sucesso); }
 .item { align-items: flex-start; }

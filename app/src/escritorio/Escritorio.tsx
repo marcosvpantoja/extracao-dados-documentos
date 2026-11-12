@@ -4,6 +4,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
+import { CAMPOS_LARGOS, NOMES_CAMPOS, formatarValor } from './formatar';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { abrirCanal, enviar, inscrever } from '../compartilhado/canal';
 import { decifrar, exportarChave, gerarChave } from '../compartilhado/cripto';
@@ -155,7 +156,10 @@ export default function Escritorio() {
               {i.campos && Object.keys(i.campos).length > 0 && (
                 <dl className="campos">
                   {Object.entries(i.campos).map(([k, c]) => (
-                    <div key={k}><dt>{k.replace(/_/g, ' ')}</dt><dd>{c.valor}{c.validado && <span className="validado" title="Conferido por dígito verificador ou MRZ"> ✓</span>}</dd></div>
+                    <div key={k} className={CAMPOS_LARGOS.has(k) ? 'largo' : ''}>
+                      <dt>{NOMES_CAMPOS[k] ?? k.replace(/_/g, ' ')}</dt>
+                      <dd>{formatarValor(k, c.valor)}{c.validado && <span className="validado" title="Conferido por dígito verificador ou MRZ" aria-label="conferido"> ✓</span>}</dd>
+                    </div>
                   ))}
                 </dl>
               )}
