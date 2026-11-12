@@ -26,6 +26,7 @@ O histórico completo de alterações está no [Git](https://github.com/marcosvp
 | 11/11/2026 | Telas finais em alta resolução (versão 1.1) e modo de demonstração para apresentações | [Telas finais](ux/telas-finais.md) |
 | 11/11/2026 | Figma organizado por versão: página "v1.0 · Wireframes" e página "v1.1 · Produto", com nota das mudanças | [Figma](https://www.figma.com/design/SRwA8xYCHp8B8c2QtufKyv) |
 | 11/11/2026 | Versão 1.2 das telas (importar dos arquivos e conferência do cliente) no projeto e no Figma, sem apagar as versões anteriores. Corrigido: a imagem da tela 3 da 1.1 tinha sido sobrescrita e foi restaurada do Git | [Telas finais](ux/telas-finais.md) |
+| 11/11/2026 | Pacote do cliente (HU-15, RF-26): .zip gerado no navegador com os arquivos originais, dados em JSON e CSV (com a situação de cada campo) e LEIA-ME; nomes de arquivo neutros | [Etapa 6, roadmap](etapas/06-priorizacao.md#6-roadmap) |
 | 11/11/2026 | Incremento 4, medição: conferência do cliente na tela do escritório, registro de tempos e fotos por documento, relatório dos resultados-chave (`scripts/relatorio.py`) | [Etapa 5](etapas/05-metricas.md) |
 
 ---

@@ -64,3 +64,5 @@ body { background: var(--cor-fundo-suave); }
 .acoes-item .btn { width: auto; min-height: 44px; }
 .btn-secundario { background: #fff; color: var(--cor-primaria); border: 1.5px solid var(--cor-primaria); }
 .foto-area { align-items: center; }
+.pacote { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.pacote .btn { width: auto; }

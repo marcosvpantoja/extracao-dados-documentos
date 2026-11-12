@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
 import Revisao, { Conferir, type CampoLido, type Conferencia, type Decisao } from './Revisao';
 import { DEMO, ITENS_DEMO } from './demo';
+import { baixarPacote } from './pacote';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { abrirCanal, enviar, inscrever } from '../compartilhado/canal';
 import { decifrar, exportarChave, gerarChave } from '../compartilhado/cripto';
@@ -18,7 +19,7 @@ const URL_CAPTURA = (import.meta.env.VITE_URL_CAPTURA as string) || `${location.
 const URL_MOTOR = (import.meta.env.VITE_URL_MOTOR as string) || '';
 
 type Situacao = 'aguardando' | 'recebendo' | 'lendo' | 'lido' | 'nova-foto' | 'pendente';
-interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; tipo?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao>; conferencia?: Record<string, Conferencia>; conferido?: boolean; rotacao?: Partial<Record<Face, number>> }
+interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; tipo?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao>; conferencia?: Record<string, Conferencia>; conferido?: boolean; rotacao?: Partial<Record<Face, number>>; arquivos?: Partial<Record<Face, Uint8Array>> }
 type Sessao = 'montando' | 'aguardando-celular' | 'expirada' | 'pareada' | 'concluida';
 
 export default function Escritorio() {
@@ -73,7 +74,9 @@ export default function Escritorio() {
       const bytes = await decifrar(chave, { iv: pronto.iv, dados: pronto.dados });
       const faces = { ...recebidas.get(pronto.envio), [pronto.face]: bytes };
       recebidas.set(pronto.envio, faces);
+      // guarda o arquivo original (foto ou PDF) só na memória, para o pacote do cliente
       atualizar(pronto.doc, { faces: { [pronto.face]: URL.createObjectURL(new Blob([bytes], { type: 'image/jpeg' })) } });
+      setItens((xs) => xs.map((x) => (x.doc.id === pronto.doc ? { ...x, arquivos: { ...x.arquivos, [pronto.face]: bytes } } : x)));
 
       const doc = docs.find((d) => d.id === pronto.doc)!;
       if (doc.temVerso && !(faces.frente && faces.verso)) return; // espera as duas faces
@@ -223,6 +226,21 @@ export default function Escritorio() {
           </div>
         );
       })()}
+      {itens.some((i) => i.campos) && (
+        <section className="painel pacote">
+          <div>
+            <b>Pacote do cliente</b>
+            <p className="situacao">Arquivos originais e dados, num .zip salvo onde você escolher. {
+              itens.some((i) => Object.keys(i.decisoes ?? {}).length < Object.keys(i.campos ?? {}).length)
+                ? 'Atenção: há campos ainda não revisados; eles vão marcados como "não revisado".' : 'Todos os campos foram revisados.'}</p>
+          </div>
+          <button className="btn btn-primario" onClick={() => {
+            const docs = itens.filter((i) => i.campos).map((i) => ({ rotulo: i.doc.rotulo, tipo: i.tipo ?? '', arquivos: i.arquivos ?? {}, campos: i.campos ?? {}, decisoes: i.decisoes ?? {} }));
+            baixarPacote(docs);
+            registrar([{ etapa: 'sessao', sessao: sessaoId.current, evento: 'pacote_baixado', docs: docs.length }]);
+          }}>⬇ Baixar pacote do cliente</button>
+        </section>
+      )}
       <button className="btn btn-texto" onClick={encerrar}>Encerrar sessão (apaga as imagens da tela e da memória)</button>
     </main>
   );

@@ -117,7 +117,7 @@ Prioridade MoSCoW: **M** = obrigatório, **S** = importante, **C** = desejável,
 | RF-19 | Indicação do modo da sessão | Modo (desenvolvimento, avaliação ou produção) sempre visível; documento real nunca abre em modo desenvolvimento | M |
 | RF-20 | Copiar dados confirmados | Botão copia os campos confirmados em texto ou JSON | S |
 | RF-27 | Aviso de remoção | A partir das 17h, contagem regressiva e lembrete de baixar os pacotes ainda não baixados | M |
-| RF-26 | Entrega ao escritório | Download de pacote com arquivos originais e dados confirmados (JSON/CSV), gerado na memória do navegador e salvo apenas onde o usuário escolher | M |
+| RF-26 | Entrega ao escritório | Download de pacote com arquivos originais e dados (JSON/CSV), gerado na memória do navegador e salvo apenas onde o usuário escolher. **Implementado em 11/11/2026:** inclui todos os campos lidos com a situação de cada um (confirmado, recusado, não revisado), nomes de arquivo neutros e LEIA-ME sobre a responsabilidade do escritório | M |
 | RF-21 | Encerrar sessão | Ao encerrar, imagem e dados somem da tela e da memória; canal e chave são descartados | M |
 
 ### 7.4 Medição e aprendizado
