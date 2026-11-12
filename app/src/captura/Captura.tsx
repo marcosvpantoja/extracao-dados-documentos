@@ -166,7 +166,8 @@ export default function Captura() {
     case 'camera':
       return (
         <Camera
-          rotulo={`${doc.rotulo}${e.face === 'verso' ? ' (verso)' : ''}`}
+          rotulo={`${doc.rotulo}${e.face === 'verso' ? ' (verso)' : e.face === 'frente' && doc.temVerso ? ' (frente)' : ''}`}
+          formato={doc.grupo === 'identificacao' ? 'cartao' : 'folha'}
           onCancelar={() => despachar({ tipo: 'CANCELAR' })}
           onNegada={() => despachar({ tipo: 'CAMERA_NEGADA' })}
           onFoto={(bytes, url, motivo) => {
@@ -268,8 +269,9 @@ function Progresso({ atual, total }: { atual: number; total: number }) {
   );
 }
 
-function Camera({ rotulo, onFoto, onCancelar, onNegada }: {
+function Camera({ rotulo, formato, onFoto, onCancelar, onNegada }: {
   rotulo: string;
+  formato: 'cartao' | 'folha';
   onFoto: (bytes: Uint8Array, previa: string, motivo?: 'escura' | 'tremida' | 'reflexo') => void;
   onCancelar: () => void;
   onNegada: () => void;
@@ -288,25 +290,28 @@ function Camera({ rotulo, onFoto, onCancelar, onNegada }: {
     return () => { vivo = false; clearInterval(t); fecharCamera(stream, v); };
   }, []);
 
+  // Câmera em tela cheia, com quatro cantos indicando a área do documento
+  // (decisão do teste no celular, 11/11/2026: a moldura fechada ficava pequena).
   return (
-    <main className="tela tela-camera">
-      <p className="rotulo-camera">{rotulo}</p>
-      <div className="visor">
-        <video ref={video} playsInline muted aria-label="Imagem da câmera" />
-        <div className="moldura" aria-hidden="true" />
-      </div>
-      <p className="dica" aria-live="polite">{dica}</p>
-      <Espaco />
-      <button
-        className="disparador" aria-label="Tirar foto" disabled={ocupado}
-        onClick={async () => {
-          if (!video.current) return;
-          setOcupado(true);
-          const f = await fotografar(video.current);
-          onFoto(f.bytes, f.previa, f.qualidade.motivo);
-        }}
-      />
-      <button className="btn btn-texto claro" onClick={onCancelar}>Cancelar</button>
+    <main className="camera-cheia">
+      <video ref={video} playsInline muted aria-label="Imagem da câmera" />
+      <header className="camera-topo">
+        <span>{rotulo}</span>
+        <button className="camera-fechar" onClick={onCancelar} aria-label="Cancelar e voltar">✕</button>
+      </header>
+      <div className={`cantos cantos-${formato}`} aria-hidden="true"><i /><i /><i /><i /></div>
+      <footer className="camera-base">
+        <p className="dica" aria-live="polite">{dica}</p>
+        <button
+          className="disparador" aria-label="Tirar foto" disabled={ocupado}
+          onClick={async () => {
+            if (!video.current) return;
+            setOcupado(true);
+            const f = await fotografar(video.current);
+            onFoto(f.bytes, f.previa, f.qualidade.motivo);
+          }}
+        />
+      </footer>
     </main>
   );
 }
