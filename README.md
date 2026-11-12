@@ -47,8 +47,8 @@ Cada etapa produz artefatos ligados a um ou mais papéis ([mapa de competências
 | 6 | [Priorização e roadmap](docs/etapas/06-priorizacao.md) | Backlog, RICE, escopo do MVP, DoR/DoD, roadmap | ✅ Concluída |
 | 7 | [Business case](docs/etapas/07-business-case.md) | Receita, custos, mercado, licenciamento, stakeholders (hipotético) | ✅ Concluída |
 | 8 | [Arquitetura detalhada e prova de conceito](docs/etapas/08-arquitetura-e-poc.md) | [C4](docs/arquitetura/c4.md); envio em pedaços ✅; Vercel → `localhost` ❌ no Safari, resolvido pelo [ADR 0011](docs/decisoes/0011-aplicacao-do-escritorio-servida-pelo-motor.md) | ✅ Concluída |
-| 9 | Incremento 1: captura pelo celular | Wireframes e microcopy da captura; motor simulado; HU-02, 06, 07, 13, 14, 18, 20 | ⚪ Pendente |
-| 10 | Incrementos 2 e 3: motor real | NF-e por importação, depois documentos pessoais e demais tipos; linha de base e metas dos OKRs | ⚪ Pendente |
+| 9 | Incremento 1: captura pelo celular | [Wireframes](docs/ux/captura-wireframes.md), [guia visual](docs/ux/guia-visual.html), página de captura e aplicação mínima do escritório | 🟡 Em teste no celular |
+| 10 | [Incrementos 2 e 3: motor real](docs/etapas/10-motor.md) | OCR + regras para os seis tipos; linha de base no conjunto fictício | 🟡 Em andamento |
 | 11 | Tela de revisão e funções do escritório | Wireframes; revisão acessível; pacote, registro de acessos, dado errado (incremento 4) | ⚪ Pendente |
 | 12 | Qualidade | Plano de testes; privacidade e remoção das 18h (RNF-01 a 04, RNF-12); ponta a ponta | ⚪ Pendente |
 | 13 | Avaliação com usuários | Metas congeladas antes da 1ª sessão; teste de usabilidade; relatório de acurácia com amostra | ⚪ Pendente |

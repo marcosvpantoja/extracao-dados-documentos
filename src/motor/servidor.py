@@ -1,8 +1,11 @@
 """Motor local de extração (estudo de caso).
 
-Incremento 1: a leitura é SIMULADA. O motor recebe as fotos, não guarda nada e responde
-como o motor real responderá, para a captura pelo celular ser testada de ponta a ponta.
-O motor real (OCR, classificação, extração) entra nos incrementos 2 e 3.
+Incremento 2: leitura real por regras (ADR 0002). O Apple Vision lê o texto, as regras
+classificam e extraem os campos, e os validadores conferem CPF, CNPJ, chave da NF-e,
+linha digitável e MRZ. Sem IA de texto por enquanto. Se faltar um campo essencial,
+o motor pede nova foto (RF-31). Nada é gravado: as imagens vivem só durante a requisição.
+
+`simular=falha` continua disponível para testar o pedido de nova foto.
 
 Também serve a aplicação do escritório em http://localhost:8787 (ADR 0011).
 
@@ -12,6 +15,8 @@ Uso:  .venv/bin/uvicorn src.motor.servidor:app --port 8787
 from __future__ import annotations
 
 import asyncio
+import time
+from dataclasses import asdict
 from pathlib import Path
 from typing import Optional
 
@@ -24,7 +29,10 @@ RAIZ = Path(__file__).resolve().parents[2]
 DIST = RAIZ / "app" / "dist"
 ESPERA_SIMULADA_S = 1.5
 
-TIPOS = {"identidade": "cnh", "comprovante": "fatura", "fatura": "fatura", "boleto": "boleto", "nota": "nfe"}
+from src.extracao.ocr import AppleVision, Linha  # noqa: E402
+from src.extracao.pipeline import processar as extrair  # noqa: E402
+
+ocr = AppleVision()
 
 app = FastAPI(title="Motor local de extração", docs_url=None, redoc_url=None)
 
@@ -42,12 +50,34 @@ async def processar(request: Request, doc: str, simular: Optional[str] = None) -
     formulario = await request.form()
     faces = [k for k in ("frente", "verso") if k in formulario]
     # As imagens ficam só na memória desta requisição e são descartadas ao fim dela.
-    tamanhos = {f: len(await formulario[f].read()) for f in faces}
+    imagens = {f: await formulario[f].read() for f in faces}
     await formulario.close()
-    await asyncio.sleep(ESPERA_SIMULADA_S)
     if simular == "falha":
-        return {"status": "nova-foto", "motivo": "Não conseguimos ler o número do documento", "faces": tamanhos}
-    return {"status": "lido", "tipo": TIPOS.get(doc, "nao_reconhecido"), "faces": tamanhos}
+        await asyncio.sleep(ESPERA_SIMULADA_S)
+        return {"status": "nova-foto", "motivo": "Não conseguimos ler o número do documento"}
+
+    t0 = time.perf_counter()
+    linhas: list = []
+    try:
+        for i, f in enumerate(faces):
+            # o verso vem "embaixo" da frente, para as regras de posição não misturarem as faces
+            for l in await asyncio.to_thread(ocr.ler, imagens[f]):
+                linhas.append(Linha(l.texto, l.confianca, l.x, l.y + i * 1.5, l.largura, l.altura))
+    except ValueError:
+        return {"status": "nova-foto", "motivo": "Não conseguimos abrir a foto"}
+    finally:
+        imagens.clear()
+
+    r = extrair(linhas)
+    resposta = {
+        "tipo": r.tipo,
+        "confianca_tipo": r.confianca_tipo,
+        "campos": {k: asdict(v) for k, v in r.campos.items() if not k.startswith("_")},
+        "tempo_ms": round((time.perf_counter() - t0) * 1000),
+    }
+    if not r.legivel or r.tipo == "nao_reconhecido":
+        return {**resposta, "status": "nova-foto", "motivo": r.motivo or "Não reconhecemos este documento"}
+    return {**resposta, "status": "lido"}
 
 
 @app.get("/")

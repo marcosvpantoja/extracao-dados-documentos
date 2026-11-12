@@ -1,0 +1,46 @@
+# Etapa 10: Motor de extração
+
+**Status:** 🟡 Em andamento · 11/11/2026
+**Papéis:** Dev, Arquiteto
+**Decisões:** [ADR 0002](../decisoes/0002-motor-de-leitura-e-extracao.md) (regras primeiro), [ADR 0006](../decisoes/0006-ocr-apple-vision.md) (Apple Vision)
+
+## Como o motor funciona
+
+1. **Leitura de texto (OCR):** o Apple Vision lê a foto em português ([`src/extracao/ocr.py`](../../src/extracao/ocr.py)). A imagem é girada nas quatro orientações, e fica a leitura com mais texto e mais confiança.
+2. **Classificação por regras:** títulos ("CARTEIRA NACIONAL DE HABILITAÇÃO", "IDENTIDADE NACIONAL", "DANFE"), MRZ, linha digitável e palavras como "FATURA" somam pontos para cada tipo ([`src/extracao/pipeline.py`](../../src/extracao/pipeline.py)).
+3. **Extração por regras:** cada campo do catálogo da [Etapa 1](01-documentos-e-campos.md) é procurado pelo rótulo ("NOME", "FILIAÇÃO") e pelo formato (data, CPF, sigla do órgão).
+4. **Validação:** CPF, CNPJ, chave da NF-e, linha digitável e MRZ são conferidos por dígito verificador ([`src/extracao/validacoes.py`](../../src/extracao/validacoes.py)). O nome da CNH e da CIN é conferido contra a MRZ.
+5. **Pedido de nova foto:** se faltar um campo essencial ao cadastro (por exemplo, o CPF ou o nome), o motor responde "nova foto" com o motivo, e o celular pede outra na hora (RF-31).
+
+**IA de texto:** ainda não instalada, por decisão de 11/11/2026. As regras vêm primeiro, como previa o ADR 0002, e a IA entra se as regras não derem conta nas fotos reais.
+
+## Problemas encontrados e regras ajustadas
+
+| Problema | Causa | Ajuste |
+|---|---|---|
+| Chave da NF-e não encontrada | Impressa em duas linhas | Junta as linhas de números abaixo de "CHAVE DE ACESSO" |
+| Fatura classificada como boleto | A fatura também tem "BENEFICIÁRIO" | "FATURA" e "DEMONSTRATIVO" pesam mais |
+| CIN classificada como RG | Rótulo "CPF / REGISTRO GERAL" | "IDENTIDADE NACIONAL" e MRZ pesam mais |
+| Nome não encontrado | A marca d'água embaralha o rótulo "NOME" | O nome é localizado e conferido pela MRZ; prenomes perdidos pelo OCR são completados por ela |
+| Filiação trocada | Linha do pai ilegível "empurrava" a mãe para o lugar dele | Cada linha ocupa sua posição; ilegível fica em branco |
+| RG antigo | Rótulos ficam abaixo dos valores, e uma face vem girada | Regras próprias: filiação pela barra "PAI /" e vizinhança, rótulo "acima" ou "à esquerda" |
+| Textos impressos lidos como nomes | "POLEGAR DIREITO", "ESTADO FICTÍCIO DE PR", pedaços da marca d'água | Lista de palavras que não são nomes |
+
+## Linha de base no conjunto fictício (11/11/2026)
+
+18 documentos: 12 PDFs digitais e 6 cartões em versão de impressão, renderizados pelo [`scripts/avaliar.py`](../../scripts/avaliar.py).
+
+| Medida | Resultado |
+|---|---|
+| Classificação correta | 18 de 18 |
+| Campos extraídos corretos | 109 de 109 (100%) |
+| Documentos com todos os campos essenciais | 18 de 18 (nenhum pedido de nova foto) |
+| Tempo por documento (OCR + regras) | 0,24 s em média, 0,46 s no máximo |
+
+### Por que esse número não vale como resultado
+
+- **Vício de dados:** as regras foram ajustadas olhando esses mesmos 18 documentos. É o risco descrito na [Etapa 1](01-documentos-e-campos.md#limitações): o número mostra que o motor funciona nos layouts que conhece, não que generaliza.
+- **Imagens perfeitas:** são PDFs renderizados, sem foto, luz, reflexo ou ângulo. As fotos do celular são o teste de verdade.
+- **Cobertura parcial:** o motor extrai os campos essenciais e parte do catálogo. Campos como local de emissão, categoria da CNH em todos os casos e os itens da NF-e ainda não são extraídos.
+
+O número que vale para as metas dos resultados-chave sai das **fotos dos documentos fictícios impressos** (documentos que as regras não viram como foto) e, depois, das sessões com testers ([Etapa 5](05-metricas.md#como-as-metas-serão-definidas)).

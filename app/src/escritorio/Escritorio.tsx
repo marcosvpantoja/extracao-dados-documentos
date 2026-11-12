@@ -16,7 +16,8 @@ const URL_CAPTURA = (import.meta.env.VITE_URL_CAPTURA as string) || `${location.
 const URL_MOTOR = (import.meta.env.VITE_URL_MOTOR as string) || '';
 
 type Situacao = 'aguardando' | 'recebendo' | 'lendo' | 'lido' | 'nova-foto' | 'pendente';
-interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string }
+interface CampoLido { valor: string; origem: string; validado: boolean }
+interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; campos?: Record<string, CampoLido> }
 type Sessao = 'montando' | 'aguardando-celular' | 'expirada' | 'pareada' | 'concluida';
 
 export default function Escritorio() {
@@ -73,7 +74,7 @@ export default function Escritorio() {
       recebidas.delete(pronto.envio);
       atualizar(doc.id, { situacao: 'lendo' });
       const r = await ler(doc, faces, falhaRef.current);
-      atualizar(doc.id, { situacao: r.status === 'lido' ? 'lido' : 'nova-foto', detalhe: r.motivo ?? r.tipo });
+      atualizar(doc.id, { situacao: r.status === 'lido' ? 'lido' : 'nova-foto', detalhe: r.motivo ?? TIPOS[r.tipo ?? ''] ?? r.tipo, campos: r.campos });
       await enviar(c, EVENTOS.resultado, { envio: pronto.envio, doc: doc.id, status: r.status, motivo: r.motivo });
     });
 
@@ -151,6 +152,13 @@ export default function Escritorio() {
             <div>
               <b>{i.doc.rotulo}</b>
               <span className="situacao">{ROTULOS[i.situacao]}{i.detalhe ? ` · ${i.detalhe}` : ''}</span>
+              {i.campos && Object.keys(i.campos).length > 0 && (
+                <dl className="campos">
+                  {Object.entries(i.campos).map(([k, c]) => (
+                    <div key={k}><dt>{k.replace(/_/g, ' ')}</dt><dd>{c.valor}{c.validado && <span className="validado" title="Conferido por dígito verificador ou MRZ"> ✓</span>}</dd></div>
+                  ))}
+                </dl>
+              )}
             </div>
           </li>
         ))}
@@ -159,6 +167,8 @@ export default function Escritorio() {
     </main>
   );
 }
+
+const TIPOS: Record<string, string> = { cnh: 'CNH', cin: 'CIN', rg: 'RG antigo', nfe: 'NF-e', boleto: 'Boleto', fatura: 'Fatura', nao_reconhecido: 'Não reconhecido' };
 
 const ROTULOS: Record<Situacao, string> = {
   aguardando: 'Aguardando', recebendo: 'Recebendo…', lendo: 'Lendo…', lido: '✓ Lido',
@@ -169,5 +179,5 @@ async function ler(doc: DocumentoPedido, faces: Partial<Record<Face, Uint8Array>
   const corpo = new FormData();
   for (const [face, bytes] of Object.entries(faces)) corpo.append(face, new Blob([bytes!], { type: 'image/jpeg' }), `${face}.jpg`);
   const r = await fetch(`${URL_MOTOR}/processar?doc=${doc.id}${falhar ? '&simular=falha' : ''}`, { method: 'POST', body: corpo });
-  return (await r.json()) as { status: 'lido' | 'nova-foto'; motivo?: string; tipo?: string };
+  return (await r.json()) as { status: 'lido' | 'nova-foto'; motivo?: string; tipo?: string; campos?: Record<string, CampoLido> };
 }

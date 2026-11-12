@@ -14,11 +14,18 @@ def _enviar(doc, simular=None, faces=("frente",)):
     return cliente.post(url, files=arquivos).json()
 
 
-def test_leitura_simulada_devolve_o_tipo():
-    r = _enviar("identidade", faces=("frente", "verso"))
+def test_cnh_ficticia_e_lida_com_cpf_validado():
+    from src.extracao.ocr import renderizar_pdf
+    img = renderizar_pdf("data/exemplos/cnh/cnh-ficticio-01.pdf")
+    r = cliente.post("/processar?doc=identidade", files={"frente": ("frente.png", img, "image/png")}).json()
     assert r["status"] == "lido"
     assert r["tipo"] == "cnh"
-    assert set(r["faces"]) == {"frente", "verso"}
+    assert r["campos"]["cpf"] == {"valor": "644.836.782-99", "origem": "padrão", "validado": True}
+
+
+def test_imagem_que_nao_abre_pede_nova_foto():
+    r = _enviar("identidade")
+    assert r["status"] == "nova-foto"
 
 
 def test_falha_simulada_pede_nova_foto_com_motivo():
