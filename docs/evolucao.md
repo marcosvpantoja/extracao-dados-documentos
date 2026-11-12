@@ -27,6 +27,7 @@ O histórico completo de alterações está no [Git](https://github.com/marcosvp
 | 11/11/2026 | Figma organizado por versão: página "v1.0 · Wireframes" e página "v1.1 · Produto", com nota das mudanças | [Figma](https://www.figma.com/design/SRwA8xYCHp8B8c2QtufKyv) |
 | 11/11/2026 | Versão 1.2 das telas (importar dos arquivos e conferência do cliente) no projeto e no Figma, sem apagar as versões anteriores. Corrigido: a imagem da tela 3 da 1.1 tinha sido sobrescrita e foi restaurada do Git | [Telas finais](ux/telas-finais.md) |
 | 11/11/2026 | Pacote do cliente (HU-15, RF-26): .zip gerado no navegador com os arquivos originais, dados em JSON e CSV (com a situação de cada campo) e LEIA-ME; nomes de arquivo neutros | [Etapa 6, roadmap](etapas/06-priorizacao.md#6-roadmap) |
+| 11/11/2026 | Armazenamento cifrado no Supabase até as 18h (o cadastro sobrevive a uma atualização da página), aviso das 17h, remoção às 18h nas três camadas e auditoria no Supabase | [ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md), [ADR 0009](decisoes/0009-registro-de-auditoria-no-estudo.md) |
 | 11/11/2026 | Incremento 4, medição: conferência do cliente na tela do escritório, registro de tempos e fotos por documento, relatório dos resultados-chave (`scripts/relatorio.py`) | [Etapa 5](etapas/05-metricas.md) |
 
 ---
@@ -45,6 +46,7 @@ Decisões que mudaram depois de tomadas. Nenhuma foi apagada: o documento origin
 | Venda direta a escritórios | Licenciamento para softwares jurídicos | Business case: venda direta exigiria 14% a 28% do mercado alcançável | [Etapa 7](etapas/07-business-case.md) |
 | Motor no Mac também em produção | Servidor próprio na nuvem | Business case: cada escritório precisaria de um Mac | [ADR 0010](decisoes/0010-motor-em-producao.md) |
 | As duas páginas na Vercel | Aplicação do escritório servida pelo motor no Mac | Prova de conceito: o Safari bloqueia a página da Vercel chamando o Mac | [ADR 0011](decisoes/0011-aplicacao-do-escritorio-servida-pelo-motor.md) |
+| Nada fica no navegador | Só a chave do dia, não exportável, fica no navegador; nenhum conteúdo | Sem a chave, atualizar a página tornaria o cadastro do dia ilegível | [ADR 0007](decisoes/0007-retencao-temporaria-e-purga-diaria.md#implementação-11112026) |
 | IA de texto só se preciso | IA de texto instalada como complemento das regras | Teste de generalização: regras sozinhas cobriam 27% dos layouts novos | [Etapa 10](etapas/10-motor.md) |
 
 ---

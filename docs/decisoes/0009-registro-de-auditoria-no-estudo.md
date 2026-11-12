@@ -60,3 +60,9 @@ O estudo não tem login. Um seletor na tela define o perfil ativo (assistente ou
 - O estudo demonstra uma trilha de auditoria funcionando, e o teste de privacidade ganha uma verificação nova: a tabela `auditoria` não contém dados pessoais.
 - O registro mostra "quem" só como perfil simulado. Ele demonstra o formato, não a garantia de autoria.
 - Dois registros convivem com propósitos diferentes: o de **revisão** (ADR 0004, local) mede a acurácia, e o de **auditoria** (este ADR, no Supabase) registra quem acessou o quê.
+
+## Implementação (11/11/2026)
+
+Tabela `auditoria` no Supabase ([migração](../../supabase/migrations/20261111220000_armazenamento_cifrado_e_auditoria.sql)), com os três eventos, o perfil simulado e restrições que recusam qualquer valor fora das listas. Verificado: a inclusão funciona, a tentativa de apagar não apaga nada e um texto livre no lugar do evento é recusado pelo banco.
+
+Gatilhos na aplicação do escritório: **documento_aberto** ao abrir a revisão, **pacote_baixado** ao baixar o pacote do cliente e **documento_excluido** ao encerrar a sessão, que também apaga a cópia cifrada no Supabase.

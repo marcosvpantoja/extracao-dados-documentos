@@ -7,6 +7,7 @@ import QRCode from 'qrcode';
 import Revisao, { Conferir, type CampoLido, type Conferencia, type Decisao } from './Revisao';
 import { DEMO, ITENS_DEMO } from './demo';
 import { baixarPacote } from './pacote';
+import { apagar, auditar, carregar, deTexto, destruirChaveDoDia, msAteRemocao, paraTexto, salvar, type Perfil } from './armazenamento';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { abrirCanal, enviar, inscrever } from '../compartilhado/canal';
 import { decifrar, exportarChave, gerarChave } from '../compartilhado/cripto';
@@ -19,8 +20,12 @@ const URL_CAPTURA = (import.meta.env.VITE_URL_CAPTURA as string) || `${location.
 const URL_MOTOR = (import.meta.env.VITE_URL_MOTOR as string) || '';
 
 type Situacao = 'aguardando' | 'recebendo' | 'lendo' | 'lido' | 'nova-foto' | 'pendente';
-interface Item { doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; tipo?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao>; conferencia?: Record<string, Conferencia>; conferido?: boolean; rotacao?: Partial<Record<Face, number>>; arquivos?: Partial<Record<Face, Uint8Array>> }
-type Sessao = 'montando' | 'aguardando-celular' | 'expirada' | 'pareada' | 'concluida';
+interface Item { uid?: string; previa?: string; doc: DocumentoPedido; situacao: Situacao; faces: Partial<Record<Face, string>>; detalhe?: string; tipo?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao>; conferencia?: Record<string, Conferencia>; conferido?: boolean; rotacao?: Partial<Record<Face, number>>; arquivos?: Partial<Record<Face, Uint8Array>> }
+type Sessao = 'montando' | 'aguardando-celular' | 'expirada' | 'pareada' | 'concluida' | 'recuperada';
+
+/** O que vai cifrado ao Supabase: o documento inteiro, arquivos em base64. */
+interface Guardado { docId: string; situacao: Situacao; tipo?: string; detalhe?: string; campos?: Record<string, CampoLido>; decisoes?: Record<string, Decisao>;
+  conferencia?: Record<string, Conferencia>; conferido?: boolean; rotacao?: Partial<Record<Face, number>>; arquivos?: Partial<Record<Face, string>>; previa?: string }
 
 export default function Escritorio() {
   const [escritorio, setEscritorio] = useState('Escritório Exemplo');
@@ -33,6 +38,10 @@ export default function Escritorio() {
   const [copiado, setCopiado] = useState(false);
   const [aberto, setAberto] = useState<string | null>(DEMO === 'revisao' ? 'identidade' : null);
   const [conferindo, setConferindo] = useState<string | null>(DEMO === 'conferencia' ? 'comprovante' : null);
+  const [perfil, setPerfil] = useState<Perfil>('assistente'); // perfil simulado (RF-29): não é controle de acesso
+  const [faltaMs, setFaltaMs] = useState(msAteRemocao());
+  const [aviso, setAviso] = useState<string | null>(null);
+  const salvos = useRef<Record<string, string>>({});
   const sessaoId = useRef<string>('');
   const canal = useRef<RealtimeChannel | null>(null);
   const falhaRef = useRef(simularFalha);
@@ -48,7 +57,7 @@ export default function Escritorio() {
     registrar([{ etapa: 'sessao', sessao: sessaoId.current, evento: 'link_gerado', docs: docs.length }]);
     const chave = await gerarChave();
     const url = montarLink(URL_CAPTURA, { sessao: id, chave: await exportarChave(chave), escritorio, documentos: docs });
-    setItens(docs.map((doc) => ({ doc, situacao: 'aguardando', faces: {} })));
+    setItens(docs.map((doc) => ({ uid: crypto.randomUUID(), doc, situacao: 'aguardando', faces: {} })));
     setLink(url);
     setQr(await QRCode.toDataURL(url, { margin: 1, width: 280 }));
 
@@ -86,7 +95,7 @@ export default function Escritorio() {
       const r = await ler(doc, faces, falhaRef.current);
       registrar([{ etapa: 'captura', sessao: sessaoId.current, evento: 'documento_lido', doc: doc.id, tipo: r.tipo ?? '', fotos: m.fotos ?? 0,
         faces: Object.keys(faces).length, status: r.status, ms: Math.round(performance.now() - t0) }]);
-      if (r.previa) atualizar(doc.id, { faces: { frente: r.previa } }); // PDF importado: prévia renderizada pelo motor
+      if (r.previa) atualizar(doc.id, { faces: { frente: r.previa }, previa: r.previa }); // PDF importado: prévia renderizada pelo motor
       if (r.rotacao) atualizar(doc.id, { rotacao: r.rotacao });
       atualizar(doc.id, { situacao: r.status === 'lido' ? 'lido' : 'nova-foto', detalhe: r.motivo ?? TIPOS[r.tipo ?? ''] ?? r.tipo, tipo: r.tipo, campos: r.campos, decisoes: {} });
       await enviar(c, EVENTOS.resultado, { envio: pronto.envio, doc: doc.id, status: r.status, motivo: r.motivo });
@@ -105,15 +114,71 @@ export default function Escritorio() {
   function encerrar() {
     canal.current?.unsubscribe();
     canal.current = null;
-    itens.forEach((i) => Object.values(i.faces).forEach((u) => u && URL.revokeObjectURL(u)));
+    itens.forEach((i) => Object.values(i.faces).forEach((u) => u?.startsWith('blob:') && URL.revokeObjectURL(u)));
+    const comDados = itens.filter((i) => i.uid && i.campos);
+    if (!DEMO) {
+      comDados.forEach((i) => auditar('documento_excluido', perfil, i.uid, i.tipo).catch(() => {}));
+      apagar(comDados.map((i) => i.uid!)).catch(() => {}); // apaga também a cópia cifrada no Supabase
+    }
+    salvos.current = {};
     setItens([]); setLink(''); setQr(''); setSessao('montando');
   }
 
   useEffect(() => () => { canal.current?.unsubscribe(); }, []);
 
+  // Recupera o cadastro do período, se a página foi atualizada (ADR 0007)
+  useEffect(() => {
+    if (DEMO) return;
+    carregar<Guardado>().then((docs) => {
+      if (!docs.length) return;
+      setItens(docs.map(({ id, conteudo: g }) => {
+        const arquivos = Object.fromEntries(Object.entries(g.arquivos ?? {}).map(([f, t]) => [f, deTexto(t as string)])) as Partial<Record<Face, Uint8Array>>;
+        const faces = Object.fromEntries(Object.entries(arquivos).map(([f, b]) => [f, g.previa && f === 'frente' ? g.previa
+          : URL.createObjectURL(new Blob([b as BlobPart], { type: 'image/jpeg' }))])) as Partial<Record<Face, string>>;
+        salvos.current[id] = JSON.stringify(g).length + ':' + g.situacao + JSON.stringify(g.decisoes ?? {}) + JSON.stringify(g.conferencia ?? {});
+        return { ...g, uid: id, doc: CATALOGO.find((d) => d.id === g.docId)!, faces, arquivos };
+      }).filter((i) => i.doc));
+      setSessao('recuperada');
+    }).catch(() => setAviso('Não foi possível recuperar o cadastro salvo.'));
+  }, []);
+
+  // Salva cada documento lido, cifrado, sempre que ele muda (decisões, conferência, arquivos)
+  useEffect(() => {
+    if (DEMO) return;
+    const t = setTimeout(() => {
+      for (const i of itens) {
+        if (!i.uid || !i.campos) continue;
+        const g: Guardado = { docId: i.doc.id, situacao: i.situacao, tipo: i.tipo, detalhe: i.detalhe, campos: i.campos, decisoes: i.decisoes,
+          conferencia: i.conferencia, conferido: i.conferido, rotacao: i.rotacao, previa: i.previa,
+          arquivos: Object.fromEntries(Object.entries(i.arquivos ?? {}).map(([f, b]) => [f, paraTexto(b as Uint8Array)])) };
+        const marca = JSON.stringify(g).length + ':' + g.situacao + JSON.stringify(g.decisoes ?? {}) + JSON.stringify(g.conferencia ?? {});
+        if (salvos.current[i.uid] === marca) continue;
+        salvos.current[i.uid] = marca;
+        salvar(i.uid, g).catch(() => setAviso('Não foi possível salvar o cadastro cifrado. Baixe o pacote para não perder os dados.'));
+      }
+    }, 800);
+    return () => clearTimeout(t);
+  }, [itens]);
+
+  // Aviso a partir das 17h e remoção às 18h (RF-27; ADR 0007, camada 1 no navegador)
+  useEffect(() => {
+    const t = setInterval(() => {
+      const ms = msAteRemocao();
+      setFaltaMs(ms);
+      if (ms > 23.9 * 3600_000 && !DEMO) { // acabou de passar das 18h
+        destruirChaveDoDia().catch(() => {});
+        salvos.current = {};
+        setItens([]); setSessao('montando');
+        setAviso('São 18h: os cadastros do dia foram removidos e a chave do dia foi destruída.');
+      }
+    }, 30_000);
+    return () => clearInterval(t);
+  }, []);
+
   if (sessao === 'montando') {
     return (
       <main className="escritorio">
+        {aviso && <div className="aviso aviso-alerta" role="alert">{aviso}</div>}
         <h1>Novo cadastro</h1>
         <label className="campo">Nome do escritório<input value={escritorio} onChange={(e) => setEscritorio(e.target.value)} /></label>
         <fieldset className="campo">
@@ -133,7 +198,22 @@ export default function Escritorio() {
 
   return (
     <main className="escritorio">
-      <h1>Cadastro em andamento</h1>
+      <div className="topo-escritorio">
+        <h1>Cadastro em andamento</h1>
+        <label className="perfil">Perfil (simulado)
+          <select value={perfil} onChange={(e) => setPerfil(e.target.value as Perfil)}>
+            <option value="assistente">Assistente</option><option value="advogada">Advogada</option>
+          </select>
+        </label>
+      </div>
+      {aviso && <div className="aviso aviso-alerta" role="alert">{aviso}</div>}
+      {faltaMs <= 60 * 60_000 && itens.some((i) => i.campos) && (
+        <div className="aviso aviso-alerta" role="alert">
+          <b>Às 18h, os cadastros do dia serão removidos · faltam {Math.max(1, Math.ceil(faltaMs / 60_000))} min</b>
+          Baixe o pacote do cliente para guardar os arquivos e os dados no ambiente do escritório.
+        </div>
+      )}
+      {sessao === 'recuperada' && <div className="aviso aviso-sucesso" role="status"><b>Cadastro recuperado</b>Os documentos estavam guardados cifrados no Supabase e serão removidos às 18h.</div>}
       {sessao === 'aguardando-celular' && (
         <section className="painel">
           <p>Envie o link ao cliente pelo WhatsApp ou peça para ele ler o QR code. O link vale por 5 minutos até ser aberto, e só no primeiro celular.</p>
@@ -178,7 +258,7 @@ export default function Escritorio() {
               </div>
               {total > 0 && (
                 <div className="acoes-item">
-                  <button className="btn btn-primario" onClick={() => setAberto(i.doc.id)}>{decididos < total ? 'Revisar' : 'Ver revisão'}</button>
+                  <button className="btn btn-primario" onClick={() => { setAberto(i.doc.id); if (!DEMO) auditar('documento_aberto', perfil, i.uid, i.tipo).catch(() => {}); }}>{decididos < total ? 'Revisar' : 'Ver revisão'}</button>
                   {decididos === total && (
                     <button className="btn btn-secundario" onClick={() => setConferindo(i.doc.id)}>{i.conferido ? 'Conferido ✓' : 'Conferência do cliente'}</button>
                   )}
@@ -237,6 +317,7 @@ export default function Escritorio() {
           <button className="btn btn-primario" onClick={() => {
             const docs = itens.filter((i) => i.campos).map((i) => ({ rotulo: i.doc.rotulo, tipo: i.tipo ?? '', arquivos: i.arquivos ?? {}, campos: i.campos ?? {}, decisoes: i.decisoes ?? {} }));
             baixarPacote(docs);
+            if (!DEMO) auditar('pacote_baixado', perfil).catch(() => {});
             registrar([{ etapa: 'sessao', sessao: sessaoId.current, evento: 'pacote_baixado', docs: docs.length }]);
           }}>⬇ Baixar pacote do cliente</button>
         </section>

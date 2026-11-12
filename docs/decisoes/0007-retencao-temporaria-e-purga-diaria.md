@@ -59,3 +59,14 @@ O pacote baixado (arquivos e dados confirmados) sai do sistema e fica sob respon
 - Como a chave do dia fica num único navegador, outras estações não leem os dados no estudo de caso. Compartilhar a chave entre estações exige uma decisão futura.
 - Um cadastro iniciado perto das 18h pode ser perdido se não for baixado a tempo; o aviso reduz, mas não elimina, esse risco.
 - Os testes de privacidade passam a verificar: tabela e Storage vazios após as 18h, nenhum item com mais de 24h e chave do dia inexistente após as 18h.
+
+## Implementação (11/11/2026)
+
+Implementado com dois ajustes, decididos ao construir:
+
+| Previsto | Implementado | Motivo |
+|---|---|---|
+| Fotos no Supabase Storage | Fotos **dentro da linha cifrada** da tabela `cadastros_cifrados` | O Storage não permite apagar arquivos por SQL; com tudo na tabela, a remoção das 18h e o limite de 24h ficam inteiramente no banco ([migração](../../supabase/migrations/20261111220000_armazenamento_cifrado_e_auditoria.sql)) |
+| Chave do dia só no navegador, sem dizer onde | Chave **não exportável guardada no IndexedDB**, apagada às 18h | Sem guardar a chave, uma atualização da página tornaria ilegíveis os dados do dia. Decisão do autor: a regra passa de "nada no navegador" para "**nenhum conteúdo** no navegador" |
+
+Verificado no projeto Supabase: as duas tarefas agendadas existem (`remocao-18h`, às 21h UTC, e `limite-24h`, de hora em hora), e cada execução grava o total removido em `registro_remocao`.

@@ -366,7 +366,7 @@ flowchart LR
   subgraph NUNCA["Nunca"]
     direction TB
     Z1["Galeria do celular"]
-    Z2["Armazenamento local e cache do navegador"]
+    Z2["Conteúdo no armazenamento local do navegador<br/>(só a chave do dia fica no IndexedDB, não exportável)"]
     Z3["Arquivos temporários no disco"]
     Z4["Conteúdo legível no Supabase<br/>(só existe cifrado)"]
     Z5["Logs do servidor"]
@@ -374,7 +374,7 @@ flowchart LR
   end
   subgraph PROVA["Verificação automatizada"]
     direction TB
-    V1["Teste: localStorage, IndexedDB,<br/>Cache Storage vazios após sessão"]
+    V1["Teste: localStorage e Cache Storage vazios;<br/>IndexedDB só com a chave do dia e a estação"]
     V2["Teste: nenhum arquivo novo<br/>em diretórios temporários"]
     V3["Teste: após as 18h, tabela e Storage<br/>vazios e chave do dia inexistente"]
     V4["Teste: registro de produção sem<br/>CPF, nomes ou base64"]
