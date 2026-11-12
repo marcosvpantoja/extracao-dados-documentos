@@ -46,6 +46,7 @@ def test_falha_simulada_pede_nova_foto_com_motivo():
     assert "ler" in r["motivo"]
 
 
+@precisa_mac
 def test_resposta_nao_devolve_conteudo_da_imagem():
     r = _enviar("fatura")
     assert "ficticia" not in str(r)
