@@ -2,7 +2,7 @@
 // (docs/ux/captura-wireframes.md). Funções puras, testadas sem navegador.
 
 import type { DocumentoPedido, Face } from '../compartilhado/protocolo';
-import type { MotivoQualidade } from './qualidade';
+import { TENTATIVAS_MAXIMAS, type MotivoQualidade } from './qualidade';
 
 export type Tela =
   | 'conectando' // antes da tela 1, enquanto pareia com o escritório
@@ -28,6 +28,7 @@ export interface Estado {
   idx: number;
   face: Face;
   situacao: Record<string, SituacaoDoc>;
+  recusas: number; // fotos recusadas seguidas na face atual
   motivoQualidade?: MotivoQualidade;
   motivoLeitura?: string;
 }
@@ -52,7 +53,7 @@ export type Acao =
   | { tipo: 'CANCELAR' };
 
 export function inicial(docs: DocumentoPedido[]): Estado {
-  return { tela: 'conectando', docs, idx: 0, face: 'frente', situacao: {} };
+  return { tela: 'conectando', docs, idx: 0, face: 'frente', situacao: {}, recusas: 0 };
 }
 
 export function docAtual(e: Estado): DocumentoPedido {
@@ -69,7 +70,7 @@ function avancar(e: Estado, situacao: Record<string, SituacaoDoc>): Estado {
   const prox = proximoIdx(e, situacao);
   return prox === null
     ? { ...e, situacao, tela: 'fim' }
-    : { ...e, situacao, idx: prox, face: 'frente', tela: 'documento' };
+    : { ...e, situacao, idx: prox, face: 'frente', tela: 'documento', recusas: 0 };
 }
 
 export function reduzir(e: Estado, a: Acao): Estado {
@@ -82,10 +83,14 @@ export function reduzir(e: Estado, a: Acao): Estado {
     case 'TENTAR_DE_NOVO': return { ...e, tela: 'permissao' };
     case 'FOTOGRAFAR': return { ...e, tela: 'camera', face: 'frente' };
     case 'NAO_TENHO': return avancar(e, { ...e.situacao, [docAtual(e).id]: 'nao-tenho' });
-    case 'FOTO_RUIM': return { ...e, tela: 'qualidade', motivoQualidade: a.motivo };
+    case 'FOTO_RUIM':
+      // Na 3ª recusa seguida, a última foto segue para o motor, que ainda pode pedir outra.
+      return e.recusas + 1 >= TENTATIVAS_MAXIMAS
+        ? reduzir({ ...e, recusas: 0 }, { tipo: 'FOTO_BOA' })
+        : { ...e, tela: 'qualidade', motivoQualidade: a.motivo, recusas: e.recusas + 1 };
     case 'TIRAR_OUTRA': return { ...e, tela: 'camera' };
     case 'FOTO_BOA':
-      return docAtual(e).temVerso && e.face === 'frente' ? { ...e, tela: 'verso' } : { ...e, tela: 'lendo' };
+      return docAtual(e).temVerso && e.face === 'frente' ? { ...e, tela: 'verso', recusas: 0 } : { ...e, tela: 'lendo', recusas: 0 };
     case 'FOTOGRAFAR_VERSO': return { ...e, tela: 'camera', face: 'verso' };
     case 'LIDO': return e.tela === 'lendo' ? { ...e, tela: 'enviado', situacao: { ...e.situacao, [docAtual(e).id]: 'enviado' } } : e;
     case 'NOVA_FOTO': return e.tela === 'lendo' ? { ...e, tela: 'nova-foto', motivoLeitura: a.motivo, face: 'frente' } : e;

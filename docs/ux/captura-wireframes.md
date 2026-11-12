@@ -115,7 +115,8 @@ Visão geral, na ordem da jornada. Os detalhes de cada tela estão nas seções 
 
 - Motivos possíveis: escura · tremida · cortada · com reflexo.
 - Quando a foto está boa, a tela é pulada.
-- **Não há "usar mesmo assim":** a foto só segue quando passa na checagem de qualidade. Risco aceito: quem está num lugar muito escuro pode ficar preso nesta tela até mudar de lugar.
+- **Limite de 3 tentativas** (revisto no primeiro teste no celular, 11/11/2026): na terceira foto recusada seguida, a última segue para o motor, que ainda pode pedir outra (tela 7b). Antes, só existia "Tirar outra", e o teste mostrou o risco de o cliente ficar preso.
+- **O celular barra só o óbvio:** foto muito escura ou muito tremida. O reflexo deixou de bloquear, porque a regra recusava papel branco bem iluminado e fotos de tela. Quem decide se dá para ler é o motor (RF-31).
 
 ### 6 · Verso
 

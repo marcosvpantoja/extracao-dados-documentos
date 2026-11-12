@@ -1,5 +1,8 @@
 // Verificação de qualidade da foto no próprio celular (RF-05), antes do envio.
-// Os limites são valores iniciais e serão calibrados com as fotos dos documentos fictícios impressos.
+// Desde o primeiro teste no celular (11/11/2026), o celular barra só o óbvio: foto muito escura
+// ou muito tremida. Quem decide se dá para ler é o motor, pedindo nova foto na hora (RF-31).
+// O reflexo deixou de bloquear: papel branco bem iluminado e telas também ficam quase brancos,
+// e a regra recusava fotos boas.
 
 export type MotivoQualidade = 'escura' | 'tremida' | 'reflexo';
 
@@ -18,10 +21,12 @@ export interface ResultadoQualidade {
 }
 
 export const LIMITES = {
-  brilhoMinimo: 70,
-  nitidezMinima: 40,
-  reflexoMaximo: 0.08,
+  brilhoMinimo: 50,
+  nitidezMinima: 15,
 };
+
+/** Depois de 3 fotos recusadas seguidas, a última segue para o motor (decisão do primeiro teste). */
+export const TENTATIVAS_MAXIMAS = 3;
 
 export const MENSAGENS: Record<MotivoQualidade, { titulo: string; dica: string }> = {
   escura: { titulo: 'A foto ficou escura', dica: 'Tente perto de uma janela ou com a luz acesa.' },
@@ -68,7 +73,6 @@ export function analisar(img: Imagem): ResultadoQualidade {
 
   let motivo: MotivoQualidade | undefined;
   if (brilho < LIMITES.brilhoMinimo) motivo = 'escura';
-  else if (reflexo > LIMITES.reflexoMaximo) motivo = 'reflexo';
   else if (nitidez < LIMITES.nitidezMinima) motivo = 'tremida';
 
   return { ok: !motivo, motivo, brilho, nitidez, reflexo };
@@ -77,7 +81,6 @@ export function analisar(img: Imagem): ResultadoQualidade {
 /** Dica ao vivo na câmera (tela 4), a partir de um quadro reduzido do vídeo. */
 export function dicaAoVivo(r: ResultadoQualidade): string {
   if (r.brilho < LIMITES.brilhoMinimo) return '💡 Procure mais luz';
-  if (r.reflexo > LIMITES.reflexoMaximo) return '↘ Incline para tirar o reflexo';
   if (r.nitidez < LIMITES.nitidezMinima) return '✋ Segure firme';
   return '✓ Pronto, pode fotografar';
 }

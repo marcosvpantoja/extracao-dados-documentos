@@ -30,8 +30,9 @@ describe('qualidade da foto', () => {
     expect(r).toMatchObject({ ok: false, motivo: 'tremida' });
   });
 
-  it('foto com área de reflexo é recusada', () => {
-    const r = analisar(imagem(200, 120, (x, y) => (x > 60 && x < 140 && y > 30 && y < 90 ? 255 : nitido(x, y))));
-    expect(r).toMatchObject({ ok: false, motivo: 'reflexo' });
+  it('documento branco e bem iluminado (ou na tela de um computador) não é recusado por reflexo', () => {
+    const r = analisar(imagem(200, 120, (x, y) => (y % 8 < 2 && x % 40 < 30 ? 30 : 255)));
+    expect(r.ok).toBe(true);
+    expect(r.reflexo).toBeGreaterThan(0.5);
   });
 });

@@ -172,9 +172,8 @@ export default function Captura() {
           onFoto={(bytes, url, motivo) => {
             if (previa) URL.revokeObjectURL(previa);
             setPrevia(url);
-            if (motivo) { despachar({ tipo: 'FOTO_RUIM', motivo }); return; }
-            fotos.current[e.face] = bytes;
-            despachar({ tipo: 'FOTO_BOA' });
+            fotos.current[e.face] = bytes; // guardada mesmo se recusada: na 3ª recusa, é ela que segue
+            despachar(motivo ? { tipo: 'FOTO_RUIM', motivo } : { tipo: 'FOTO_BOA' });
           }}
         />
       );
