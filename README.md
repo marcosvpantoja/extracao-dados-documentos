@@ -4,10 +4,16 @@
 
 Estudo de caso de produto, do problema ao software funcionando: um sistema que identifica sozinho o tipo de documento (RG, CIN, CNH, nota fiscal, boleto ou fatura), extrai os dados e os apresenta para conferência humana, com privacidade desenhada desde a primeira decisão.
 
-<p>
-  <img src="docs/ux/img/telas-v1.2-produto/celular-04-camera.png" alt="Câmera do celular com cantos de enquadramento" height="420">
-  <img src="docs/ux/img/telas-v1.2-produto/escritorio-3-revisao.png" alt="Tela de revisão: foto ao lado dos dados extraídos" height="420">
-</p>
+<table>
+  <tr>
+    <td width="24%"><img src="docs/ux/img/telas-v1.2-produto/celular-04-camera.png" alt="Câmera do celular com cantos de enquadramento"></td>
+    <td width="76%"><img src="docs/ux/img/telas-v1.2-produto/escritorio-3-revisao.png" alt="Tela de revisão: foto ao lado dos dados extraídos"></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Celular do cliente</sub></td>
+    <td align="center"><sub>Revisão no escritório: foto ao lado dos dados</sub></td>
+  </tr>
+</table>
 
 > Projeto de estudo e pesquisa, sem fins comerciais. Todos os documentos usados no desenvolvimento são fictícios.
 
